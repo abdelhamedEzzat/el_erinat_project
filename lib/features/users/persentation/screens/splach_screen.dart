@@ -1,8 +1,5 @@
-import 'package:el_erinat/core/config/color_manger.dart';
-import 'package:el_erinat/core/config/images_strings.dart';
-import 'package:el_erinat/core/const_strings/manage_strings.dart';
+import 'package:el_erinat/features/users/persentation/widgets/splash_widgets/logo_animation_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class SplachScreen extends StatefulWidget {
   const SplachScreen({super.key});
@@ -25,6 +22,10 @@ class _SplachScreenState extends State<SplachScreen>
     );
     animation = Tween(begin: 0.0, end: 1.0).animate(logoAnimationController);
     logoAnimationController.forward();
+
+    // .whenComplete(() => Navigator.pushNamed(
+    //   context,
+    // ));
   }
 
   @override
@@ -36,53 +37,9 @@ class _SplachScreenState extends State<SplachScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LogoWithAnimation(
+      body: LogoAnimation(
           logoAnimationController: logoAnimationController,
           animation: animation),
-    );
-  }
-}
-
-class LogoWithAnimation extends StatelessWidget {
-  const LogoWithAnimation({
-    super.key,
-    required this.logoAnimationController,
-    required this.animation,
-  });
-
-  final AnimationController logoAnimationController;
-  final Animation animation;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: ColorFiltered(
-        colorFilter: ColorFilter.mode(ColorManger.logoColor, BlendMode.srcIn),
-        child: AnimatedBuilder(
-          animation: logoAnimationController,
-          builder: (context, child) {
-            return Opacity(
-              opacity: animation.value,
-              child: const LogoImage(),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class LogoImage extends StatelessWidget {
-  const LogoImage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      ImagesStrings.splash,
-      semanticsLabel: MStrings.appName,
     );
   }
 }

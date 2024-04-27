@@ -4,7 +4,7 @@ class FontManger {
   static const String fontFamily = "Harmattan";
 }
 
-class FontWeightManager {
+class FontWeightManager extends FontManger {
   static const FontWeight regular = FontWeight.w400;
   static const FontWeight medium = FontWeight.w500;
   static const FontWeight semibold = FontWeight.w600;
