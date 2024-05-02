@@ -3,6 +3,11 @@ import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
 import 'package:el_erinat/core/helpers/custom_text_form_field.dart';
 import 'package:el_erinat/core/route/route_strings.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/Subtitle_In_user_details_screen.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/all_slides_widget.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/selected_country.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/text_field_for_user_detatils.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/title_in_user_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -96,30 +101,7 @@ class UserDitailsScreen extends StatelessWidget {
               SizedBox(
                 height: 15.h,
               ),
-              Container(
-                padding: EdgeInsets.all(10.w),
-                height: 45.h,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: ColorManger.logoColor.withOpacity(0.6),
-                    borderRadius: BorderRadius.all(Radius.circular(7.w))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.arrow_drop_down,
-                      size: 25.h,
-                    ),
-                    Text(
-                      textAlign: TextAlign.right,
-                      MStrings.countryName,
-                      style: TextStyle(
-                        fontSize: 14.w,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const SelectedCountry(),
 
               Expanded(
                 child: Container(
@@ -143,134 +125,5 @@ class UserDitailsScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class TextFieldForUserDetatils extends StatelessWidget {
-  const TextFieldForUserDetatils({
-    super.key,
-    this.onChangedText2,
-    required this.text1,
-    required this.text2,
-    this.onChangedText1,
-  });
-  final void Function(String)? onChangedText2;
-  final void Function(String)? onChangedText1;
-
-  final String text1;
-  final String text2;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: CustomTextFormField(
-            keyboardType: TextInputType.name,
-            onChanged: onChangedText2,
-            labelText: Text(text2),
-            width: MediaQuery.of(context).size.width / 2,
-          ),
-        ),
-        SizedBox(
-          width: 10.w,
-        ),
-        Expanded(
-          child: CustomTextFormField(
-            keyboardType: TextInputType.name,
-            onChanged: onChangedText1,
-            labelText: Text(
-              text1,
-            ),
-            width: MediaQuery.of(context).size.width / 2,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class SubTitleInUserDetailsScreen extends StatelessWidget {
-  const SubTitleInUserDetailsScreen({
-    super.key,
-    required this.text,
-  });
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: Theme.of(context)
-          .textTheme
-          .titleMedium!
-          .copyWith(color: Colors.grey.shade500)
-          .copyWith(fontSize: 14.h),
-    );
-  }
-}
-
-class TitleInUserDetailsScreen extends StatelessWidget {
-  const TitleInUserDetailsScreen({
-    super.key,
-    required this.text,
-    required this.titleColor,
-  });
-  final String text;
-  final Color titleColor;
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: Theme.of(context)
-          .textTheme
-          .labelMedium!
-          .copyWith(fontWeight: FontWeight.bold)
-          .copyWith(color: titleColor),
-    );
-  }
-}
-
-class AllSlidesWidget extends StatelessWidget {
-  const AllSlidesWidget({
-    super.key,
-    required this.colors1,
-    required this.colors2,
-  });
-  final Color colors1;
-  final Color colors2;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SlideWidget(
-          color: colors1,
-        ),
-        SizedBox(
-          width: 15.w,
-        ),
-        SlideWidget(
-          color: colors2,
-        ),
-      ],
-    );
-  }
-}
-
-class SlideWidget extends StatelessWidget {
-  const SlideWidget({
-    super.key,
-    required this.color,
-  });
-  final Color color;
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: Container(
-      margin: EdgeInsets.only(top: 10.h),
-      height: 7.h,
-      decoration: BoxDecoration(
-          color: color, borderRadius: BorderRadius.all(Radius.circular(10.w))),
-    ));
   }
 }
