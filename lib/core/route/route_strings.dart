@@ -5,4 +5,5 @@ class ConstantsRouteString {
   static const String thirdIntroScreens = "/ThirdIntroScreens";
   static const String registerScreen = "/RegisterScreen";
   static const String otpScreen = "/OtpScreen";
+  static const String userDetailsIdentaty = "/UserDetailsIdentaty";
 }

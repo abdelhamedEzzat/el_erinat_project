@@ -33,6 +33,10 @@ class MStrings {
   static String pinIsIncorrect = " الرمز غير صالح";
 
   static String userWelcomeInSudiaArabia = "حياك الله بين عيال عمك ";
+  static String thanksUserForWork = "الله يحييك علي العمل الرائع";
+
+  static String confirmYourWay = "يرجي اختيار طريقة من الطرق الاتيه ";
+  static String toBelongingToTheTribe = 'للتاكد من انك احد افراد القبيلة';
 
   static String tellUsMoreAboutYou = "نود التعرف عليك بشكل اكبر";
 
@@ -49,4 +53,11 @@ class MStrings {
   static String next = "التالي ";
 
   static String submit = " ارسال";
+
+  static String pic = "التقاط صوره لبطاقة هويتك";
+  static String customerServicesCall = "تلقي مكالمه من المشرفين";
+
+  static String addIdedntatyPic = "التقاط صوره الهوية";
+
+  static String yourphoneNumber = ": رقم جوالك";
 }

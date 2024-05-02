@@ -1,0 +1,129 @@
+import 'package:el_erinat/core/config/color_manger.dart';
+import 'package:el_erinat/core/const_strings/manage_strings.dart';
+import 'package:el_erinat/core/helpers/botton.dart';
+import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_screen.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/add_identity_pic.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/user_phone_to_get_call.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class UserDetailsIdentaty extends StatefulWidget {
+  const UserDetailsIdentaty({super.key});
+
+  @override
+  State<UserDetailsIdentaty> createState() => _UserDetailsIdentatyState();
+}
+
+List<String> radioOptions = [MStrings.pic, MStrings.customerServicesCall];
+
+class _UserDetailsIdentatyState extends State<UserDetailsIdentaty> {
+  String currentOption = radioOptions[0];
+  String currentSelected = "0";
+  bool isZeroradioOptions = false;
+  bool isOneradioOptions = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+          child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20.h),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          AllSlidesWidget(
+            colors1: ColorManger.logoColor.withOpacity(0.5),
+            colors2: ColorManger.logoColor,
+          ),
+          SizedBox(
+            height: 25.h,
+          ),
+
+          //!  Title
+
+          TitleInUserDetailsScreen(
+            text: MStrings.thanksUserForWork,
+            titleColor: ColorManger.logoColor,
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+
+          //!  subTitle
+
+          SubTitleInUserDetailsScreen(
+            text: MStrings.confirmYourWay,
+          ),
+          SizedBox(
+            height: 5.h,
+          ),
+          SubTitleInUserDetailsScreen(
+            text: MStrings.toBelongingToTheTribe,
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+
+          //!  selected UploadPic
+
+          RadioListTile(
+              title: Text(MStrings.pic),
+              value: radioOptions[0],
+              groupValue: isZeroradioOptions == true ? currentOption : null,
+              onChanged: (value) {
+                setState(() {
+                  currentOption = value.toString();
+                  isZeroradioOptions = true;
+                  isOneradioOptions = false;
+                });
+              }),
+
+          //!  AddIdentityPic
+
+          isZeroradioOptions == true ? const AddIdentityPic() : Container(),
+          SizedBox(
+            height: 10.h,
+          ),
+
+          //!  selected customerServicesCall
+
+          RadioListTile(
+              title: Text(MStrings.customerServicesCall),
+              value: radioOptions[1],
+              groupValue: currentOption == radioOptions[1]
+                  ? currentOption
+                  : currentSelected,
+              onChanged: (value) {
+                setState(() {
+                  currentOption = value.toString();
+                  isZeroradioOptions = false;
+                  isOneradioOptions = true;
+                });
+              }),
+
+          SizedBox(
+            height: 10.h,
+          ),
+          isOneradioOptions == true ? const UserPhontToGetCall() : Container(),
+
+          SizedBox(
+            height: 10.h,
+          ),
+
+          Expanded(
+              child: Container(
+            alignment: Alignment.bottomCenter,
+            child: BottonClick(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                onTap: () {},
+                text: MStrings.submit),
+          )),
+          SizedBox(
+            height: 20.h,
+          ),
+        ]),
+      )),
+    );
+  }
+}

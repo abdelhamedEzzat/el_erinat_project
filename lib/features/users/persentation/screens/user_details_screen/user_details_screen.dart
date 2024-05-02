@@ -2,9 +2,9 @@ import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
 import 'package:el_erinat/core/helpers/custom_text_form_field.dart';
+import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserDitailsScreen extends StatelessWidget {
@@ -127,7 +127,10 @@ class UserDitailsScreen extends StatelessWidget {
                   child: BottonClick(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                            ConstantsRouteString.userDetailsIdentaty);
+                      },
                       text: MStrings.next),
                 ),
               ),
@@ -200,7 +203,8 @@ class SubTitleInUserDetailsScreen extends StatelessWidget {
       style: Theme.of(context)
           .textTheme
           .titleMedium!
-          .copyWith(color: Colors.grey.shade500),
+          .copyWith(color: Colors.grey.shade500)
+          .copyWith(fontSize: 14.h),
     );
   }
 }
