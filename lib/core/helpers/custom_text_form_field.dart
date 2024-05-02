@@ -2,12 +2,13 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    required this.hintText,
+    this.hintText,
     this.padding,
     this.height,
     this.borderRadius,
@@ -28,7 +29,7 @@ class CustomTextFormField extends StatelessWidget {
     this.width,
   });
 
-  final String hintText;
+  final String? hintText;
   final EdgeInsetsGeometry? padding;
   final double? height;
   final BorderRadius? borderRadius;
@@ -64,16 +65,20 @@ class CustomTextFormField extends StatelessWidget {
         maxLines: maxLines,
         textAlign: TextAlign.right,
         decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: ColorManger.logoColor)),
           enabled: enabled ?? true,
           //   labelText: labelText,
 
           label: labelText,
+          labelStyle: TextStyle(
+              color: Colors.grey, fontSize: 12.w, fontWeight: FontWeight.bold),
           prefixIcon: prefixIcon,
           enabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(7.0)),
               borderSide: BorderSide(
                   color: normalBorderColor ??
-                      ColorManger.logoColor.withOpacity(0.3))),
+                      ColorManger.logoColor.withOpacity(0.9))),
           suffixIcon: suffixIcon,
           filled: true,
           fillColor: Colors.white,

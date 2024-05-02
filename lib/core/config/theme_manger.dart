@@ -49,12 +49,12 @@ ThemeData themeManager() {
         fontWeight: FontWeight.w600,
         fontSize: 20.h,
       ),
-      bodySmall: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+      bodySmall: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
       displaySmall: TextStyle(
         fontWeight: FontWeight.w500,
         fontSize: 18.h,
       ),
-      titleSmall: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+      titleSmall: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
       headlineMedium: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 16.h,
@@ -63,7 +63,7 @@ ThemeData themeManager() {
         fontWeight: FontWeight.bold,
         fontSize: 16.h,
       ),
-      titleMedium: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+      titleMedium: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
       headlineSmall: TextStyle(
         fontWeight: FontWeight.normal,
         fontSize: 12.h,

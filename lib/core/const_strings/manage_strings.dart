@@ -31,4 +31,22 @@ class MStrings {
   static String didntReceiveTheCode = "لم يصلني الرمز";
   static String resend = " اعادة ارسال ";
   static String pinIsIncorrect = " الرمز غير صالح";
+
+  static String userWelcomeInSudiaArabia = "حياك الله بين عيال عمك ";
+
+  static String tellUsMoreAboutYou = "نود التعرف عليك بشكل اكبر";
+
+  static String yourFirstName = "الاسم الاول";
+  static String parentname = "اسم الاب";
+  static String grandfatherName = "اسم الجد";
+
+  static String grandfathersName = "اسم الوالد للجد";
+  static String greatgrandfathersName = "اسم جد الجد (ان وجد)";
+  static String familyName = "اسم الاسرة";
+  static String phoneNumber = "رقم الجوال";
+  static String countryName = "اسم الدولة";
+
+  static String next = "التالي ";
+
+  static String submit = " ارسال";
 }
