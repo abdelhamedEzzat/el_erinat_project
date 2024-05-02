@@ -60,4 +60,11 @@ class MStrings {
   static String addIdedntatyPic = "التقاط صوره الهوية";
 
   static String yourphoneNumber = ": رقم جوالك";
+
+  static String bookOfElerinat = "كتب العرينات";
+  static String treeOfElerinat = "مشجره العرينات";
+  static String analiticsOfElerinat = "الاحصاءات";
+  static String newsOfElerinat = "الاخبار والمناسبات";
+  static String auditorTeam = "فريق الاشراف";
+  static String suggestions = "الاقتراحات والتصويت";
 }

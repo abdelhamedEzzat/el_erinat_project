@@ -1,4 +1,5 @@
 import 'package:el_erinat/core/route/route_strings.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/first_intro_screens.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/secound_intro_screens.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/third_intro_screens.dart';
@@ -22,6 +23,7 @@ class RouteGenerator {
       ConstantsRouteString.otpScreen: (context) => const OtpScreen(),
       ConstantsRouteString.userDetailsIdentaty: (context) =>
           const UserDetailsIdentaty(),
+      ConstantsRouteString.homeScreen: (context) => const HomeScreen(),
     };
   }
 }

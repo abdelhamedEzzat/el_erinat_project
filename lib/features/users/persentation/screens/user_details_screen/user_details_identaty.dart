@@ -1,6 +1,7 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
+import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/Subtitle_In_user_details_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/add_identity_pic.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/all_slides_widget.dart';
@@ -110,13 +111,20 @@ class _UserDetailsIdentatyState extends State<UserDetailsIdentaty> {
             height: 10.h,
           ),
 
+          //! button to navigator to home screen
+
           Expanded(
               child: Container(
             alignment: Alignment.bottomCenter,
             child: BottonClick(
                 alignment: Alignment.center,
                 width: MediaQuery.of(context).size.width,
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    ConstantsRouteString.homeScreen,
+                    (route) => false,
+                  );
+                },
                 text: MStrings.submit),
           )),
           SizedBox(
