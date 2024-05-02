@@ -1,12 +1,12 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
-import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_screen.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/Subtitle_In_user_details_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/add_identity_pic.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/all_slides_widget.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/title_in_user_details_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/user_phone_to_get_call.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserDetailsIdentaty extends StatefulWidget {
