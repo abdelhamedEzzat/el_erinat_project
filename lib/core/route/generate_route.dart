@@ -1,5 +1,11 @@
 import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/analitics_of_elerinat_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/auditor_team_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/book_of_elerinat_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/news_of_elerinat_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/suggestions_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/tree_of_elerinat_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/first_intro_screens.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/secound_intro_screens.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/third_intro_screens.dart';
@@ -24,6 +30,20 @@ class RouteGenerator {
       ConstantsRouteString.userDetailsIdentaty: (context) =>
           const UserDetailsIdentaty(),
       ConstantsRouteString.homeScreen: (context) => const HomeScreen(),
+      //
+      //!
+      ConstantsRouteString.bookOfElerinatScreen: (context) =>
+          const BookOfElerinatScreen(),
+      ConstantsRouteString.treeOfElerinatScreen: (context) =>
+          const TreeOfElerinatScreen(),
+      ConstantsRouteString.analiticsOfElerinatScreen: (context) =>
+          const AnaliticsOfElerinatScreen(),
+      ConstantsRouteString.newsOfElerinatScreen: (context) =>
+          const NewsOfElerinatScreen(),
+      ConstantsRouteString.auditorTeamScreen: (context) =>
+          const AuditorTeamScreen(),
+      ConstantsRouteString.suggestionsScreen: (context) =>
+          const SuggestionsScreen(),
     };
   }
 }
