@@ -67,4 +67,30 @@ class MStrings {
   static String newsOfElerinat = "الاخبار والمناسبات";
   static String auditorTeam = "فريق الاشراف";
   static String suggestions = "الاقتراحات والتصويت";
+  //
+  //
+  static String analiticsPeople = "احصائيات القبيلة";
+  static String analiticsJob = "احصائيات الوظائف";
+
+  static String numberOfTripPeople = "افراد القبيلة ";
+  static String numberOfFamilies = " أسر القبيلة ";
+  static String familyMembers = " افراد الأسر";
+  static String theRemainingMales = "الذكور الباقون";
+  static String departedMales = "الذكور الراحلون";
+  static String departedFemales = "الإناث الراحلات";
+  static String totalNeighborhoods = "إجمالي الأحياء";
+  static String totalDead = "إجمالي الأموات";
+  static String maleNames = "أسماء الذكور";
+  static String femaleNames = "أسماء الاناث";
+
+  static String judgeJob = "قاضي";
+  static String holdsaDoctorate = " حاصل علي الدكتوراه";
+  static String mastersDegree = "حاصل علي الماجستير";
+  static String doctor = "طبيب";
+  static String pharmaceutical = " صيدلي";
+  static String engineer = "مهندس";
+  static String accountant = " محاسب";
+  static String officer = " ضابط";
+  static String pilot = " طيار";
+  static String teachers = "المعلمون";
 }

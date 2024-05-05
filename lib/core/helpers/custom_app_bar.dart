@@ -20,7 +20,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   final AlignmentGeometry alignmentTitle;
   @override
-  Size get preferredSize => Size.fromHeight(55.h);
+  Size get preferredSize => Size.fromHeight(65.h);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
