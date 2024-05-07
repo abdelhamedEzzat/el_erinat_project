@@ -147,12 +147,15 @@ class PicOfNewsItem extends StatelessWidget {
       flex: 9,
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(5.h), topRight: Radius.circular(5.h)),
-          child: Image.asset(
-            "assets/photo/bookCover2.jpg",
-            fit: BoxFit.fill,
+        child: Hero(
+          tag: "news_image",
+          child: ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(5.h), topRight: Radius.circular(5.h)),
+            child: Image.asset(
+              "assets/photo/bookCover2.jpg",
+              fit: BoxFit.fill,
+            ),
           ),
         ),
       ),
