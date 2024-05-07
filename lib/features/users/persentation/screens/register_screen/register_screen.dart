@@ -4,7 +4,7 @@ import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/or_with_divider.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/register_logo.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/register_with_phone_number.dart';
-import 'package:el_erinat/features/users/persentation/widgets/register_screen/signIn_with_google_and_apple.dart';
+import 'package:el_erinat/features/users/persentation/widgets/register_screen/signin_with_google_and_apple.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/sub_title_register_widget.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/title_register.dart';
 import 'package:flutter/material.dart';

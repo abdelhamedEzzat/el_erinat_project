@@ -1,6 +1,7 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/back_ground_and_app_bar_and_dynamic_body.dart';
+import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,7 +40,9 @@ class NewsItemsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(ConstantsRouteString.newsDetails);
+      },
       child: Container(
         padding: EdgeInsets.only(bottom: 5.h),
         decoration: BoxDecoration(

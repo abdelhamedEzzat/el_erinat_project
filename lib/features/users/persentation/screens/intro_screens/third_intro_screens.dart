@@ -4,7 +4,6 @@ import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/users/persentation/widgets/intro_widgets/third_screen_widget/intro_text_widgets.dart';
 import 'package:el_erinat/features/users/persentation/widgets/intro_widgets/third_screen_widget/logo_in_third.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ThirdIntroScreens extends StatefulWidget {

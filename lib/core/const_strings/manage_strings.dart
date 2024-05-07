@@ -93,4 +93,6 @@ class MStrings {
   static String officer = " ضابط";
   static String pilot = " طيار";
   static String teachers = "المعلمون";
+
+  static String newsDetails = "تفاصيل الاخبار";
 }
