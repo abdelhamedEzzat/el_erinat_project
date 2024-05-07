@@ -2,7 +2,7 @@ import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/back_ground_and_app_bar_and_dynamic_body.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_details/news_details_sub_title_widget.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_details/news_details_title_widget.dart';
-import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_image_details.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_details/news_image_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
