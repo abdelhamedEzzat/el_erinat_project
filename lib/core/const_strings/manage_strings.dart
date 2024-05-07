@@ -95,4 +95,6 @@ class MStrings {
   static String teachers = "المعلمون";
 
   static String newsDetails = "تفاصيل الاخبار";
+
+  static String vote = "تصويت";
 }
