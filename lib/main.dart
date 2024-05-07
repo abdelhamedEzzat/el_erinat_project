@@ -2,6 +2,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:el_erinat/core/config/theme_manger.dart';
 import 'package:el_erinat/core/route/generate_route.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/news_of_elerinat_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           home: child, routes: RouteGenerator.buildRoutes(),
         );
       },
-      child: const UserDitailsScreen(),
+      child: const NewsOfElerinatScreen(),
     );
   }
 }
