@@ -20,7 +20,7 @@ void navigateToScreen(BuildContext context, int index) {
       routeName = ConstantsRouteString.auditorTeamScreen;
       break;
     case 5:
-      routeName = ConstantsRouteString.suggestionsScreen;
+      routeName = ConstantsRouteString.suggestionsandVoteScreen;
       break;
     default:
       return; // Return if index is out of bounds

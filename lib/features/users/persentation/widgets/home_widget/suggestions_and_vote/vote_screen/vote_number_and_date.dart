@@ -1,5 +1,5 @@
-import 'package:el_erinat/features/users/persentation/widgets/home_widget/vote_widget/vote_date.dart';
-import 'package:el_erinat/features/users/persentation/widgets/home_widget/vote_widget/vote_number.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/vote_screen/vote_date.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/vote_screen/vote_number.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -13,6 +13,8 @@ class ConstantsRouteString {
   static const String analiticsOfElerinatScreen = "/AnaliticsOfElerinatScreen";
   static const String newsOfElerinatScreen = "/NewsOfElerinatScreen";
   static const String auditorTeamScreen = "/AuditorTeamScreen";
-  static const String suggestionsScreen = "/SuggestionsScreen";
+  static const String suggestionsandVoteScreen = "/SuggestionsandVoteScreen";
   static const String newsDetails = "/newsDetails";
+  static const String voteScreen = "/VoteScreen";
+  static const String suggetionScreen = "/SuggetionScreen";
 }

@@ -4,7 +4,7 @@ import 'package:el_erinat/features/users/persentation/screens/home/home_screen_b
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/auditor_team_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/book_of_elerinat_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/news_of_elerinat_screen.dart';
-import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/suggestions_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/suggestions_and_vote_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/tree_of_elerinat_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/first_intro_screens.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/secound_intro_screens.dart';
@@ -14,6 +14,8 @@ import 'package:el_erinat/features/users/persentation/screens/register_screen/re
 import 'package:el_erinat/features/users/persentation/screens/splash_screen/splach_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_identaty.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_details/news_details.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/suggetions_screen/suggetion_screen.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/vote_screen/vote_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -43,9 +45,12 @@ class RouteGenerator {
           const NewsOfElerinatScreen(),
       ConstantsRouteString.auditorTeamScreen: (context) =>
           const AuditorTeamScreen(),
-      ConstantsRouteString.suggestionsScreen: (context) =>
-          const SuggestionsScreen(),
+      ConstantsRouteString.suggestionsandVoteScreen: (context) =>
+          const SuggestionsandVoteScreen(),
       ConstantsRouteString.newsDetails: (context) => const NewsDetails(),
+      ConstantsRouteString.voteScreen: (context) => const VoteScreen(),
+      ConstantsRouteString.suggetionScreen: (context) =>
+          const SuggetionScreen(),
     };
   }
 }

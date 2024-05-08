@@ -95,6 +95,16 @@ class MStrings {
   static String teachers = "المعلمون";
 
   static String newsDetails = "تفاصيل الاخبار";
-
+  static String suggestionChoise = "الاقتراحات";
+  static String voteChoise = "التصويت";
   static String vote = "تصويت";
+  static String aleartTitleInSuggestionScreen = "حالة الاقتراح";
+
+  static String aleartlistBodyInSuggetions =
+      "سيتم تقديم اقتراحك الي المشريفين لمراجعتة خلال 48 ساعه من الان ";
+  static String ok = "حسنا";
+
+  static String addressSuggetions = "عنوان الافتراح";
+
+  static String detailsSuggestion = "تفاصيل الافتراح";
 }
