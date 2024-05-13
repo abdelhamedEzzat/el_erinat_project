@@ -1,5 +1,4 @@
 import 'package:el_erinat/core/config/color_manger.dart';
-import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/users/persentation/widgets/splash_widgets/logo_animation_widget.dart';
 import 'package:flutter/material.dart';
 
