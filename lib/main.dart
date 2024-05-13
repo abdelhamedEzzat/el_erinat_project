@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           home: child, routes: RouteGenerator.buildRoutes(),
         );
       },
-      child: const UserDitailsScreen (),
+      child: const SplachScreen(),
     );
   }
 }
