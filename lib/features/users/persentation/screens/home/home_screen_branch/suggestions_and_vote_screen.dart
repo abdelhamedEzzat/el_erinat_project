@@ -1,7 +1,7 @@
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/back_ground_and_app_bar_and_dynamic_body.dart';
 import 'package:el_erinat/core/route/route_strings.dart';
-import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/buttom_suggetion_text.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/button_suggetion_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

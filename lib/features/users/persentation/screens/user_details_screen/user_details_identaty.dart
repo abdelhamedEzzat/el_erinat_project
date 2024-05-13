@@ -34,12 +34,26 @@ class _UserDetailsIdentatyState extends State<UserDetailsIdentaty> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           AllSlidesWidget(
             colors1: ColorManger.logoColor.withOpacity(0.5),
-            colors2: ColorManger.logoColor,
+            colors2: ColorManger.logoColor.withOpacity(0.5),
+            colors3: ColorManger.logoColor,
           ),
           SizedBox(
             height: 25.h,
           ),
 
+          //!  ArrowBack to Previous Screen
+
+          Align(
+            alignment: Alignment.topLeft,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: ColorManger.logoColor,
+                )),
+          ),
           //!  Title
 
           TitleInUserDetailsScreen(

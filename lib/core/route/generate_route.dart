@@ -12,6 +12,7 @@ import 'package:el_erinat/features/users/persentation/screens/intro_screens/thir
 import 'package:el_erinat/features/users/persentation/screens/otp_screen/otp_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/register_screen/register_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/splash_screen/splach_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/user_details_screen/gender_user_detatils.dart';
 import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_identaty.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_details/news_details.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/suggetions_screen/suggetion_screen.dart';
@@ -51,6 +52,9 @@ class RouteGenerator {
       ConstantsRouteString.voteScreen: (context) => const VoteScreen(),
       ConstantsRouteString.suggetionScreen: (context) =>
           const SuggetionScreen(),
+
+      ConstantsRouteString.genderUserDetails: (context) =>
+          const GenderUserDetails(),
     };
   }
 }

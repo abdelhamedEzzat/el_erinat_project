@@ -1,19 +1,16 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
-import 'package:el_erinat/core/helpers/custom_text_form_field.dart';
 import 'package:el_erinat/core/route/route_strings.dart';
-import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/Subtitle_In_user_details_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/all_slides_widget.dart';
-import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/selected_country.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/subtitle_in_user_details_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/text_field_for_user_detatils.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/title_in_user_details_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class UserDitailsScreen extends StatelessWidget {
-  const UserDitailsScreen({super.key});
+class GenderUserDetails extends StatelessWidget {
+  const GenderUserDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +22,30 @@ class UserDitailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AllSlidesWidget(
-                colors1: ColorManger.logoColor,
+                colors1: ColorManger.logoColor.withOpacity(0.5),
+                colors2: ColorManger.logoColor,
                 colors3: ColorManger.logoColor.withOpacity(0.5),
-                colors2: ColorManger.logoColor.withOpacity(0.5),
               ),
               SizedBox(
                 height: 25.h,
               ),
+
+              //!  ArrowBack to Previous Screen
+
+              Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios_rounded,
+                      color: ColorManger.logoColor,
+                    )),
+              ),
+
+              //!  title in gender screen
+
               TitleInUserDetailsScreen(
                 text: MStrings.userWelcomeInSudiaArabia,
                 titleColor: ColorManger.logoColor,
@@ -39,6 +53,9 @@ class UserDitailsScreen extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
+
+              //!  subTitle In Gender Screen
+
               SubTitleInUserDetailsScreen(
                 text: MStrings.tellUsMoreAboutYou,
               ),
@@ -47,12 +64,12 @@ class UserDitailsScreen extends StatelessWidget {
               ),
 
               //
-              //! الاسم الاول  واسم الاب
+              //!     التخصص العام والدقيق
               //
 
               TextFieldForUserDetatils(
-                text1: MStrings.yourFirstName,
-                text2: MStrings.parentname,
+                text1: MStrings.generalSpecialization,
+                text2: MStrings.specialization,
                 onChangedText1: (p0) {},
                 onChangedText2: (p0) {},
               ),
@@ -61,12 +78,12 @@ class UserDitailsScreen extends StatelessWidget {
               ),
 
               //
-              //! الاسم الجد  واسم الوالد للجد
+              //! الجامعه وتاريخ الحصول علي الشهاده
               //
 
               TextFieldForUserDetatils(
-                text1: MStrings.grandfatherName,
-                text2: MStrings.grandfathersName,
+                text1: MStrings.theuniversity,
+                text2: MStrings.dateofobtainingthecertificate,
                 onChangedText1: (p0) {},
                 onChangedText2: (p0) {},
               ),
@@ -75,38 +92,30 @@ class UserDitailsScreen extends StatelessWidget {
               ),
 
               //
-              //! اسم  جد الجد  واسم الاسره
+              //!جهه العمل والمدينه
               //
 
               TextFieldForUserDetatils(
-                text1: MStrings.greatgrandfathersName,
-                text2: MStrings.familyName,
+                text1: MStrings.employer,
+                text2: MStrings.city,
                 onChangedText1: (p0) {},
                 onChangedText2: (p0) {},
               ),
               SizedBox(
                 height: 15.h,
               ),
-
-              //
-              //!   رقم الجوال الجد  واسم الدوله
-              //
-
-              CustomTextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  labelText: Text(
-                    MStrings.phoneNumber,
-                  ),
-                  width: MediaQuery.of(context).size.width),
+              TextFieldForUserDetatils(
+                text1: MStrings.thecondition,
+                text2: MStrings.title,
+                onChangedText1: (p0) {},
+                onChangedText2: (p0) {},
+              ),
               SizedBox(
                 height: 15.h,
               ),
-              const SelectedCountry(),
-              SizedBox(
-                height: 15.h,
-              ),
-              const SelectedGender(),
+              //
+              //!   الحاله واللقب
+              //
 
               Expanded(
                 child: Container(
@@ -115,8 +124,8 @@ class UserDitailsScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
                       onTap: () {
-                        Navigator.of(context)
-                            .pushNamed(ConstantsRouteString.genderUserDetails);
+                        Navigator.of(context).pushNamed(
+                            ConstantsRouteString.userDetailsIdentaty);
                       },
                       text: MStrings.next),
                 ),
@@ -128,38 +137,6 @@ class UserDitailsScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class SelectedGender extends StatelessWidget {
-  const SelectedGender({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10.w),
-      height: 45.h,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          color: ColorManger.logoColor.withOpacity(0.6),
-          borderRadius: BorderRadius.all(Radius.circular(7.w))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Icon(
-            Icons.arrow_drop_down,
-            size: 25.h,
-          ),
-          Text(
-            textAlign: TextAlign.right,
-            MStrings.gender,
-            style: TextStyle(
-              fontSize: 14.w,
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -24,9 +24,9 @@ class _SplachScreenState extends State<SplachScreen>
     );
     animation = Tween(begin: 0.0, end: 1.0).animate(logoAnimationController);
     logoAnimationController.forward().whenComplete(() {
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushNamed(context, ConstantsRouteString.firstintroScreens);
-      });
+      // Future.delayed(const Duration(seconds: 2), () {
+      //   Navigator.pushNamed(context, ConstantsRouteString.firstintroScreens);
+      // });
     });
   }
 

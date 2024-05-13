@@ -22,7 +22,7 @@ class InputCountryAndNumber extends StatelessWidget {
             BoxShadow(
                 color: ColorManger.logoColor,
                 blurRadius: 10,
-                offset: Offset(0, 4))
+                offset: const Offset(0, 4))
           ]),
       child: IntlPhoneField(
         enabled: true,
@@ -49,7 +49,7 @@ class InputCountryAndNumber extends StatelessWidget {
         onChanged: (phone) {
           //! change the country code to your country code
 
-          print(phone.completeNumber);
+          //  print(phone.completeNumber);
         },
       ),
     );

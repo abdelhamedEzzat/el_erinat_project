@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
 class PinputWidget extends StatefulWidget {
-  const PinputWidget({Key? key}) : super(key: key);
+  const PinputWidget({super.key});
 
   @override
   State<PinputWidget> createState() => _PinputWidgetState();

@@ -50,6 +50,8 @@ class MStrings {
   static String phoneNumber = "رقم الجوال";
   static String countryName = "اسم الدولة";
 
+  static String gender = "النوع";
+
   static String next = "التالي ";
 
   static String submit = " ارسال";
@@ -107,4 +109,19 @@ class MStrings {
   static String addressSuggetions = "عنوان الافتراح";
 
   static String detailsSuggestion = "تفاصيل الافتراح";
+
+  static String problemDetails = "وصف المشكلة";
+  static String problem = "عنوان المشكلة";
+
+  static String actionNeeded = "الاجراء المطلوب";
+
+  static String generalSpecialization = "التخصص العام ";
+  static String specialization = "التخصص الدقيق ";
+  static String theuniversity = " الجامعه";
+  static String dateofobtainingthecertificate = "تاريخ الحصول علي الشهاده ";
+  static String employer = "جهه العمل  ";
+  static String city = "( مثال الرياض ) المدينة ";
+
+  static String thecondition = "الحاله";
+  static String title = "اللقب";
 }
