@@ -14,3 +14,8 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+- screen shot for spalsh screen 
+
+![Screenshot_1715503574](https://github.com/abdelhamedEzzat/el_erinat_project/assets/133365686/c696b682-2361-4c83-b139-42ae9a51c44b)
+
