@@ -1,4 +1,5 @@
 import 'package:el_erinat/core/route/route_strings.dart';
+import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/analitics_of_elerinat_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/auditor_team_screen.dart';
@@ -55,6 +56,8 @@ class RouteGenerator {
 
       ConstantsRouteString.genderUserDetails: (context) =>
           const GenderUserDetails(),
+      ConstantsRouteString.adminHomeScreen: (context) =>
+          const AdminHomeScreen(),
     };
   }
 }
