@@ -2,7 +2,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:el_erinat/core/config/theme_manger.dart';
 import 'package:el_erinat/core/route/generate_route.dart';
-import 'package:el_erinat/features/users/persentation/screens/home/home_screen.dart';
+import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
+import 'package:el_erinat/features/auditor_team/persentation/screen/auditor_team_home_screen.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
           home: child, routes: RouteGenerator.buildRoutes(),
         );
       },
-      child: const HomeScreen(),
+      child: const AdminHomeScreen(),
     );
   }
 }

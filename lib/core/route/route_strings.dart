@@ -20,4 +20,9 @@ class ConstantsRouteString {
   static const String genderUserDetails = "/GenderUserDetails";
 
   static const String adminHomeScreen = "/AdminHomeScreen";
+  static const String adminUploadNews = "/AdminUploadNews";
+  static const String adminAddSuggetions = "/AdminAddSuggetions";
+
+  static const String adminDonationsAndCharityScreen =
+      "/AdminDonationsAndCharityScreen";
 }

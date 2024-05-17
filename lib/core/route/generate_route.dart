@@ -1,5 +1,8 @@
 import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
+import 'package:el_erinat/features/admin/persentation/screens/admin_sub_screen/admin_donations_and_charity_screen.dart';
+import 'package:el_erinat/features/admin/persentation/widget/news_screen_widget/admin_upload_news_widget.dart';
+import 'package:el_erinat/features/admin/persentation/widget/suggetion_admin_widget/admin_add_suggtion_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/analitics_of_elerinat_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/auditor_team_screen.dart';
@@ -58,6 +61,15 @@ class RouteGenerator {
           const GenderUserDetails(),
       ConstantsRouteString.adminHomeScreen: (context) =>
           const AdminHomeScreen(),
+
+      ConstantsRouteString.adminUploadNews: (context) =>
+          const AdminUploadNews(),
+
+      ConstantsRouteString.adminAddSuggetions: (context) =>
+          const AdminAddSuggetionsScreen(),
+
+      ConstantsRouteString.adminDonationsAndCharityScreen: (context) =>
+          const AdminDonationsAndCharityScreen(),
     };
   }
 }

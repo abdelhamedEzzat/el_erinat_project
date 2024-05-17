@@ -8,9 +8,14 @@ class HomeScreenItem extends StatelessWidget {
   const HomeScreenItem({
     super.key,
     required this.index,
+    this.onTap,
+    required this.isAdmin,
+    required this.isAuditor,
   });
-
+  final bool isAdmin;
+  final bool isAuditor;
   final int index;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,11 @@ class HomeScreenItem extends StatelessWidget {
       Icons.settings_suggest,
     ];
     return GestureDetector(
-      onTap: () => navigateToScreen(context, index),
+      onTap: () => isAuditor == true
+          ? navigateToScreen(context, index, false, true)
+          : isAdmin == true
+              ? navigateToScreen(context, index, true, false)
+              : navigateToScreen(context, index, false, false),
       child: Container(
         decoration: BoxDecoration(
             color: ColorManger.logoColor,

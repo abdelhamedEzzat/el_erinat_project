@@ -106,9 +106,9 @@ class MStrings {
       "سيتم تقديم اقتراحك الي المشريفين لمراجعتة خلال 48 ساعه من الان ";
   static String ok = "حسنا";
 
-  static String addressSuggetions = "عنوان الافتراح";
+  static String addressSuggetions = "عنوان الاقتراح";
 
-  static String detailsSuggestion = "تفاصيل الافتراح";
+  static String detailsSuggestion = "تفاصيل الاقتراح";
 
   static String problemDetails = "وصف المشكلة";
   static String problem = "عنوان المشكلة";
@@ -124,4 +124,46 @@ class MStrings {
 
   static String thecondition = "الحاله";
   static String title = "اللقب";
+
+  static String donationsAndCharity = "التبرعات والصدقات";
+  static String uploadBook = "تحميل كتاب";
+
+  static String problemStatus = "قيد الحل";
+
+  static String uplaodNews = "تحميل الاخبار والمناسبات";
+  static String type = "اختر النوع";
+
+  static String uploadPic = "تحميل صورة";
+
+  static String newsAddress = "العنوان";
+
+  static String detailsNews = "التفاصيل";
+
+  static String addSuggetion = "اضافه اقتراح";
+
+  static String acceptedSuggetion = "(الاختيار الاول مثال (اوفق علي الاقتراح ";
+
+  static String notAcceptedSuggetion = "(الاختيار الاول مثال ( لا اوفق  ";
+
+  static String additionchooseSuggetion = " اختيار اضافي ";
+  static String sugetionChosses = "-: الاختبارات  ";
+
+  static String accepted = "الموافقه";
+  static String rajected = "الرفض";
+
+  static String auditorSuggetions = "الاقتراحات";
+  static String auditorUsers = "المستخدمين";
+  static String problems = "الشكاوي";
+  static String underReview = "قيد المراجعة";
+  static String itHasBeenCompleted = "تم الانتهاء منها ";
+
+  static String usersInAPP = "المستخدمين الحالين ";
+
+  static String charities = "اتاحه الصدقات ";
+  static String donations = " اتاحه التبرعات";
+
+  static String addressTocharitiesOrdonations = " عنوان الصدقه او التبرع";
+  static String detailsTocharitiesOrdonations = " تفاصيل الصدقه او التبرع";
+
+  static String costNeeded = "المبلغ المطلوب (ان وجد)";
 }

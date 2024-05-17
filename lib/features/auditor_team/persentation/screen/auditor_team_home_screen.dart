@@ -1,11 +1,24 @@
+import 'package:el_erinat/core/helpers/back_ground_and_app_bar_and_dynamic_body.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/home_screen_items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeScreenBody extends StatelessWidget {
-  const HomeScreenBody({
-    super.key,
-  });
+class AuditorTeamHomeScreen extends StatelessWidget {
+  const AuditorTeamHomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const BackGroundAndAppBarAndDaynamicBody(
+      alignmentTitle: Alignment.centerRight,
+      titleName: "الادمن",
+      drawer: Drawer(),
+      yourBodyOfScreen: AuditorHomeScreenBody(),
+    );
+  }
+}
+
+class AuditorHomeScreenBody extends StatelessWidget {
+  const AuditorHomeScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +26,7 @@ class HomeScreenBody extends StatelessWidget {
       top: kToolbarHeight - 20.h,
       child: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -28,7 +42,7 @@ class HomeScreenBody extends StatelessWidget {
                 itemCount: 6,
                 itemBuilder: (BuildContext context, int index) {
                   return HomeScreenItem(
-                    isAuditor: false,
+                    isAuditor: true,
                     isAdmin: false,
                     index: index,
                   );
@@ -36,7 +50,7 @@ class HomeScreenBody extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 25.h,
+              height: 15.h,
             ),
           ],
         ),

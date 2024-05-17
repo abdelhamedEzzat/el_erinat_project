@@ -1,10 +1,12 @@
-import 'package:el_erinat/core/config/color_manger.dart';
+import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/admin_upload_book_widget.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/book_elerinat_widget/user_book_library.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookElerinatBody extends StatelessWidget {
-  const BookElerinatBody({super.key});
-
+  const BookElerinatBody(
+      {super.key, required this.isAdmin, required this.isAuditor});
+  final bool isAdmin;
+  final bool isAuditor;
   @override
   Widget build(BuildContext context) {
     List<String> bookImage = [
@@ -16,38 +18,15 @@ class BookElerinatBody extends StatelessWidget {
       "assets/photo/bookCover2.jpg",
     ];
     return Positioned.fill(
-      top: kToolbarHeight,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              width: MediaQuery.of(context).size.width,
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 50.w,
-                  mainAxisSpacing: 20.h,
-                ),
-                itemCount: 6,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: ColorManger.logoColor)),
-                    child: Image.asset(
-                      bookImage[index],
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                },
-              ),
-            ),
-            SizedBox(
-              height: 25.h,
-            ),
-          ],
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: isAdmin == true
+              ? AdminUploadAndBookLibrary(
+                  bookImage: bookImage,
+                )
+              : isAuditor == true
+                  ? UserBookLibarary(bookImage: bookImage)
+                  : UserBookLibarary(bookImage: bookImage),
         ),
       ),
     );

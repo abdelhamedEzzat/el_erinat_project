@@ -1,0 +1,45 @@
+import 'package:el_erinat/core/const_strings/manage_strings.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/auditor_user_nasted_tab_bar.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/problem_nasted_tabBar.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/suggetion_nasted_tabBar.dart';
+import 'package:flutter/material.dart';
+
+class AdminAuditorTabBarView extends StatelessWidget {
+  const AdminAuditorTabBarView({
+    super.key,
+    required TabController tabController,
+  }) : _tabController = tabController;
+
+  final TabController _tabController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TabBarView(
+      physics: const NeverScrollableScrollPhysics(),
+      controller: _tabController,
+      children: <Widget>[
+        // Column(
+        //   children: [
+
+        SafeArea(
+          child: ProblemNastedTabBar(
+            MStrings.analiticsPeople,
+          ),
+        ),
+        //     // PeopleAnaliticsBody(),
+
+        SafeArea(
+          child: SuggetionNastedTabBar(
+            MStrings.auditorSuggetions,
+          ),
+        ),
+
+        SafeArea(
+          child: AuditorUsersNastedTabBar(
+            MStrings.auditorUsers,
+          ),
+        ),
+      ],
+    );
+  }
+}

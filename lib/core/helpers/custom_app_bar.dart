@@ -20,7 +20,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   final AlignmentGeometry alignmentTitle;
   @override
-  Size get preferredSize => Size.fromHeight(65.h);
+  Size get preferredSize => Size.fromHeight(70.h);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -39,8 +39,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
       leading: widget.leading,
       iconTheme: IconThemeData(size: 18.h, color: Colors.white),
       elevation: 0,
-      backgroundColor: Colors.transparent
-          .withOpacity(0.2), // Set the desired background color
+      backgroundColor: ColorManger.logoColor
+          .withOpacity(0.7), // Set the desired background color
     );
   }
 }
