@@ -16,7 +16,7 @@ class AdminSuggetionItem extends StatelessWidget {
       margin: EdgeInsets.only(right: 20.w, left: 20.w, top: 40.h),
       padding: const EdgeInsets.all(15),
       width: MediaQuery.of(context).size.width,
-      color: ColorManger.logoColor.withOpacity(0.5),
+      color: ColorManger.subScreenscontainerColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -100,12 +100,13 @@ class AdminSuggetionItem extends StatelessWidget {
               Expanded(
                   child: Container(
                 padding: const EdgeInsets.all(8.0),
-                color: ColorManger.logoColor,
+                color: ColorManger.white,
                 child: Text(
                   MStrings.accepted,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      color: ColorManger.subScreenscontainerColor,
+                      fontWeight: FontWeight.bold),
                 ),
               ))
             ],

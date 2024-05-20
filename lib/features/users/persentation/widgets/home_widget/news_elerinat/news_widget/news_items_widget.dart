@@ -22,7 +22,7 @@ class NewsItemsWidget extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 5.h),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5.h),
-          color: ColorManger.logoColor.withOpacity(0.5),
+          color: ColorManger.subScreenscontainerColor.withOpacity(0.8),
         ),
         height: 300.h,
         width: MediaQuery.of(context).size.width,

@@ -37,8 +37,8 @@ class _AuditorUsersNastedTabBarState extends State<AuditorUsersNastedTabBar>
         TabBar.secondary(
           dividerColor: Colors.transparent,
           indicatorSize: TabBarIndicatorSize.label,
-          indicatorColor: Colors.white,
-          unselectedLabelColor: Colors.white,
+          indicatorColor: ColorManger.subScreenscontainerColor,
+          unselectedLabelColor: ColorManger.subScreenscontainerColor,
           labelColor: ColorManger.logoColor,
           controller: _tabController,
           tabs: <Widget>[

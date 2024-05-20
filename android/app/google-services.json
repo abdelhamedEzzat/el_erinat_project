@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "870491172566",
+    "project_id": "elerinat-f7190",
+    "storage_bucket": "elerinat-f7190.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870491172566:android:23f0de0b437d44a7a8e377",
+        "android_client_info": {
+          "package_name": "com.example.el_elrinat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEiwWvyHlvUE2Mt2mGzCVwDnJ-QWrrjAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

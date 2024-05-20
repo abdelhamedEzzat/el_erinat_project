@@ -3,13 +3,18 @@ import 'package:device_preview/device_preview.dart';
 import 'package:el_erinat/core/config/theme_manger.dart';
 import 'package:el_erinat/core/route/generate_route.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
-import 'package:el_erinat/features/auditor_team/persentation/screen/auditor_team_home_screen.dart';
+import 'package:el_erinat/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,

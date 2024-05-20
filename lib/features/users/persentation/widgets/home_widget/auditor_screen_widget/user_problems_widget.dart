@@ -15,7 +15,7 @@ class UserProblemsWidget extends StatelessWidget {
       margin: EdgeInsets.only(right: 20.w, left: 20.w, top: 40.h),
       padding: const EdgeInsets.all(15),
       width: MediaQuery.of(context).size.width,
-      color: ColorManger.logoColor.withOpacity(0.5),
+      color: ColorManger.subScreenscontainerColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,

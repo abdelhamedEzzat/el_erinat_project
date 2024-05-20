@@ -23,7 +23,7 @@ class AddSuggetionFromAdmin extends StatelessWidget {
           right: 20.w,
         ),
         padding: EdgeInsets.symmetric(horizontal: 19.h, vertical: 20.h),
-        color: ColorManger.logoColor.withOpacity(0.6),
+        color: ColorManger.subScreenscontainerColor.withOpacity(0.9),
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

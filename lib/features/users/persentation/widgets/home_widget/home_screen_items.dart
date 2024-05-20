@@ -44,7 +44,7 @@ class HomeScreenItem extends StatelessWidget {
               : navigateToScreen(context, index, false, false),
       child: Container(
         decoration: BoxDecoration(
-            color: ColorManger.logoColor,
+            color: ColorManger.mainScreencontainerColor,
             borderRadius: BorderRadius.all(Radius.circular(15.w))),
         child: Center(
           child: Column(
@@ -60,10 +60,10 @@ class HomeScreenItem extends StatelessWidget {
               ),
               Text(
                 itemsList[index],
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(fontSize: 11.h, color: Colors.white),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 10.h,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
             ],
           ),

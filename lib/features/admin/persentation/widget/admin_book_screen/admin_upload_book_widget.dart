@@ -35,7 +35,7 @@ class UplaodBook extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 19.h, vertical: 20.h),
         padding: EdgeInsets.symmetric(horizontal: 19.h, vertical: 20.h),
-        color: ColorManger.logoColor.withOpacity(0.6),
+        color: ColorManger.subScreenscontainerColor,
         width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

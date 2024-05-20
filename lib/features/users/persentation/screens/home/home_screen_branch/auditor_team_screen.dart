@@ -90,8 +90,9 @@ class _AuditorTeamScreenState extends State<AuditorTeamScreen>
   TabBar adminTabBar() {
     return TabBar(
       indicatorColor: Colors.white,
-      unselectedLabelColor: Colors.white,
-      labelColor: ColorManger.logoColor,
+      indicatorPadding: EdgeInsets.only(bottom: 3.h),
+      unselectedLabelColor: ColorManger.white,
+      labelColor: ColorManger.white,
       controller: _tabController,
       tabs: <Widget>[
         Tab(

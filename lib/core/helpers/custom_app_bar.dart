@@ -39,8 +39,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
       leading: widget.leading,
       iconTheme: IconThemeData(size: 18.h, color: Colors.white),
       elevation: 0,
-      backgroundColor: ColorManger.logoColor
-          .withOpacity(0.7), // Set the desired background color
+      backgroundColor:
+          ColorManger.appBarColor, // Set the desired background color
     );
   }
 }

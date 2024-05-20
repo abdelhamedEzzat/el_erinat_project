@@ -36,9 +36,9 @@ class _ProblemNastedTabBarState extends State<ProblemNastedTabBar>
         TabBar.secondary(
           dividerColor: Colors.transparent,
           indicatorSize: TabBarIndicatorSize.label,
-          indicatorColor: Colors.white,
-          unselectedLabelColor: Colors.white,
-          labelColor: ColorManger.logoColor,
+          indicatorColor: ColorManger.subScreenscontainerColor,
+          unselectedLabelColor: ColorManger.subScreenscontainerColor,
+          labelColor: ColorManger.subScreenscontainerColor,
           controller: _tabController,
           tabs: <Widget>[
             Tab(
