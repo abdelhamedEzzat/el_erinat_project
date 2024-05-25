@@ -9,12 +9,17 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
 
   late String verificationId;
 
+  late String phone;
+  int? _resendToken;
   FirebaseAuth auth = FirebaseAuth.instance;
 
   //! verificationPhoneNumber main function
   Future verificationPhoneNumber(String phoneNumber) async {
+    emit(PhoneAuthLoading());
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phoneNumber,
+      forceResendingToken: _resendToken,
+      timeout: const Duration(seconds: 14),
       verificationCompleted: verificationCompleted,
       verificationFailed: phoneVerificationFailed,
       codeSent: codeSend,
@@ -31,17 +36,31 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
 //! phoneVerificationFailed
 
   void phoneVerificationFailed(FirebaseAuthException error) {
-    emit(PhoneAuthFailed(errorMsg: error.toString()));
+    emit(PhoneAuthFailed(errorMsg: error.message.toString()));
   }
 
 //! signIn
 
   Future<void> signIn(PhoneAuthCredential credential) async {
     try {
+      emit(PhoneAuthLoading());
       await FirebaseAuth.instance.signInWithCredential(credential);
-      emit(PhoneAuthCompleted());
+      emit(PhoneCodeVerifiedState());
     } catch (error) {
       emit(PhoneAuthFailed(errorMsg: error.toString()));
+    }
+  }
+
+  void signInWithPhone(AuthCredential credential) async {
+    try {
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        emit(AuthLoggedInState(userCredential.user!));
+      }
+    } on FirebaseAuthException catch (ex) {
+      emit(PhoneAuthFailed(errorMsg: ex.message.toString()));
     }
   }
 
@@ -52,16 +71,23 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
     int? forceResendingToken,
   ) async {
     this.verificationId = verificationId;
-    emit(PhoneAuthCompleted());
+    _resendToken = forceResendingToken;
+    emit(PhoneCodeSentState());
   }
 
 //! submitOTP
 
-  Future<void> submitOTP(String otpCode) async {
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId, smsCode: otpCode);
+  Future<void> verifyOTP(String otpCode) async {
+    try {
+      emit(PhoneAuthLoading());
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: otpCode);
 
-    await signIn(credential);
+      await signIn(credential);
+      emit(PhoneCodeVerifiedState());
+    } on FirebaseAuthException catch (e) {
+      emit(PhoneAuthFailed(errorMsg: e.message.toString()));
+    }
   }
 
 //! logOut

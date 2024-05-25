@@ -2,8 +2,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:el_erinat/core/config/theme_manger.dart';
 import 'package:el_erinat/core/route/generate_route.dart';
-import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
 import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/screens/register_screen/register_screen.dart';
 import 'package:el_erinat/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: const AdminHomeScreen(),
+      child: const RegisterScreen(),
     );
   }
 }

@@ -25,4 +25,6 @@ class ConstantsRouteString {
 
   static const String adminDonationsAndCharityScreen =
       "/AdminDonationsAndCharityScreen";
+
+  static const String userDitailsScreen = "/UserDitailsScreen";
 }

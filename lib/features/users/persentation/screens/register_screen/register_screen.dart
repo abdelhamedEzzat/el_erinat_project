@@ -1,13 +1,13 @@
-import 'package:el_erinat/core/const_strings/manage_strings.dart';
-import 'package:el_erinat/core/helpers/botton.dart';
-import 'package:el_erinat/core/route/route_strings.dart';
+import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/or_with_divider.dart';
+import 'package:el_erinat/features/users/persentation/widgets/register_screen/phone_auth/get_login_with_phone_number.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/register_logo.dart';
-import 'package:el_erinat/features/users/persentation/widgets/register_screen/register_with_phone_number.dart';
+import 'package:el_erinat/features/users/persentation/widgets/register_screen/phone_auth/register_with_phone_number.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/signin_with_google_and_apple.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/sub_title_register_widget.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/title_register.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -15,6 +15,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final phoneAuthCubit = BlocProvider.of<PhoneAuthCubit>(context);
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -36,14 +37,7 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(
                   height: 30.h,
                 ),
-                BottonClick(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width - 30.w,
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, ConstantsRouteString.otpScreen);
-                    },
-                    text: MStrings.sendOtpCode),
+                GetLoginWithPhoneNumber(phoneAuthCubit: phoneAuthCubit),
                 SizedBox(
                   height: 20.h,
                 ),
