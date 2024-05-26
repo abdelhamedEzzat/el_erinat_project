@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   flutter_screenutil: ^5.9.0
   flutter_svg: ^2.0.10+1
+  google_sign_in: ^6.2.1
   graphview: ^1.2.0
   intl_phone_field: ^3.2.0
   pinput: ^4.0.0

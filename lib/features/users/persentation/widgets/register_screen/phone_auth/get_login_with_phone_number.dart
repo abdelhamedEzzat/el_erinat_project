@@ -26,7 +26,7 @@ class GetLoginWithPhoneNumber extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.errorMsg),
-              duration: const Duration(milliseconds: 600),
+              duration: const Duration(seconds: 50),
               backgroundColor: Colors.red,
             ),
           );

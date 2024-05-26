@@ -1,5 +1,4 @@
 import 'package:el_erinat/core/config/color_manger.dart';
-import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,8 +33,8 @@ class _PinputWidgetState extends State<PinputWidget> {
     Color borderColor = ColorManger.logoColor;
 
     final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
+      width: 56.w,
+      height: 56.h,
       textStyle: const TextStyle(
         fontSize: 22,
         color: Color.fromRGBO(30, 60, 87, 1),
@@ -71,13 +70,6 @@ class _PinputWidgetState extends State<PinputWidget> {
                     listenForMultipleSmsOnAndroid: true,
                     defaultPinTheme: defaultPinTheme,
                     separatorBuilder: (index) => const SizedBox(width: 8),
-                    // validator: (value) {
-                    //   return value == '2222' ? null : MStrings.pinIsIncorrect;
-                    // },
-                    // onClipboardFound: (value) {
-                    //   debugPrint('onClipboardFound: $value');
-                    //   pinController.setText(value);
-                    // },
                     hapticFeedbackType: HapticFeedbackType.lightImpact,
                     onCompleted: (pin) {
                       debugPrint('onCompleted: $pin');
@@ -116,13 +108,6 @@ class _PinputWidgetState extends State<PinputWidget> {
                     ),
                   ),
                 ),
-                // TextButton(
-                //   onPressed: () {
-                //     focusNode.unfocus();
-                //     formKey.currentState!.validate();
-                //   },
-                //   child: const Text('Validate'),
-                // ),
               ],
             ),
           );

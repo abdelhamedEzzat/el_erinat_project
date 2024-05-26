@@ -94,7 +94,9 @@ class _OtpScreenState extends State<OtpScreen> {
               BlocBuilder<PhoneAuthCubit, PhoneAuthState>(
                 builder: (context, state) {
                   if (state is PhoneAuthLoading) {
-                    return const CircularProgressIndicator();
+                    return CircularProgressIndicator(
+                      color: ColorManger.colorProgressIndecator,
+                    );
                   }
                   return const FractionallySizedBox(
                     widthFactor: 1,
