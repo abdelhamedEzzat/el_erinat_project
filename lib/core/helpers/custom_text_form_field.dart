@@ -54,7 +54,7 @@ class CustomTextFormField extends StatelessWidget {
       width: width,
       padding: padding,
       child: TextFormField(
-        autovalidateMode: AutovalidateMode.always,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         inputFormatters: inputFormatters,
         keyboardType: keyboardType,
         validator: validator,
@@ -64,6 +64,9 @@ class CustomTextFormField extends StatelessWidget {
         maxLines: maxLines,
         textAlign: TextAlign.right,
         decoration: InputDecoration(
+          errorStyle: TextStyle(
+            fontSize: 10.0.w,
+          ),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: ColorManger.logoColor)),
           enabled: enabled ?? true,

@@ -9,9 +9,14 @@ import 'package:el_erinat/features/users/persentation/widgets/user_details_scree
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GenderUserDetails extends StatelessWidget {
+class GenderUserDetails extends StatefulWidget {
   const GenderUserDetails({super.key});
 
+  @override
+  State<GenderUserDetails> createState() => _GenderUserDetailsState();
+}
+
+class _GenderUserDetailsState extends State<GenderUserDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,10 +73,11 @@ class GenderUserDetails extends StatelessWidget {
               //
 
               TextFieldForUserDetatils(
+                isTextField: true,
                 text1: MStrings.generalSpecialization,
                 text2: MStrings.specialization,
                 onChangedText1: (p0) {},
-                onChangedText2: (p0) {},
+                onChangedText3: (p0) {},
               ),
               SizedBox(
                 height: 15.h,
@@ -82,10 +88,11 @@ class GenderUserDetails extends StatelessWidget {
               //
 
               TextFieldForUserDetatils(
+                isTextField: true,
                 text1: MStrings.theuniversity,
                 text2: MStrings.dateofobtainingthecertificate,
                 onChangedText1: (p0) {},
-                onChangedText2: (p0) {},
+                onChangedText3: (p0) {},
               ),
               SizedBox(
                 height: 15.h,
@@ -96,19 +103,21 @@ class GenderUserDetails extends StatelessWidget {
               //
 
               TextFieldForUserDetatils(
+                isTextField: true,
                 text1: MStrings.employer,
                 text2: MStrings.city,
                 onChangedText1: (p0) {},
-                onChangedText2: (p0) {},
+                onChangedText3: (p0) {},
               ),
               SizedBox(
                 height: 15.h,
               ),
               TextFieldForUserDetatils(
+                isTextField: true,
                 text1: MStrings.thecondition,
                 text2: MStrings.title,
                 onChangedText1: (p0) {},
-                onChangedText2: (p0) {},
+                onChangedText3: (p0) {},
               ),
               SizedBox(
                 height: 15.h,

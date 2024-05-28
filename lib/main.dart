@@ -4,6 +4,8 @@ import 'package:el_erinat/core/config/theme_manger.dart';
 import 'package:el_erinat/core/route/generate_route.dart';
 import 'package:el_erinat/features/users/persentation/cubit/google_auth_cubit/google_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/cubit/save_get_details_user_data/save_get_featch_user_details_cubit.dart';
+import 'package:el_erinat/features/users/persentation/screens/register_screen/register_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_screen.dart';
 import 'package:el_erinat/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,6 +48,9 @@ class MyApp extends StatelessWidget {
             BlocProvider(
               create: (context) => GoogleAuthCubit(),
             ),
+            BlocProvider(
+              create: (context) => SaveGetFeatchUserDetailsCubit(),
+            ),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -61,7 +66,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: const UserDitailsScreen(),
+      child: const RegisterScreen(),
     );
   }
 }

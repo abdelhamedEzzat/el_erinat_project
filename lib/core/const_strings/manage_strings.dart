@@ -166,4 +166,16 @@ class MStrings {
   static String detailsTocharitiesOrdonations = " تفاصيل الصدقه او التبرع";
 
   static String costNeeded = "المبلغ المطلوب (ان وجد)";
+
+  static String age = "العَمْرُ";
+
+  static String live = "علي قيد الحياة";
+
+  static String dead = "متوفي";
+
+  static String man = "رجل";
+  static String women = "انثي";
+
+  static String selectedGender = "اختر الجنس";
+  static String selectedCountry = "اختر الدولة";
 }
