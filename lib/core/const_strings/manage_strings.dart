@@ -178,4 +178,8 @@ class MStrings {
 
   static String selectedGender = "اختر الجنس";
   static String selectedCountry = "اختر الدولة";
+
+  static String thatsItMyBirthday = 'تاكيد';
+
+  static String chooseYourBirthday = ' اختر تاريخ ميلادك';
 }

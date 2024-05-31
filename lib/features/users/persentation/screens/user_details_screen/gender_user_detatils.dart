@@ -3,6 +3,7 @@ import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/all_slides_widget.dart';
+import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/gender_user_detatils/birthday_date.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/subtitle_in_user_details_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/text_field_for_user_detatils.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/title_in_user_details_screen.dart';
@@ -18,10 +19,11 @@ class GenderUserDetails extends StatefulWidget {
 
 class _GenderUserDetailsState extends State<GenderUserDetails> {
   LocalDatabaseHelper localDatabaseHelper = LocalDatabaseHelper();
+  String selectedDate = '';
+  bool isHijridate = false;
 
   @override
   Widget build(BuildContext context) {
-    // UserModel user = UserModel();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -37,9 +39,6 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
               SizedBox(
                 height: 25.h,
               ),
-
-              //!  ArrowBack to Previous Screen
-
               Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
@@ -51,9 +50,6 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
                       color: ColorManger.logoColor,
                     )),
               ),
-
-              //!  title in gender screen
-
               TitleInUserDetailsScreen(
                 text: MStrings.userWelcomeInSudiaArabia,
                 titleColor: ColorManger.logoColor,
@@ -61,20 +57,25 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
               SizedBox(
                 height: 10.h,
               ),
-
-              //!  subTitle In Gender Screen
-
               SubTitleInUserDetailsScreen(
                 text: MStrings.tellUsMoreAboutYou,
               ),
               SizedBox(
                 height: 20.h,
               ),
-
-              //
-              //!     التخصص العام والدقيق
-              //
-
+              BithDayDate(
+                textIftrue: selectedDate,
+                isHijridate: isHijridate,
+                onDateSelected: (String date, bool isHijri) {
+                  setState(() {
+                    selectedDate = date;
+                    isHijridate = isHijri;
+                  });
+                },
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
               TextFieldForUserDetatils(
                 isTextField: true,
                 text1: MStrings.generalSpecialization,
@@ -85,11 +86,6 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
               SizedBox(
                 height: 15.h,
               ),
-
-              //
-              //! الجامعه وتاريخ الحصول علي الشهاده
-              //
-
               TextFieldForUserDetatils(
                 isTextField: true,
                 text1: MStrings.theuniversity,
@@ -100,11 +96,6 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
               SizedBox(
                 height: 15.h,
               ),
-
-              //
-              //!جهه العمل والمدينه
-              //
-
               TextFieldForUserDetatils(
                 isTextField: true,
                 text1: MStrings.employer,
@@ -125,10 +116,6 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
               SizedBox(
                 height: 15.h,
               ),
-              //
-              //!   الحاله واللقب
-              //
-
               Expanded(
                 child: Container(
                   alignment: Alignment.bottomCenter,
@@ -140,7 +127,6 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 20.h,
               ),

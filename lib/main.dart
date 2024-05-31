@@ -9,6 +9,7 @@ import 'package:el_erinat/features/users/persentation/cubit/google_auth_cubit/go
 import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/cubit/save_get_details_user_data/save_get_featch_user_details_cubit.dart';
 import 'package:el_erinat/features/users/persentation/screens/register_screen/register_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/user_details_screen/gender_user_detatils.dart';
 import 'package:el_erinat/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: const RegisterScreen(),
+      child: const GenderUserDetails(),
     );
   }
 }
