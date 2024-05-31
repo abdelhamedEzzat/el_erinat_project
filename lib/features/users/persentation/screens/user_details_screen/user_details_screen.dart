@@ -1,4 +1,7 @@
 import 'package:el_erinat/core/config/list_manger.dart';
+import 'package:el_erinat/core/route/route_strings.dart';
+import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
+import 'package:el_erinat/features/users/persentation/cubit/save_get_details_user_data/save_get_featch_user_details_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +10,6 @@ import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
 import 'package:el_erinat/core/helpers/custom_text_form_field.dart';
-import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/users/data/model/user_model.dart';
 import 'package:el_erinat/features/users/persentation/cubit/save_get_details_user_data/save_get_featch_user_details_cubit.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/Subtitle_In_user_details_screen.dart';
@@ -32,7 +34,7 @@ class _UserDitailsScreenState extends State<UserDitailsScreen> {
   bool fathercolorChange = false;
   bool grandfathercolorChange = false;
   bool greatgrandfathercolorChange = false;
-
+  LocalDatabaseHelper localDatabaseHelper = LocalDatabaseHelper();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,12 +141,15 @@ class _UserDitailsScreenState extends State<UserDitailsScreen> {
                             onTap: () {
                               final cubit =
                                   context.read<SaveGetFeatchUserDetailsCubit>();
+
+                              // print(cubit.getDataForUser(user));
+
                               if (formKey.currentState!.validate()) {
                                 formKey.currentState!.save();
                                 cubit.saveDataForUser(user).then((value) =>
                                     Navigator.of(context).pushNamed(
-                                        ConstantsRouteString
-                                            .genderUserDetails));
+                                        ConstantsRouteString.genderUserDetails,
+                                        arguments: user.age));
                               }
                             },
                             text: MStrings.next,

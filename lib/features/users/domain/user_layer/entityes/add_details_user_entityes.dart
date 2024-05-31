@@ -1,5 +1,6 @@
-class AddDetailsUser {
-  String? id;
+class AddPersonalDetailsUser {
+  int? id;
+  String? uID;
   String? firstname;
   String? age;
   String? fatherName;
@@ -13,8 +14,9 @@ class AddDetailsUser {
   String? countryName;
   String? gender;
 
-  AddDetailsUser(
+  AddPersonalDetailsUser(
       {this.id,
+      this.uID,
       this.firstname,
       this.age,
       this.fatherName,
@@ -28,9 +30,10 @@ class AddDetailsUser {
       this.countryName,
       this.gender});
 
-  factory AddDetailsUser.fromJson(Map<String, dynamic> fireStore) {
-    return AddDetailsUser(
+  factory AddPersonalDetailsUser.fromJson(Map<String, dynamic> fireStore) {
+    return AddPersonalDetailsUser(
       id: fireStore['id'],
+      uID: fireStore['uID'],
       firstname: fireStore['name'],
       age: fireStore['age'],
       fatherName: fireStore['fatherName'],
@@ -49,19 +52,20 @@ class AddDetailsUser {
   // To JSON
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'name': firstname,
-      'age': age,
-      'fatherName': fatherName,
-      'grandfatherName': grandfatherName,
-      'greatGrandfatherName': greatGrandfatherName,
-      'fatherLiveORDead': fatherLiveORDead,
-      'grandfatherLiveORDead': grandfatherLiveORDead,
-      'greatGrandFatherLiveOrDead': greatGrandFatherLiveOrDead,
-      'familyName': familyName,
-      'phoneNumber': phoneNumber,
-      'countryName': countryName,
-      'gender': gender,
+      'id': id ?? '',
+      'uID': uID ?? '',
+      'name': firstname ?? '',
+      'age': age ?? '',
+      'fatherName': fatherName ?? '',
+      'grandfatherName': grandfatherName ?? '',
+      'greatGrandfatherName': greatGrandfatherName ?? '',
+      'fatherLiveORDead': fatherLiveORDead ?? '',
+      'grandfatherLiveORDead': grandfatherLiveORDead ?? '',
+      'greatGrandFatherLiveOrDead': greatGrandFatherLiveOrDead ?? '',
+      'familyName': familyName ?? '',
+      'phoneNumber': phoneNumber ?? '',
+      'countryName': countryName ?? '',
+      'gender': gender ?? '',
     };
   }
 }

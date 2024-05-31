@@ -2,11 +2,13 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:el_erinat/core/config/theme_manger.dart';
 import 'package:el_erinat/core/route/generate_route.dart';
+import 'package:el_erinat/features/users/data/repo/user_repo_impelmentation.dart';
+import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
+import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
 import 'package:el_erinat/features/users/persentation/cubit/google_auth_cubit/google_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/cubit/save_get_details_user_data/save_get_featch_user_details_cubit.dart';
 import 'package:el_erinat/features/users/persentation/screens/register_screen/register_screen.dart';
-import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_screen.dart';
 import 'package:el_erinat/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -49,7 +51,10 @@ class MyApp extends StatelessWidget {
               create: (context) => GoogleAuthCubit(),
             ),
             BlocProvider(
-              create: (context) => SaveGetFeatchUserDetailsCubit(),
+              create: (context) => SaveGetFeatchUserDetailsCubit(
+                  userRepo: UserRepoImplementation(
+                      localDatabaseHelper: LocalDatabaseHelper(),
+                      userRemoteDataSource: UserRemoteDataSource())),
             ),
           ],
           child: MaterialApp(

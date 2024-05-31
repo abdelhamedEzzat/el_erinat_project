@@ -1,8 +1,9 @@
 import 'package:el_erinat/features/users/domain/user_layer/entityes/add_details_user_entityes.dart';
 
-class UserModel extends AddDetailsUser {
+class UserModel extends AddPersonalDetailsUser {
   UserModel(
       {super.id,
+      super.uID,
       super.firstname,
       super.age,
       super.fatherName,
@@ -19,6 +20,7 @@ class UserModel extends AddDetailsUser {
   factory UserModel.fromJson(Map<String, dynamic> fireStore) {
     return UserModel(
       id: fireStore['id'],
+      uID: fireStore['uID'],
       firstname: fireStore['name'],
       age: fireStore['age'],
       fatherName: fireStore['fatherName'],
@@ -34,10 +36,11 @@ class UserModel extends AddDetailsUser {
     );
   }
 
-  // To JSON
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'uID': uID,
       'name': firstname,
       'age': age,
       'fatherName': fatherName,

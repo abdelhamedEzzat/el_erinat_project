@@ -1,4 +1,6 @@
-part of 'save_get_featch_user_details_cubit.dart';
+import 'package:el_erinat/features/users/data/model/user_model.dart';
+import 'package:el_erinat/features/users/domain/user_layer/entityes/add_details_user_entityes.dart';
+import 'package:flutter/material.dart';
 
 @immutable
 sealed class SaveGetFeatchUserDetailsState {}
@@ -18,7 +20,13 @@ final class SaveGetFeatchUserDetailsError
 
 final class SaveGetFeatchUserDetailsSuccess
     extends SaveGetFeatchUserDetailsState {
-  final AddDetailsUser user;
+  final AddPersonalDetailsUser user;
 
   SaveGetFeatchUserDetailsSuccess({required this.user});
+}
+
+class UserLoaded extends SaveGetFeatchUserDetailsState {
+  final List<UserModel> users;
+
+  UserLoaded(this.users);
 }

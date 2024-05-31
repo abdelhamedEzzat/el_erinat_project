@@ -49,9 +49,7 @@ class _PinputWidgetState extends State<PinputWidget> {
     return Form(
       key: formKey,
       child: BlocConsumer<PhoneAuthCubit, PhoneAuthState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 20.w),

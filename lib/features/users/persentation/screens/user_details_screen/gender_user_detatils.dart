@@ -1,7 +1,7 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
-import 'package:el_erinat/core/route/route_strings.dart';
+import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/all_slides_widget.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/subtitle_in_user_details_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/text_field_for_user_detatils.dart';
@@ -17,8 +17,11 @@ class GenderUserDetails extends StatefulWidget {
 }
 
 class _GenderUserDetailsState extends State<GenderUserDetails> {
+  LocalDatabaseHelper localDatabaseHelper = LocalDatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
+    // UserModel user = UserModel();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -130,13 +133,11 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   child: BottonClick(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                            ConstantsRouteString.userDetailsIdentaty);
-                      },
-                      text: MStrings.next),
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    onTap: () async {},
+                    text: MStrings.next,
+                  ),
                 ),
               ),
 

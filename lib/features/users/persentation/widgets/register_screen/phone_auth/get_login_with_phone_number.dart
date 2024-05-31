@@ -31,7 +31,6 @@ class GetLoginWithPhoneNumber extends StatelessWidget {
             ),
           );
         }
-        // TODO: implement listener
       },
       builder: (context, state) {
         if (state is PhoneAuthLoading) {

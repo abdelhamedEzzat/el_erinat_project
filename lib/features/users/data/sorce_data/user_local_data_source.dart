@@ -27,6 +27,7 @@ class LocalDatabaseHelper {
     await db.execute('''
       CREATE TABLE userDetails (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        uID TEXT,
         name TEXT,
         age TEXT,
         fatherName TEXT,
@@ -45,9 +46,36 @@ class LocalDatabaseHelper {
 
   //! here i save data to cache database
 
-  Future<int> insertUser(UserModel user) async {
-    Database db = await database;
+  Future<UserModel> insertUser(UserModel user) async {
+    final db = await database;
+    final userData = user.toJson();
 
-    return await db.insert('userDetails', user.toJson());
+    // Insert the user data and get the generated id
+    int id = await db.insert(
+      'userDetails',
+      userData,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    // Set the generated id in the user model
+    user.id = id;
+
+    // Log the inserted user with id
+    print('Inserted user: ${user.toJson()}');
+
+    return user;
+  }
+
+  //
+  //
+
+  Future<List<UserModel>> getAllUsers() async {
+    UserModel userModel = UserModel();
+    final db = await database;
+    final data = await db
+        .query('userDetails', where: 'uID = ?', whereArgs: [userModel.uID]);
+
+    List<UserModel> users = data.map((e) => UserModel.fromJson(e)).toList();
+    return users;
   }
 }

@@ -4,5 +4,7 @@ import 'package:el_erinat/features/users/data/model/user_model.dart';
 import 'package:el_erinat/features/users/domain/user_layer/entityes/add_details_user_entityes.dart';
 
 abstract class UserRepo {
-  Future<Either<Failure, AddDetailsUser>> addDetailsUser(UserModel user);
+  Future<Either<Failure, AddPersonalDetailsUser>> addPersonalDetailsUser(UserModel user);
+
+    Future<List<UserModel>> getPersonalUsers();
 }
