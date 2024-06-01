@@ -8,5 +8,7 @@ class ColorManger {
   static Color appBarColor = const Color(0XFFBB9058);
   static Color colorProgressIndecator = Colors.black;
 
+  static Color balckColor = Colors.black;
+
   static Color white = Colors.white;
 }

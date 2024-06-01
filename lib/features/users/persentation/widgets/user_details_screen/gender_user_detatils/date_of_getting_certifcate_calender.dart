@@ -4,18 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class BithDayDate extends StatelessWidget {
-  const BithDayDate({
+class DateOfGettingCertificateCalender extends StatefulWidget {
+  const DateOfGettingCertificateCalender({
     super.key,
     required this.textIftrue,
     required this.isHijridate,
     required this.onDateSelected,
   });
-
   final String textIftrue;
   final bool isHijridate;
   final Function(String, bool) onDateSelected;
 
+  @override
+  State<DateOfGettingCertificateCalender> createState() =>
+      _DateOfGettingCertificateCalenderState();
+}
+
+class _DateOfGettingCertificateCalenderState
+    extends State<DateOfGettingCertificateCalender> {
   void _openHijriDatePicker(BuildContext context) {
     showDialog(
       context: context,
@@ -65,7 +71,7 @@ class BithDayDate extends StatelessWidget {
                 final hijriDate = args.value;
                 final selectedDate =
                     '${hijriDate.day} - ${hijriMonths[hijriDate.month - 1]} - ${hijriDate.year}';
-                onDateSelected(selectedDate, true);
+                widget.onDateSelected(selectedDate, true);
               },
               selectionMode: DateRangePickerSelectionMode.single,
             ),
@@ -84,25 +90,24 @@ class BithDayDate extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.only(right: 14.w),
         alignment: Alignment.centerRight,
-        height: 46.h,
+        height: 44.h,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           border: Border.all(color: ColorManger.appBarColor),
           borderRadius: BorderRadius.circular(7.w),
         ),
-        child: isHijridate
+        child: widget.isHijridate
             ? Text(
-                " ${textIftrue} : تاريخ ميلادك",
+                " ${widget.textIftrue}",
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: 12.h,
-                      fontWeight: FontWeight.bold,
-                      color: ColorManger.balckColor,
-                    ),
+                    fontSize: 10.h,
+                    fontWeight: FontWeight.bold,
+                    color: ColorManger.balckColor),
               )
             : Text(
-                " اكتب تاريخ ميلادك",
+                MStrings.dateofobtainingthecertificate,
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontSize: 12.h,
+                      fontSize: 10.h,
                       fontWeight: FontWeight.bold,
                       color: Colors.grey,
                     ),

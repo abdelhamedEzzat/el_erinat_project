@@ -147,7 +147,7 @@ class _UserDitailsScreenState extends State<UserDitailsScreen> {
                                 formKey.currentState!.save();
                                 cubit.saveDataForUser(user).then((value) =>
                                     Navigator.of(context).pushNamed(
-                                        ConstantsRouteString.genderUserDetails,
+                                        ConstantsRouteString.workUserDetails,
                                         arguments: user.age));
                               }
                             },

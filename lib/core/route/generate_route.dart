@@ -58,8 +58,8 @@ class RouteGenerator {
       ConstantsRouteString.suggetionScreen: (context) =>
           const SuggetionScreen(),
 
-      ConstantsRouteString.genderUserDetails: (context) =>
-          const GenderUserDetails(),
+      ConstantsRouteString.workUserDetails: (context) =>
+          const WorkUserDetails(),
       ConstantsRouteString.adminHomeScreen: (context) =>
           const AdminHomeScreen(),
 

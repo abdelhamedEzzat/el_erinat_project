@@ -22,6 +22,9 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
   String selectedDate = '';
   bool isHijridate = false;
 
+  String selectedDateForCertifcate = '';
+  bool isHijridateForCertifcate = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +79,11 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
               SizedBox(
                 height: 10.h,
               ),
+
+              //
+              //! calender for generalSpecialization and specialization
+              //
+
               TextFieldForUserDetatils(
                 isTextField: true,
                 text1: MStrings.generalSpecialization,
@@ -86,16 +94,36 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
               SizedBox(
                 height: 15.h,
               ),
+
+              //
+              //! calender for certificate and university
+              //
               TextFieldForUserDetatils(
-                isTextField: true,
+                isCalenderField: true,
+                isTextField: false,
                 text1: MStrings.theuniversity,
                 text2: MStrings.dateofobtainingthecertificate,
                 onChangedText1: (p0) {},
-                onChangedText3: (p0) {},
+                //
+                //! calender for certificate
+
+                selectedDate: selectedDateForCertifcate,
+                isHijridate: isHijridateForCertifcate,
+                onDateSelected: (String date, bool isHijri) {
+                  setState(() {
+                    selectedDateForCertifcate = date;
+                    isHijridateForCertifcate = isHijri;
+                  });
+                },
               ),
+
               SizedBox(
                 height: 15.h,
               ),
+
+              //
+              //! employer and city
+
               TextFieldForUserDetatils(
                 isTextField: true,
                 text1: MStrings.employer,
@@ -106,6 +134,10 @@ class _GenderUserDetailsState extends State<GenderUserDetails> {
               SizedBox(
                 height: 15.h,
               ),
+
+              //
+              //! condition and title
+
               TextFieldForUserDetatils(
                 isTextField: true,
                 text1: MStrings.thecondition,

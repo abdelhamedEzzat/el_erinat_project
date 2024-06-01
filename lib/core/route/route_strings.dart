@@ -17,7 +17,7 @@ class ConstantsRouteString {
   static const String newsDetails = "/newsDetails";
   static const String voteScreen = "/VoteScreen";
   static const String suggetionScreen = "/SuggetionScreen";
-  static const String genderUserDetails = "/GenderUserDetails";
+  static const String workUserDetails = "/WorkUserDetails";
 
   static const String adminHomeScreen = "/AdminHomeScreen";
   static const String adminUploadNews = "/AdminUploadNews";
