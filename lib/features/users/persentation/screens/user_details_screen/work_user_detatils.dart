@@ -10,14 +10,14 @@ import 'package:el_erinat/features/users/persentation/widgets/user_details_scree
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GenderUserDetails extends StatefulWidget {
-  const GenderUserDetails({super.key});
+class WorkUserDetails extends StatefulWidget {
+  const WorkUserDetails({super.key});
 
   @override
-  State<GenderUserDetails> createState() => _GenderUserDetailsState();
+  State<WorkUserDetails> createState() => _WorkUserDetailsState();
 }
 
-class _GenderUserDetailsState extends State<GenderUserDetails> {
+class _WorkUserDetailsState extends State<WorkUserDetails> {
   LocalDatabaseHelper localDatabaseHelper = LocalDatabaseHelper();
   String selectedDate = '';
   bool isHijridate = false;

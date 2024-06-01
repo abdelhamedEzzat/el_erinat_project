@@ -8,7 +8,7 @@ import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source
 import 'package:el_erinat/features/users/persentation/cubit/google_auth_cubit/google_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/cubit/personal_details_cubit/personal_details_cubit.dart';
-import 'package:el_erinat/features/users/persentation/screens/user_details_screen/gender_user_detatils.dart';
+import 'package:el_erinat/features/users/persentation/screens/user_details_screen/work_user_detatils.dart';
 import 'package:el_erinat/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: const GenderUserDetails(),
+      child: const WorkUserDetails(),
     );
   }
 }
