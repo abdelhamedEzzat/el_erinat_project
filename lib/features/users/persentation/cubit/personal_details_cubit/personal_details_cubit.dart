@@ -8,8 +8,8 @@ import 'package:el_erinat/features/users/domain/user_layer/use_cases/add_users.d
 import 'package:el_erinat/features/users/persentation/cubit/personal_details_cubit/personal_details_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SaveGetFeatchUserDetailsCubit extends Cubit<PersonalDetailsState> {
-  SaveGetFeatchUserDetailsCubit({required this.userRepo})
+class PersonalDetailsCubit extends Cubit<PersonalDetailsState> {
+  PersonalDetailsCubit({required this.userRepo})
       : super(PersonalDetailsInitial());
 
   String uid = FirebaseAuth.instance.currentUser!.uid;
