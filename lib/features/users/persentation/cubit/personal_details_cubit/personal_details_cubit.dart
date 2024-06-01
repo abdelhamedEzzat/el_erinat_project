@@ -5,20 +5,19 @@ import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.
 import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
 import 'package:el_erinat/features/users/domain/user_layer/repo/user_repo.Dart';
 import 'package:el_erinat/features/users/domain/user_layer/use_cases/add_users.dart';
-import 'package:el_erinat/features/users/persentation/cubit/save_get_details_user_data/save_get_featch_user_details_state.dart';
+import 'package:el_erinat/features/users/persentation/cubit/personal_details_cubit/personal_details_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SaveGetFeatchUserDetailsCubit
-    extends Cubit<SaveGetFeatchUserDetailsState> {
+class SaveGetFeatchUserDetailsCubit extends Cubit<PersonalDetailsState> {
   SaveGetFeatchUserDetailsCubit({required this.userRepo})
-      : super(SaveGetFeatchUserDetailsInitial());
+      : super(PersonalDetailsInitial());
 
   String uid = FirebaseAuth.instance.currentUser!.uid;
 
   final UserRepo userRepo;
 
   Future<void> saveDataForUser(UserModel user) async {
-    emit(SaveGetFeatchUserDetailsLoading());
+    emit(PersonalDetailsLoading());
 
     final userRepo = UserRepoImplementation(
       localDatabaseHelper: LocalDatabaseHelper(),
@@ -31,12 +30,12 @@ class SaveGetFeatchUserDetailsCubit
     result.fold(
       (failure) {
         // Handle failure case
-        emit(SaveGetFeatchUserDetailsError(failure: failure.message));
+        emit(PersonalDetailsError(failure: failure.message));
         print('Error adding user: ${failure.message}');
       },
       (user) {
         // Handle success case
-        emit(SaveGetFeatchUserDetailsSuccess(user: user));
+        emit(PersonalDetailsSuccess(user: user));
         print(
             'User added successfully to Firebase and local database: ${user.age}');
       },
@@ -45,13 +44,13 @@ class SaveGetFeatchUserDetailsCubit
 
   Future<void> fetchAllUsers() async {
     try {
-      emit(SaveGetFeatchUserDetailsLoading());
+      emit(PersonalDetailsLoading());
 
       final users = await userRepo.getPersonalUsers();
 
-      emit(UserLoaded(users));
+      emit(PersonalDetailsLoaded(users));
     } catch (e) {
-      emit(SaveGetFeatchUserDetailsError(failure: e.toString()));
+      emit(PersonalDetailsError(failure: e.toString()));
     }
   }
 }
