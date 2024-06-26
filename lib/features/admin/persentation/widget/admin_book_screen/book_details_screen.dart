@@ -98,11 +98,6 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(10),
-                        // decoration: BoxDecoration(
-                        //   border: Border.all(
-                        //       color: ColorManger.logoColor.withOpacity(0.2)),
-                        //   borderRadius: BorderRadius.circular(10),
-                        // ),
                         width: MediaQuery.of(context).size.width,
                         alignment: Alignment.centerRight,
                         child: Column(

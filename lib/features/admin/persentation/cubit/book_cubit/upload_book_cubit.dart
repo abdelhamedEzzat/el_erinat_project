@@ -14,11 +14,6 @@ class UploadBookCubit extends Cubit<UploadBookState> {
   Future<void> uploadImageDataForAdmin(UplaodBookModel book) async {
     emit(UploadBookLoading());
 
-    // final userRepo = AdminRepoImplementation(
-    //   adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
-    //   adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper(),
-    // );
-
     final addUserUseCase = AddBookLibrary(adminRepo: adminRepo);
     final result = await addUserUseCase.call(book);
 

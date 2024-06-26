@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:el_erinat/features/admin/domain/admin_entityes/upload_image_video_news_entity.dart';
 
 class UploadImageAndVideoModel extends UploadImageAndVideoEntity {
@@ -21,7 +20,6 @@ class UploadImageAndVideoModel extends UploadImageAndVideoEntity {
       path: map['path'],
       newsTitle: map['newsTitle'],
       newsSubTitle: map['newsSubTitle'],
-      //   createdAt: map['createdAt']);
     );
   }
 
@@ -34,7 +32,6 @@ class UploadImageAndVideoModel extends UploadImageAndVideoEntity {
       'path': path,
       'newsTitle': newsTitle,
       'newsSubTitle': newsSubTitle,
-      //  'createdAt': createdAt ?? Timestamp.now(),
     };
   }
 

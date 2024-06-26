@@ -17,6 +17,7 @@ class UploadBook extends StatelessWidget {
             .pushNamed(ConstantsRouteString.uploadBookScreen) as String?;
 
         if (uploadBook == "Success upload book") {
+          // ignore: use_build_context_synchronously
           BlocProvider.of<UploadBookCubit>(context).fetchBookImage();
         }
       },
