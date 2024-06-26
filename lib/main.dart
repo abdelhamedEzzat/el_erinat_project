@@ -1,28 +1,44 @@
 // import 'package:device_preview/device_preview.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:el_erinat/core/config/theme_manger.dart';
+import 'package:el_erinat/core/helpers/bloc_opserver.dart';
+import 'package:el_erinat/core/helpers/delete_cache_function.dart';
 import 'package:el_erinat/core/route/generate_route.dart';
+import 'package:el_erinat/features/admin/data/repo_admin/admin_repo_impelment.dart';
+import 'package:el_erinat/features/admin/data/sorce_data_admin/admin_local_data_base_helper.dart';
+import 'package:el_erinat/features/admin/data/sorce_data_admin/remote_data_base_helper.dart';
+import 'package:el_erinat/features/admin/persentation/cubit/book_cubit/upload_book_cubit.dart';
+import 'package:el_erinat/features/admin/persentation/cubit/video_cubit/news_cubit.dart';
 import 'package:el_erinat/features/users/data/repo/user_repo_impelmentation.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
-import 'package:el_erinat/features/users/persentation/cubit/google_auth_cubit/google_auth_cubit.dart';
-import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
-import 'package:el_erinat/features/users/persentation/cubit/personal_details_cubit/personal_details_cubit.dart';
-import 'package:el_erinat/features/users/persentation/screens/user_details_screen/work_user_detatils.dart';
+import 'package:el_erinat/features/users/persentation/screens/register_screen/register_screen.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/google_auth_cubit/google_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/phone_auth_cubit/phone_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/personal_details_cubit/personal_details_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/work_personal_details_cubit/work_personal_details_cubit.dart';
 import 'package:el_erinat/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workmanager/workmanager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  Workmanager().initialize(deleteCacheFromLocalDataBase, isInDebugMode: true);
+  Workmanager().registerPeriodicTask(
+    "1",
+    "adminDeleteOldEntries",
+    frequency: const Duration(hours: 24),
+  );
+  Bloc.observer = MyBlocObserver();
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -56,6 +72,24 @@ class MyApp extends StatelessWidget {
                       localDatabaseHelper: LocalDatabaseHelper(),
                       userRemoteDataSource: UserRemoteDataSource())),
             ),
+            BlocProvider(
+              create: (context) => WorkPersonalDetailsCubit(
+                  userRepo: UserRepoImplementation(
+                      localDatabaseHelper: LocalDatabaseHelper(),
+                      userRemoteDataSource: UserRemoteDataSource())),
+            ),
+            BlocProvider(
+                create: (context) => UploadBookCubit(
+                    adminRepo: AdminRepoImplementation(
+                        adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+                        adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
+                  ..fetchBookImage(FirebaseAuth.instance.currentUser!.uid)),
+            BlocProvider(
+                create: (context) => NewsCubit(
+                    adminRepo: AdminRepoImplementation(
+                        adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+                        adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
+                  ..fetchNewsData()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -65,13 +99,13 @@ class MyApp extends StatelessWidget {
 
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
-
-            darkTheme: ThemeData.dark(),
+            themeMode: ThemeMode.light,
+            //   darkTheme: ThemeData.dark(),
             home: child, routes: RouteGenerator.buildRoutes(),
           ),
         );
       },
-      child: const WorkUserDetails(),
+      child: const RegisterScreen(),
     );
   }
 }

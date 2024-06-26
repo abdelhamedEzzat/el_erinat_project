@@ -23,13 +23,3 @@ class GetUser {
     return userRepo.getPersonalUsers();
   }
 }
-
-// class GetAllUsers {
-//   final UserRepo userRepo;
-
-//   GetAllUsers({required this.userRepo});
-
-//   Future<Either<Failure, List<AddDetailsUser>>> call() {
-//     return userRepo.getAllUsers();
-//   }
-// }

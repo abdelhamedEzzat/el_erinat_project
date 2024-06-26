@@ -5,7 +5,6 @@ import 'package:el_erinat/features/admin/persentation/screens/admin_sub_screen/a
 import 'package:el_erinat/features/auditor_team/persentation/widgets/auditor_team_tab_bar_view.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/user_auditor_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuditorTeamScreen extends StatefulWidget {
@@ -21,19 +20,24 @@ class _AuditorTeamScreenState extends State<AuditorTeamScreen>
     with TickerProviderStateMixin {
   late final TabController _tabController;
   late final TabController _auditortabController;
+  late final TabController _usertabController;
+
   bool isAdmin = false;
   bool isAuditor = false;
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _auditortabController = TabController(length: 4, vsync: this);
+    _usertabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     _auditortabController.dispose();
+    _usertabController.dispose();
     super.dispose();
   }
 
@@ -49,14 +53,16 @@ class _AuditorTeamScreenState extends State<AuditorTeamScreen>
           ? adminTabBar()
           : isAuditor == true
               ? auditorTabBar()
-              : null,
+              : userTabBar(),
       alignmentTitle: Alignment.center,
       titleName: MStrings.auditorTeam,
       yourBodyOfScreen: isAdmin == true
           ? AdminAuditorTabBarView(tabController: _tabController)
           : isAuditor == true
               ? AuditorTabBarView(auditortabController: _auditortabController)
-              : const UserAuditorScreen(),
+              : UserAuditorScreen(
+                  tabController: _usertabController,
+                ),
     );
   }
 
@@ -64,24 +70,24 @@ class _AuditorTeamScreenState extends State<AuditorTeamScreen>
     return TabBar(
       indicatorColor: Colors.white,
       unselectedLabelColor: Colors.white,
-      labelColor: ColorManger.logoColor,
+      labelColor: ColorManger.balckColor,
       controller: _auditortabController,
       tabs: <Widget>[
         Tab(
           child: Text(MStrings.problems,
-              style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 10.h, fontWeight: FontWeight.bold)),
         ),
         Tab(
           child: Text(MStrings.auditorSuggetions,
-              style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 10.h, fontWeight: FontWeight.bold)),
         ),
         Tab(
           child: Text(MStrings.auditorUsers,
-              style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 10.h, fontWeight: FontWeight.bold)),
         ),
         Tab(
           child: Text(MStrings.auditorUsers,
-              style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
+              style: TextStyle(fontSize: 10.h, fontWeight: FontWeight.bold)),
         ),
       ],
     );
@@ -105,6 +111,26 @@ class _AuditorTeamScreenState extends State<AuditorTeamScreen>
         ),
         Tab(
           child: Text(MStrings.auditorUsers,
+              style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
+        ),
+      ],
+    );
+  }
+
+  TabBar userTabBar() {
+    return TabBar(
+      indicatorColor: Colors.white,
+      indicatorPadding: EdgeInsets.only(bottom: 3.h),
+      unselectedLabelColor: ColorManger.white,
+      labelColor: ColorManger.white,
+      controller: _usertabController,
+      tabs: <Widget>[
+        Tab(
+          child: Text(MStrings.giveProblems,
+              style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
+        ),
+        Tab(
+          child: Text(MStrings.meProblems,
               style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
         ),
       ],

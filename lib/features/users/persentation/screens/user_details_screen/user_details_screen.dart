@@ -1,7 +1,7 @@
 import 'package:el_erinat/core/config/list_manger.dart';
 import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
-import 'package:el_erinat/features/users/persentation/cubit/personal_details_cubit/personal_details_state.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/personal_details_cubit/personal_details_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +11,7 @@ import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/botton.dart';
 import 'package:el_erinat/core/helpers/custom_text_form_field.dart';
 import 'package:el_erinat/features/users/data/model/user_model.dart';
-import 'package:el_erinat/features/users/persentation/cubit/personal_details_cubit/personal_details_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/personal_details_cubit/personal_details_cubit.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/Subtitle_In_user_details_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/all_slides_widget.dart';
 import 'package:el_erinat/features/users/persentation/widgets/user_details_screen/selected_country.dart';

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewsDate extends StatelessWidget {
-  const NewsDate({super.key});
-
+  const NewsDate({super.key, this.date});
+  final String? date;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -16,7 +16,7 @@ class NewsDate extends StatelessWidget {
           textAlign: TextAlign.end,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
-          "13-03-2024",
+          date!,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: Colors.white, fontSize: 12.h, fontWeight: FontWeight.bold),
         ),

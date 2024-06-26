@@ -1,4 +1,4 @@
-import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/phone_auth_cubit/phone_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/or_with_divider.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/phone_auth/get_login_with_phone_number.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/register_logo.dart';

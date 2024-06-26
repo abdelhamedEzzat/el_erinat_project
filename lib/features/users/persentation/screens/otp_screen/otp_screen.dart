@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
-import 'package:el_erinat/features/users/persentation/cubit/phone_auth_cubit/phone_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/phone_auth_cubit/phone_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/widgets/otp_screen/otp_static_text.dart';
 import 'package:el_erinat/features/users/persentation/widgets/otp_screen/pin_put_widget.dart';
 import 'package:flutter/material.dart';

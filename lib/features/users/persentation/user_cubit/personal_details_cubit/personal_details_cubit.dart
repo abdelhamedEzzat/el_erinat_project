@@ -4,8 +4,8 @@ import 'package:el_erinat/features/users/data/repo/user_repo_impelmentation.dart
 import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
 import 'package:el_erinat/features/users/domain/user_layer/repo/user_repo.Dart';
-import 'package:el_erinat/features/users/domain/user_layer/use_cases/add_users.dart';
-import 'package:el_erinat/features/users/persentation/cubit/personal_details_cubit/personal_details_state.dart';
+import 'package:el_erinat/features/users/domain/user_layer/use_cases/add_details_users.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/personal_details_cubit/personal_details_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PersonalDetailsCubit extends Cubit<PersonalDetailsState> {

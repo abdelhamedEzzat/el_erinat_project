@@ -5,8 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class VoteNumber extends StatelessWidget {
   const VoteNumber({
     super.key,
+    required this.voreNumber,
   });
-
+  final int voreNumber;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -28,7 +29,7 @@ class VoteNumber extends StatelessWidget {
           textAlign: TextAlign.end,
           maxLines: 15,
           overflow: TextOverflow.ellipsis,
-          "39",
+          "$voreNumber",
           style: Theme.of(context)
               .textTheme
               .titleLarge!

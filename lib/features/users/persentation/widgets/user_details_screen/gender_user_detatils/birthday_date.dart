@@ -92,7 +92,7 @@ class BithDayDate extends StatelessWidget {
         ),
         child: isHijridate
             ? Text(
-                " ${textIftrue} : تاريخ ميلادك",
+                " $textIftrue : تاريخ ميلادك",
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       fontSize: 12.h,
                       fontWeight: FontWeight.bold,

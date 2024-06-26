@@ -64,7 +64,7 @@ class MStrings {
   static String yourphoneNumber = ": رقم جوالك";
 
   static String bookOfElerinat = "كتب العرينات";
-  static String treeOfElerinat = "مشجره العرينات";
+  static String treeOfElerinat = "مشجرات العرينات";
   static String analiticsOfElerinat = "الاحصاءات";
   static String newsOfElerinat = "الاخبار والمناسبات";
   static String auditorTeam = "فريق الاشراف";
@@ -82,8 +82,8 @@ class MStrings {
   static String departedFemales = "الإناث الراحلات";
   static String totalNeighborhoods = "إجمالي الأحياء";
   static String totalDead = "إجمالي الأموات";
-  static String maleNames = "أسماء الذكور";
-  static String femaleNames = "أسماء الاناث";
+  static String maleNames = "اجمالي الذكور";
+  static String femaleNames = "اجمالي الاناث";
 
   static String judgeJob = "قاضي";
   static String holdsaDoctorate = " حاصل علي الدكتوراه";
@@ -182,4 +182,22 @@ class MStrings {
   static String thatsItMyBirthday = 'تاكيد';
 
   static String chooseYourBirthday = ' اختر تاريخ ميلادك';
+
+  static String uploadNewBook = "تحميل كتاب جديد";
+
+  static String bookTitle = "عنوان الكتاب";
+  static String bookSubTitle = "التفاصيل";
+  static String bookDetails = "تفاصيل الكتاب ";
+
+  static String giveProblems = " تقديم المشكلة ";
+  static String meProblems = "متابعه المشكلة";
+
+  static String uploadFamily = "اضافه اسره";
+
+  static String uploadFamilyPdf = "تحميل ملف الاسرة";
+
+  static String uploadFamilyName = "اسم  الاسرة";
+  static String uploadFamilyLineage = " نسب الاسرة";
+
+  static String detailsOfFamilyAuditor = " تقاصيل الاسره";
 }

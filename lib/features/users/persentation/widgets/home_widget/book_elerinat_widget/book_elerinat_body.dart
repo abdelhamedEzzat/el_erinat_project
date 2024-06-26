@@ -22,8 +22,8 @@ class BookElerinatBody extends StatelessWidget {
         child: SingleChildScrollView(
           child: isAdmin == true
               ? AdminUploadAndBookLibrary(
-                  bookImage: bookImage,
-                )
+                  // bookImage: bookImage,
+                  )
               : isAuditor == true
                   ? UserBookLibarary(bookImage: bookImage)
                   : UserBookLibarary(bookImage: bookImage),

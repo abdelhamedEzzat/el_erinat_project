@@ -6,7 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class VoteNumberAndDate extends StatelessWidget {
   const VoteNumberAndDate({
     super.key,
+    required this.date,
+    required this.voteNumber,
   });
+  final String date;
+  final int voteNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +21,15 @@ class VoteNumberAndDate extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const VoteDate(),
+          VoteDate(
+            date: date,
+          ),
           SizedBox(
             width: 10.w,
           ),
-          const VoteNumber()
+          VoteNumber(
+            voreNumber: voteNumber,
+          )
         ],
       ),
     );

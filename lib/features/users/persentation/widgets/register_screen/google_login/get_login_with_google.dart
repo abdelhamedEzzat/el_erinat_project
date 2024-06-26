@@ -1,6 +1,6 @@
 import 'package:el_erinat/core/config/images_strings.dart';
 import 'package:el_erinat/core/route/route_strings.dart';
-import 'package:el_erinat/features/users/persentation/cubit/google_auth_cubit/google_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/google_auth_cubit/google_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/widgets/register_screen/or_sign_in_icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +16,7 @@ class GetLoginWithGoogle extends StatelessWidget {
       listener: (context, state) {
         if (state is GoogleAuthSuccess) {
           Navigator.of(context)
-              .pushReplacementNamed(ConstantsRouteString.userDitailsScreen);
+              .pushReplacementNamed(ConstantsRouteString.adminHomeScreen);
         }
       },
       builder: (context, state) {

@@ -4,8 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class NewsTitle extends StatelessWidget {
   const NewsTitle({
     super.key,
+    this.title,
   });
-
+  final String? title;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -18,11 +19,11 @@ class NewsTitle extends StatelessWidget {
           textAlign: TextAlign.end,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          "تم اضافه كتاب الي المكتبه ",
+          title!,
           style: Theme.of(context)
               .textTheme
               .titleLarge!
-              .copyWith(color: Colors.white),
+              .copyWith(color: Colors.black),
         ),
       ),
     );

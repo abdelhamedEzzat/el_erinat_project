@@ -1,6 +1,8 @@
 import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_sub_screen/admin_donations_and_charity_screen.dart';
+import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/admin_upload_book_widget.dart';
+import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/upload_book_screen.dart';
 import 'package:el_erinat/features/admin/persentation/widget/news_screen_widget/admin_upload_news_widget.dart';
 import 'package:el_erinat/features/admin/persentation/widget/suggetion_admin_widget/admin_add_suggtion_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen.dart';
@@ -66,6 +68,9 @@ class RouteGenerator {
       ConstantsRouteString.adminUploadNews: (context) =>
           const AdminUploadNews(),
 
+      ConstantsRouteString.adminUploadAndBookLibrary: (context) =>
+          const AdminUploadAndBookLibrary(),
+
       ConstantsRouteString.adminAddSuggetions: (context) =>
           const AdminAddSuggetionsScreen(),
 
@@ -74,6 +79,17 @@ class RouteGenerator {
 
       ConstantsRouteString.userDitailsScreen: (context) =>
           const UserDitailsScreen(),
+
+      ConstantsRouteString.uploadBookScreen: (context) =>
+          const UploadBookScreen(),
+
+      ConstantsRouteString.bookDetailsScreen: (context) =>
+          const BookDetailsScreen(),
+
+      ConstantsRouteString.uploadTreeScreen: (context) =>
+          const UploadTreeScreen(),
+      ConstantsRouteString.detailsOfFamilyAuditor: (context) =>
+          const DetailsOfFamilyAuditor(),
     };
   }
 }

@@ -8,6 +8,7 @@ class ConstantsRouteString {
   static const String userDetailsIdentaty = "/UserDetailsIdentaty";
   static const String homeScreen = "/homeScreen";
 
+  static const String adminUploadAndBookLibrary = "/AdminUploadAndBookLibrary";
   static const String bookOfElerinatScreen = "/BookOfElerinatScreen";
   static const String treeOfElerinatScreen = "/TreeOfElerinatScreen";
   static const String analiticsOfElerinatScreen = "/AnaliticsOfElerinatScreen";
@@ -27,4 +28,11 @@ class ConstantsRouteString {
       "/AdminDonationsAndCharityScreen";
 
   static const String userDitailsScreen = "/UserDitailsScreen";
+  static const String uploadBookScreen = "/UploadBookScreen";
+
+  static const String uploadTreeScreen = "/UploadTreeScreen";
+
+  static const String bookDetailsScreen = "/bookDetailsScreen";
+
+  static const String detailsOfFamilyAuditor = "/DetailsOfFamilyAuditor";
 }
