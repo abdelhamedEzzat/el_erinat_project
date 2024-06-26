@@ -4,16 +4,18 @@ class UplaodBookModel extends UploadBookEntity {
   String? remoteImageUrl;
   String? remotepdfUrl;
   String? createdAt;
-  UplaodBookModel(
-      {this.createdAt,
-      super.id,
-      super.uID,
-      super.localImagePath,
-      super.localPdFPath,
-      this.remoteImageUrl,
-      this.remotepdfUrl,
-      super.bookTitle,
-      super.bookdescription});
+  UplaodBookModel({
+    this.createdAt,
+    super.id,
+    super.uID,
+    super.localImagePath,
+    super.localPdFPath,
+    this.remoteImageUrl,
+    this.remotepdfUrl,
+    super.bookTitle,
+    super.bookdescription,
+    super.pdfName,
+  });
 
   factory UplaodBookModel.fromJson(Map<String, dynamic> json) {
     return UplaodBookModel(
@@ -25,7 +27,8 @@ class UplaodBookModel extends UploadBookEntity {
         remotepdfUrl: json['remotepdfUrl'],
         bookTitle: json['bookTitle'],
         bookdescription: json['bookdescription'],
-        createdAt: json['createdAt']);
+        createdAt: json['createdAt'],
+        pdfName: json['pdfName']);
   }
 
   Map<String, dynamic> toJson() {
@@ -38,7 +41,8 @@ class UplaodBookModel extends UploadBookEntity {
       'remotepdfUrl': remotepdfUrl,
       'bookTitle': bookTitle,
       'bookdescription': bookdescription,
-      'createdAt': createdAt
+      'createdAt': createdAt,
+      'pdfName': pdfName
     };
   }
 

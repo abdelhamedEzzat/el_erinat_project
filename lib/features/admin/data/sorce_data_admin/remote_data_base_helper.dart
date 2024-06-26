@@ -14,7 +14,7 @@ class AdminRemoteDataBaseHelper {
   final String refName = 'BookLibrary';
   final String treeName = 'FamilyTree';
 
-  Future<void> uploadBookImageAndPdf({
+  Future<void> uploadFilesToStorage({
     required String imagePath,
     required String pdfPath,
     required UplaodBookModel uploadBookModel,
@@ -25,30 +25,37 @@ class AdminRemoteDataBaseHelper {
     final pdfName = pdfFile.uri.pathSegments.last;
 
     // Upload image to Firebase Storage
-    final imageStorageRef = storage.ref(refName).child('images/$imageName');
+    final imageStorageRef = storage.ref().child('images/$imageName');
     final imageUploadTask = await imageStorageRef.putFile(imageFile);
     final imageUrl = await imageUploadTask.ref.getDownloadURL();
 
     // Upload PDF to Firebase Storage
-    final pdfStorageRef = storage.ref(refName).child('pdfs/$pdfName');
+    final pdfStorageRef = storage.ref().child('pdfs/$pdfName');
     final pdfUploadTask = await pdfStorageRef.putFile(pdfFile);
     final pdfUrl = await pdfUploadTask.ref.getDownloadURL();
 
+    // Update the uploadBookModel with the remote URLs
+    uploadBookModel.remoteImageUrl = imageUrl;
+    uploadBookModel.remotepdfUrl = pdfUrl;
+    uploadBookModel.pdfName = pdfName;
+  }
+
+  Future<void> saveBookDataToFirestore(UplaodBookModel uploadBookModel) async {
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
     final String formattedDate = formatter.format(DateTime.now());
 
-    // Save URLs to Firestore
     final docRef = firestore.collection('AdminBookLibrary').doc();
     final bookData = UplaodBookModel(
       id: uploadBookModel.id,
       uID: FirebaseAuth.instance.currentUser!.uid,
-      localImagePath: imagePath,
-      localPdFPath: pdfPath,
+      localImagePath: uploadBookModel.localImagePath,
+      localPdFPath: uploadBookModel.localPdFPath,
       bookdescription: uploadBookModel.bookdescription,
       bookTitle: uploadBookModel.bookTitle,
-      remoteImageUrl: imageUrl,
-      remotepdfUrl: pdfUrl,
+      remoteImageUrl: uploadBookModel.remoteImageUrl,
+      remotepdfUrl: uploadBookModel.remotepdfUrl,
       createdAt: formattedDate,
+      pdfName: uploadBookModel.pdfName,
     ).toJson();
 
     await docRef.set(bookData);

@@ -12,7 +12,7 @@ abstract class AdminRepo {
     required UplaodBookModel uploadBookModel,
   });
 
-  Future<List<UplaodBookModel>> getBookLibrary(String uID);
+  Future<List<UplaodBookModel>> getBookLibrary();
 
   Future<Either<Failure, UploadImageAndVideoEntity>> uploadAndSavenews({
     required UploadImageAndVideoModel uploadImageAndVideoModel,

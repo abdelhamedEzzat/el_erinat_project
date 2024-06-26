@@ -2,6 +2,7 @@ import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_sub_screen/admin_donations_and_charity_screen.dart';
 import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/admin_upload_book_widget.dart';
+import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/book_details_screen.dart';
 import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/upload_book_screen.dart';
 import 'package:el_erinat/features/admin/persentation/widget/news_screen_widget/admin_upload_news_widget.dart';
 import 'package:el_erinat/features/admin/persentation/widget/suggetion_admin_widget/admin_add_suggtion_screen.dart';

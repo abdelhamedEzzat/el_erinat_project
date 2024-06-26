@@ -5,6 +5,7 @@ class UploadBookEntity {
   String? localPdFPath;
   String? bookTitle;
   String? bookdescription;
+  String? pdfName;
 
   UploadBookEntity(
       {this.id,
@@ -12,7 +13,8 @@ class UploadBookEntity {
       this.localImagePath,
       this.localPdFPath,
       this.bookTitle,
-      this.bookdescription});
+      this.bookdescription,
+      this.pdfName});
 
   factory UploadBookEntity.fromJson(Map<String, dynamic> json) {
     return UploadBookEntity(
@@ -22,6 +24,7 @@ class UploadBookEntity {
       localPdFPath: json['localPdFPath'],
       bookTitle: json['bookTitle'],
       bookdescription: json['bookdescription'],
+      pdfName: json['pdfName'],
     );
   }
 
@@ -32,7 +35,8 @@ class UploadBookEntity {
       'localImagePath': localImagePath,
       'localPdFPath': localPdFPath,
       'bookTitle': bookTitle,
-      'bookdescription': bookdescription
+      'bookdescription': bookdescription,
+      'pdfName': pdfName
     };
   }
 }

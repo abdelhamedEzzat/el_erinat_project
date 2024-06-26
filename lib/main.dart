@@ -18,7 +18,6 @@ import 'package:el_erinat/features/users/persentation/user_cubit/phone_auth_cubi
 import 'package:el_erinat/features/users/persentation/user_cubit/personal_details_cubit/personal_details_cubit.dart';
 import 'package:el_erinat/features/users/persentation/user_cubit/work_personal_details_cubit/work_personal_details_cubit.dart';
 import 'package:el_erinat/firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/foundation.dart';
@@ -83,7 +82,7 @@ class MyApp extends StatelessWidget {
                     adminRepo: AdminRepoImplementation(
                         adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
                         adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
-                  ..fetchBookImage(FirebaseAuth.instance.currentUser!.uid)),
+                  ..fetchBookImage()),
             BlocProvider(
                 create: (context) => NewsCubit(
                     adminRepo: AdminRepoImplementation(

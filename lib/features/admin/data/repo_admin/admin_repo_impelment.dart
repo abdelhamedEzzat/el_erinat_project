@@ -29,6 +29,11 @@ class AdminRepoImplementation extends AdminRepo {
     required UplaodBookModel uploadBookModel,
   }) async {
     try {
+      await adminRemoteDataBaseHelper.uploadFilesToStorage(
+          imagePath: uploadBookModel.localImagePath!,
+          pdfPath: uploadBookModel.localPdFPath!,
+          uploadBookModel: uploadBookModel);
+
       final uid = FirebaseAuth.instance.currentUser!.uid;
       uploadBookModel.uID = uid;
 
@@ -36,10 +41,7 @@ class AdminRepoImplementation extends AdminRepo {
           await adminLocalDatabaseHelper.insertBook(uploadBookModel);
       uploadBookModel.id = localWork.id;
 
-      await adminRemoteDataBaseHelper.uploadBookImageAndPdf(
-          imagePath: uploadBookModel.localImagePath!,
-          pdfPath: uploadBookModel.localPdFPath!,
-          uploadBookModel: uploadBookModel);
+      await adminRemoteDataBaseHelper.saveBookDataToFirestore(uploadBookModel);
 
       return Right(uploadBookModel);
     } catch (e) {
@@ -48,18 +50,17 @@ class AdminRepoImplementation extends AdminRepo {
   }
 
   @override
-  Future<List<UplaodBookModel>> getBookLibrary(String uID) async {
+  Future<List<UplaodBookModel>> getBookLibrary() async {
     // Try to get the books from the local data source
-    final localBooks = await adminLocalDatabaseHelper.getBookFromLocal(uID);
+    final localBooks = await adminLocalDatabaseHelper.getBookFromLocal();
     if (localBooks.isNotEmpty) {
-      print('Books found in local database for uID: $uID');
+      print('Books found in local database ');
       print("-------------------------$localBooks-------------------------");
       return localBooks;
     }
 
     // If not available locally, get it from the remote data source
-    print(
-        'Books not found in local database for uID: $uID, fetching from remote source');
+    print('Books not found in local database for fetching from remote source');
     final remoteBooks = await adminRemoteDataBaseHelper.getBooks();
 
     // Save the books locally in batches
@@ -88,8 +89,7 @@ class AdminRepoImplementation extends AdminRepo {
       }));
     }
 
-    print(
-        'Fetched books from remote source and saved to local database for uID: $uID');
+    print('Fetched books from remote source and saved to local database for ');
     return remoteBooks;
   }
 

@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:el_erinat/features/admin/data/model/upload_book_model.dart';
-import 'package:el_erinat/features/admin/data/repo_admin/admin_repo_impelment.dart';
-import 'package:el_erinat/features/admin/data/sorce_data_admin/admin_local_data_base_helper.dart';
-import 'package:el_erinat/features/admin/data/sorce_data_admin/remote_data_base_helper.dart';
+
 import 'package:el_erinat/features/admin/domain/admin_use_cases/admin_and_use_cases.dart';
 import 'package:el_erinat/features/admin/domain/repo/admin_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -37,10 +35,10 @@ class UploadBookCubit extends Cubit<UploadBookState> {
     );
   }
 
-  Future<List<UplaodBookModel>> fetchBookImage(String uID) async {
+  Future<List<UplaodBookModel>> fetchBookImage() async {
     try {
       emit(GetBookLoading());
-      final image = await adminRepo.getBookLibrary(uID);
+      final image = await adminRepo.getBookLibrary();
       if (image.isNotEmpty) {
         emit(GetBookSuccess(book: image));
         return image; // Return the image if it's not null

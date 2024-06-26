@@ -23,7 +23,7 @@ class GetBookLibrary {
 
   GetBookLibrary({required this.adminRepo});
 
-  Future<List<UplaodBookModel>> call(String id) async {
-    return await adminRepo.getBookLibrary(id);
+  Future<List<UplaodBookModel>> call() async {
+    return await adminRepo.getBookLibrary();
   }
 }

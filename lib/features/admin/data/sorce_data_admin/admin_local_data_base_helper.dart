@@ -64,7 +64,8 @@ class AdminLocalDatabaseHelper {
             familyName TEXT,
             familyLineage TEXT,
             pdfName TEXT,
-            pdfUrl TEXT
+            pdfUrl TEXT,
+            pdfName TEXT
           )
         ''');
   }
@@ -90,12 +91,12 @@ class AdminLocalDatabaseHelper {
     return uploadBook;
   }
 
-  Future<List<UplaodBookModel>> getBookFromLocal(String uID) async {
+  Future<List<UplaodBookModel>> getBookFromLocal() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       'booksLibrary',
-      where: 'uID = ?',
-      whereArgs: [uID],
+      // where: 'uID = ?',
+      // whereArgs: [uID],
     );
 
     return maps.map((map) => UplaodBookModel.fromLocalJson(map)).toList();
