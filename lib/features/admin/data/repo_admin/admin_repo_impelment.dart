@@ -192,22 +192,22 @@ class AdminRepoImplementation extends AdminRepo {
   Future<Either<Failure, UploadTreeEntity>> uploadAndSavetree(
       {required UploadTreeModel uploadTreeModel}) async {
     try {
+      // Upload and get pdfUrl
+      await adminRemoteDataBaseHelper.uploadFamilyTreePdftOnStorage(
+        pdfPath: uploadTreeModel.pdfPath!,
+        uploadTreeModel: uploadTreeModel,
+      );
+
       final uid = FirebaseAuth.instance.currentUser!.uid;
       uploadTreeModel.uID = uid;
 
+      // Insert into local database
       final localWork =
           await adminLocalDatabaseHelper.insertFamilyTrees(uploadTreeModel);
       uploadTreeModel.id = localWork.id;
 
-      print(localWork.id);
-      print(localWork.familyLineage);
-      print(localWork.familyName);
-      print(localWork.uID);
-
-      //  print(localWork.createdAt);
-
-      await adminRemoteDataBaseHelper.uploadFamilyTreePdf(
-          pdfPath: uploadTreeModel.pdfPath!, uploadTreeModel: uploadTreeModel);
+      // Save to Firestore
+      await adminRemoteDataBaseHelper.saveTreeDataToFirestore(uploadTreeModel);
 
       return Right(uploadTreeModel);
     } catch (e) {
@@ -219,14 +219,14 @@ class AdminRepoImplementation extends AdminRepo {
   Future<List<UploadTreeModel>> getAlltrees() async {
     final localProblems = await adminLocalDatabaseHelper.getAllFamilyTrees();
     if (localProblems.isNotEmpty) {
-      print('tree found in local database for trees');
-      print('Local Suggetions: ${localProblems.map((e) => e.toMap())}');
+      print('----------------------all tree found in local database for trees');
+      print('-------Local Suggetions: ${localProblems.map((e) => e.toMap())}');
       return localProblems;
     }
 
     // If not available locally, get it from the remote data source
     print(
-        'tree not found in local database for  trees, fetching from remote source');
+        ' -----all tree not found in local database for  trees, fetching from remote source');
     final remoteSuggetions = await adminRemoteDataBaseHelper.getAllTrees();
     print('Remote Problems: ${remoteSuggetions.map((e) => e.toRemoteMap())}');
 
@@ -235,12 +235,17 @@ class AdminRepoImplementation extends AdminRepo {
       await adminLocalDatabaseHelper.insertFamilyTrees(suggetion);
     }
     print(
-        'Fetched tree from remote source and saved to local database  for tree');
+        ' -----Fetched all tree from remote source and saved to local database  for tree');
     return remoteSuggetions;
   }
 
   @override
-  Future<List<UploadTreeModel>> getAuditortrees(String uid) async {
+  Future<List<UploadTreeModel>> getAuditortrees(
+    String uid,
+  ) async {
+    UploadTreeModel uploadTreeModel = UploadTreeModel();
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    uploadTreeModel.uID = uid;
     final localProblems =
         await adminLocalDatabaseHelper.getAuditorFamilyTrees(uid);
     if (localProblems.isNotEmpty) {
@@ -262,5 +267,26 @@ class AdminRepoImplementation extends AdminRepo {
     print(
         'Fetched tree from remote source and saved to local database  for tree');
     return remoteSuggetions;
+  }
+
+  @override
+  Future<void> updateTreeData(
+      {required UploadTreeModel uploadTreeModel, required int id}) async {
+    // Update the local database
+    try {
+      // Update in local database
+      await adminLocalDatabaseHelper.updateTreeDataInLocalDatabase(
+          uploadTreeModel, id);
+      // Update in Firestore
+      await adminRemoteDataBaseHelper.updateTreeDataInFirestore(
+          uploadTreeModel, id);
+
+      // Both updates succeeded
+      print(
+          'Tree data updated successfully in both Firestore and local database!');
+    } catch (e) {
+      print('Error updating tree data: $e');
+      throw Exception('Failed to update tree data');
+    }
   }
 }

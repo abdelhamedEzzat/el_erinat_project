@@ -106,7 +106,7 @@ class AdminRemoteDataBaseHelper {
     }).toList();
   }
 
-  Future<void> uploadFamilyTreePdf({
+  Future<void> uploadFamilyTreePdftOnStorage({
     required String pdfPath,
     required UploadTreeModel uploadTreeModel,
   }) async {
@@ -114,24 +114,78 @@ class AdminRemoteDataBaseHelper {
 
     final pdfName = pdfFile.uri.pathSegments.last;
 
-    // Upload PDF to Firebase Storage
-    final pdfStorageRef = storage.ref(treeName).child('pdfs/$pdfName');
-    final pdfUploadTask = await pdfStorageRef.putFile(pdfFile);
-    final pdfUrl = await pdfUploadTask.ref.getDownloadURL();
+    try {
+      // Upload PDF to Firebase Storage
+      final pdfStorageRef = storage.ref(treeName).child('pdfs/$pdfName');
+      final pdfUploadTask = await pdfStorageRef.putFile(pdfFile);
+      final pdfUrl = await pdfUploadTask.ref.getDownloadURL();
 
-    // Save URLs to Firestore
+      // Update uploadTreeModel with the obtained pdfUrl
+      uploadTreeModel.pdfUrl = pdfUrl;
+    } catch (e) {
+      print('Error uploading PDF: $e');
+      throw Exception('Failed to upload PDF');
+    }
+  }
+
+  Future<void> saveTreeDataToFirestore(UploadTreeModel uploadTreeModel) async {
     final docRef = firestore.collection('FamilyTree').doc();
-    final bookData = UploadTreeModel(
+    final treeData = UploadTreeModel(
       id: uploadTreeModel.id,
       uID: FirebaseAuth.instance.currentUser!.uid,
       familyLineage: uploadTreeModel.familyLineage,
       familyName: uploadTreeModel.familyName,
-      pdfName: pdfName,
-      pdfUrl: pdfUrl,
-      pdfPath: pdfPath,
+      pdfName: uploadTreeModel.pdfName,
+      pdfUrl: uploadTreeModel.pdfUrl,
+      pdfPath: uploadTreeModel.pdfPath,
     ).toRemoteMap();
 
-    await docRef.set(bookData);
+    await docRef.set(treeData);
+  }
+
+  Future<void> updateTreeDataInFirestore(
+      UploadTreeModel updatedTree, int id) async {
+    try {
+      // Construct a map with only the fields that need to be updated
+      Map<String, dynamic> updatedFields = {};
+
+      if (updatedTree.familyName != null) {
+        updatedFields['familyName'] = updatedTree.familyName;
+      }
+
+      if (updatedTree.familyLineage != null) {
+        updatedFields['familyLineage'] = updatedTree.familyLineage;
+      }
+
+      if (updatedTree.pdfUrl != null) {
+        updatedFields['pdfUrl'] = updatedTree.pdfUrl;
+      }
+      if (updatedTree.pdfName != null) {
+        updatedFields['pdfName'] = updatedTree.pdfName;
+      }
+
+      // Add other fields to be updated similarly
+
+      // Query Firestore to find the document where 'id' == id
+      final querySnapshot = await firestore
+          .collection('FamilyTree')
+          .where('id', isEqualTo: id)
+          .get();
+
+      // Check if any documents were found
+      if (querySnapshot.docs.isNotEmpty) {
+        // Update the first document found (assuming id is unique)
+        final docRef = querySnapshot.docs.first.reference;
+        await docRef.update(updatedFields);
+      } else {
+        // Handle case where no document with matching id was found
+        print('No document found with id: $id in Firestore');
+        throw Exception('Document not found in Firestore');
+      }
+    } catch (e) {
+      print('Error updating document in Firestore: $e');
+      throw Exception('Failed to update document in Firestore');
+    }
   }
 
   Future<List<UploadTreeModel>> getAllTrees() async {

@@ -7,17 +7,21 @@ import 'package:el_erinat/core/route/generate_route.dart';
 import 'package:el_erinat/features/admin/data/repo_admin/admin_repo_impelment.dart';
 import 'package:el_erinat/features/admin/data/sorce_data_admin/admin_local_data_base_helper.dart';
 import 'package:el_erinat/features/admin/data/sorce_data_admin/remote_data_base_helper.dart';
+import 'package:el_erinat/features/admin/domain/repo/admin_repo.dart';
 import 'package:el_erinat/features/admin/persentation/cubit/book_cubit/upload_book_cubit.dart';
+import 'package:el_erinat/features/admin/persentation/cubit/tree_elerinat/tree_elerinat_cubit.dart';
 import 'package:el_erinat/features/admin/persentation/cubit/video_cubit/news_cubit.dart';
 import 'package:el_erinat/features/users/data/repo/user_repo_impelmentation.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
 import 'package:el_erinat/features/users/persentation/screens/register_screen/register_screen.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/get_tree_cubit/get_tree_cubit.dart';
 import 'package:el_erinat/features/users/persentation/user_cubit/google_auth_cubit/google_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/user_cubit/phone_auth_cubit/phone_auth_cubit.dart';
 import 'package:el_erinat/features/users/persentation/user_cubit/personal_details_cubit/personal_details_cubit.dart';
 import 'package:el_erinat/features/users/persentation/user_cubit/work_personal_details_cubit/work_personal_details_cubit.dart';
 import 'package:el_erinat/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/foundation.dart';
@@ -89,6 +93,19 @@ class MyApp extends StatelessWidget {
                         adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
                         adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
                   ..fetchNewsData()),
+            BlocProvider(
+                create: (context) => TreeElerinatCubit(
+                    adminRepo: AdminRepoImplementation(
+                        adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+                        adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
+                  ..fetchAuditorElerinatFamilyTree(
+                      FirebaseAuth.instance.currentUser!.uid)),
+            BlocProvider(
+                create: (context) => GetTreeCubit(
+                    adminRepo: AdminRepoImplementation(
+                        adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+                        adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
+                  ..fetchAllElerinatFamilyTree()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

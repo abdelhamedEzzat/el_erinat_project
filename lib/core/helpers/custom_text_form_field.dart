@@ -26,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType,
     this.inputFormatters,
     this.width,
+    this.initialValue,
   });
 
   final String? hintText;
@@ -47,6 +48,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final String? initialValue;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,6 +56,7 @@ class CustomTextFormField extends StatelessWidget {
       width: width,
       padding: padding,
       child: TextFormField(
+        initialValue: initialValue,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         inputFormatters: inputFormatters,
         keyboardType: keyboardType,

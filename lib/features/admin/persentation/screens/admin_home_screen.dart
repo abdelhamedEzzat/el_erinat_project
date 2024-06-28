@@ -24,20 +24,20 @@ class AdminHomeScreen extends StatelessWidget {
                 icon: Icons.home,
                 onTap: () {},
               ),
-              Divider(),
+              const Divider(),
               ItemInDrawer(
                 text: "معلومات الحساب",
                 icon: Icons.account_circle,
                 onTap: () {},
               ),
-              Divider(),
+              const Divider(),
               ItemInDrawer(
                 text: "تسجيل الخروج",
                 icon: Icons.logout,
                 onTap: () {},
               ),
-              Divider(),
-              Spacer(),
+              const Divider(),
+              const Spacer(),
               Text("انضم الينا ",
                   style: Theme.of(context)
                       .textTheme
@@ -67,7 +67,7 @@ class AdminHomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      yourBodyOfScreen: AdminHomeScreenBody(),
+      yourBodyOfScreen: const AdminHomeScreenBody(),
     );
   }
 }

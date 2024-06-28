@@ -37,3 +37,14 @@ class GetAuditorFamilyTree {
     return await adminRepo.getAuditortrees(id);
   }
 }
+
+class UpdateAuditorFamilyTree {
+  final AdminRepo adminRepo;
+
+  UpdateAuditorFamilyTree({required this.adminRepo});
+
+  Future<void> call(UploadTreeModel uploadTreeModel, int id) async {
+    return await adminRepo.updateTreeData(
+        uploadTreeModel: uploadTreeModel, id: id);
+  }
+}

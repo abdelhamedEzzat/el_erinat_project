@@ -200,4 +200,5 @@ class MStrings {
   static String uploadFamilyLineage = " نسب الاسرة";
 
   static String detailsOfFamilyAuditor = " تقاصيل الاسره";
+  static String updateTree = "تحديث الشجره";
 }

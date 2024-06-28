@@ -64,8 +64,8 @@ class AdminLocalDatabaseHelper {
             familyName TEXT,
             familyLineage TEXT,
             pdfName TEXT,
-            pdfUrl TEXT,
-            pdfName TEXT
+            pdfUrl TEXT
+            
           )
         ''');
   }
@@ -161,6 +161,30 @@ class AdminLocalDatabaseHelper {
     );
 
     return maps.map((map) => UploadTreeModel.fromMap(map)).toList();
+  }
+
+  Future<void> updateTreeDataInLocalDatabase(
+      UploadTreeModel updatedTree, int id) async {
+    try {
+      Database db = await database;
+      Map<String, dynamic> updateMap =
+          updatedTree.toUpdateMap(); // Adjust as per your model
+
+      // Update local database
+      int result = await db.update(
+        'trees',
+        updateMap,
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      if (result > 0) {
+        print('Family tree updated successfully in local database!');
+      }
+    } catch (e) {
+      print('Error updating local database: $e');
+      throw Exception('Failed to update local database');
+    }
   }
 
   Future<void> adminDeleteOldEntries() async {

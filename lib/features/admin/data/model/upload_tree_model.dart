@@ -18,6 +18,7 @@ class UploadTreeModel extends UploadTreeEntity {
       'familyName': familyName,
       'familyLineage': familyLineage,
       'pdfName': pdfName,
+      'pdfUrl': pdfUrl,
     };
   }
 
@@ -28,6 +29,7 @@ class UploadTreeModel extends UploadTreeEntity {
       familyName: map['familyName'],
       familyLineage: map['familyLineage'],
       pdfName: map['pdfName'],
+      pdfUrl: map['pdfUrl'],
     );
   }
   Map<String, dynamic> toRemoteMap() {
@@ -52,5 +54,14 @@ class UploadTreeModel extends UploadTreeEntity {
       pdfUrl: map['pdfUrl'],
       pdfPath: map['pdfPath'],
     );
+  }
+  Map<String, dynamic> toUpdateMap() {
+    final Map<String, dynamic> map = {};
+    if (uID != null) map['uID'] = uID;
+    if (familyName != null) map['familyName'] = familyName;
+    if (familyLineage != null) map['familyLineage'] = familyLineage;
+    if (pdfName != null) map['pdfName'] = pdfName;
+    if (pdfUrl != null) map['pdfUrl'] = pdfUrl;
+    return map;
   }
 }

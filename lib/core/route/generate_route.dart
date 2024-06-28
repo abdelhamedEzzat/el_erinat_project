@@ -6,6 +6,8 @@ import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/b
 import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/upload_book_screen.dart';
 import 'package:el_erinat/features/admin/persentation/widget/news_screen_widget/admin_upload_news_widget.dart';
 import 'package:el_erinat/features/admin/persentation/widget/suggetion_admin_widget/admin_add_suggtion_screen.dart';
+import 'package:el_erinat/features/admin/persentation/widget/tree_elerinat_widget/details_of_auditor_family.dart';
+import 'package:el_erinat/features/admin/persentation/widget/tree_elerinat_widget/upload_tree_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/analitics_of_elerinat_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/auditor_team_screen.dart';

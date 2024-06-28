@@ -27,4 +27,7 @@ abstract class AdminRepo {
   Future<List<UploadTreeModel>> getAlltrees();
 
   Future<List<UploadTreeModel>> getAuditortrees(String uid);
+
+  Future<void> updateTreeData(
+      {required UploadTreeModel uploadTreeModel, required int id});
 }
