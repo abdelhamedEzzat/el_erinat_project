@@ -1,13 +1,104 @@
 // import 'package:device_preview/device_preview.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:el_erinat/core/config/theme_manger.dart';
+import 'package:el_erinat/core/helpers/bloc_opserver.dart';
+import 'package:el_erinat/core/local_%20notification/notification.dart';
 import 'package:el_erinat/core/route/generate_route.dart';
-import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/news_of_elerinat_screen.dart';
+import 'package:el_erinat/features/admin/data/repo_admin/admin_isolates.dart';
+import 'package:el_erinat/features/admin/data/repo_admin/admin_repo_impelment.dart';
+import 'package:el_erinat/features/admin/data/sorce_data_admin/admin_local_data_base_helper.dart';
+import 'package:el_erinat/features/admin/data/sorce_data_admin/remote_data_base_helper.dart';
+import 'package:el_erinat/features/admin/persentation/cubit/book_cubit/upload_book_cubit.dart';
+import 'package:el_erinat/features/admin/persentation/cubit/tree_elerinat/tree_elerinat_cubit.dart';
+import 'package:el_erinat/features/admin/persentation/cubit/video_cubit/news_cubit.dart';
+import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
+import 'package:el_erinat/features/users/data/repo/user_repo_impelmentation.dart';
+import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
+import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
+import 'package:el_erinat/features/users/persentation/screens/register_screen/register_screen.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/get_tree_cubit/get_tree_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/google_auth_cubit/google_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/phone_auth_cubit/phone_auth_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/personal_details_cubit/personal_details_cubit.dart';
+import 'package:el_erinat/features/users/persentation/user_cubit/work_personal_details_cubit/work_personal_details_cubit.dart';
+import 'package:el_erinat/firebase_options.dart';
+import 'package:el_erinat/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:workmanager/workmanager.dart';
 
-void main() {
+
+
+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    switch (task) {
+
+         //! this is for admin upload news 
+
+      case "uploadTask":
+        bool success = await callbackForUploadNews(inputData);
+        if (success) {
+         
+          print("Task completed successfully");
+          return Future.value(true);
+        } else {
+         
+          print("Task not completed");
+          return Future.value(false);
+        }
+
+        //! this is for admin get news 
+
+        case  "fetchNewsTask":
+      bool getNews =    await callbackGetNews();
+         if (getNews) {
+         
+          print("Task get successfully");
+          return Future.value(true);
+        } else {
+         
+          print("Task not get  completed");
+          return Future.value(false);
+        }
+      default:
+        print("Unknown task: $task");
+        return Future.value(false);
+    }
+  });
+}
+
+
+
+ // case "fetchNewsTask":
+      //  await callbackGetNews();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );  
+  await LocalNotification.init();
+ await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+
+   Workmanager().registerOneOffTask("fetchNewsTask", "fetchNewsTask");
+
+
+  //Workmanager().initialize(callbackDispatcher);
+  //Workmanager().initialize(deleteCacheFromLocalDataBase, isInDebugMode: true);
+  // Workmanager().registerPeriodicTask(
+  //   "1",
+  //   "adminDeleteOldEntries",
+  //   frequency: const Duration(hours: 24),
+  // );
+
+
+    
+  Bloc.observer = MyBlocObserver();
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,
@@ -27,20 +118,71 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => PhoneAuthCubit(),
+            ),
+            BlocProvider(
+              create: (context) => GoogleAuthCubit(),
+            ),
+            BlocProvider(
+              create: (context) => PersonalDetailsCubit(
+                  userRepo: UserRepoImplementation(
+                      localDatabaseHelper: LocalDatabaseHelper(),
+                      userRemoteDataSource: UserRemoteDataSource())),
+            ),
+            BlocProvider(
+              create: (context) => WorkPersonalDetailsCubit(
+                  userRepo: UserRepoImplementation(
+                      localDatabaseHelper: LocalDatabaseHelper(),
+                      userRemoteDataSource: UserRemoteDataSource())),
+            ),
+            BlocProvider(
+                create: (context) => UploadBookCubit(
+                    adminRepo: AdminRepoImplementation(
+                        adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+                        adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
+                  ..fetchBookImage()),
+            BlocProvider(
+                create: (context) => NewsCubit(
+                    adminRepo: AdminRepoImplementation(
+                        adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+                        adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
+               ..fetchNewsData()
+                  ),
+            BlocProvider(
+                create: (context) => TreeElerinatCubit(
+                    adminRepo: AdminRepoImplementation(
+                        adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+                        adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
+                  ..fetchAuditorElerinatFamilyTree(
+                      FirebaseAuth.instance.currentUser!.uid)),
+            BlocProvider(
+                create: (context) => GetTreeCubit(
+                    adminRepo: AdminRepoImplementation(
+                        adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+                        adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
+                  ..fetchAllElerinatFamilyTree()),
 
-          // You can use the library anywhere in the app even in theme
-          theme: themeManager(),
+                
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
 
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
+            // You can use the library anywhere in the app even in theme
+            theme: themeManager(),
 
-          darkTheme: ThemeData.dark(),
-          home: child, routes: RouteGenerator.buildRoutes(),
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            themeMode: ThemeMode.light,
+            //   darkTheme: ThemeData.dark(),
+            home: child, routes: RouteGenerator.buildRoutes(),
+          ),
         );
       },
-      child: const NewsOfElerinatScreen(),
+      child:  const RegisterScreen(),
+      // AdminHomeScreen(),
     );
   }
 }

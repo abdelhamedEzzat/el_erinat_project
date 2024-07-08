@@ -10,7 +10,7 @@ class HomeScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      top: kToolbarHeight,
+      top: kToolbarHeight - 20.h,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -28,6 +28,8 @@ class HomeScreenBody extends StatelessWidget {
                 itemCount: 6,
                 itemBuilder: (BuildContext context, int index) {
                   return HomeScreenItem(
+                    isAuditor: false,
+                    isAdmin: false,
                     index: index,
                   );
                 },

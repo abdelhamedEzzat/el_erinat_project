@@ -29,109 +29,127 @@ class _UserDetailsIdentatyState extends State<UserDetailsIdentaty> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.h),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          AllSlidesWidget(
-            colors1: ColorManger.logoColor.withOpacity(0.5),
-            colors2: ColorManger.logoColor,
-          ),
-          SizedBox(
-            height: 25.h,
-          ),
+        child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.h),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AllSlidesWidget(
+                    colors1: ColorManger.logoColor.withOpacity(0.5),
+                    colors2: ColorManger.logoColor.withOpacity(0.5),
+                    colors3: ColorManger.logoColor,
+                  ),
+                  SizedBox(
+                    height: 25.h,
+                  ),
 
-          //!  Title
+                  //!  ArrowBack to Previous Screen
 
-          TitleInUserDetailsScreen(
-            text: MStrings.thanksUserForWork,
-            titleColor: ColorManger.logoColor,
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_ios_rounded,
+                          color: ColorManger.logoColor,
+                        )),
+                  ),
+                  //!  Title
 
-          //!  subTitle
+                  TitleInUserDetailsScreen(
+                    text: MStrings.thanksUserForWork,
+                    titleColor: ColorManger.logoColor,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
 
-          SubTitleInUserDetailsScreen(
-            text: MStrings.confirmYourWay,
-          ),
-          SizedBox(
-            height: 5.h,
-          ),
-          SubTitleInUserDetailsScreen(
-            text: MStrings.toBelongingToTheTribe,
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
+                  //!  subTitle
 
-          //!  selected UploadPic
+                  SubTitleInUserDetailsScreen(
+                    text: MStrings.confirmYourWay,
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  SubTitleInUserDetailsScreen(
+                    text: MStrings.toBelongingToTheTribe,
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
 
-          RadioListTile(
-              title: Text(MStrings.pic),
-              value: radioOptions[0],
-              groupValue: isZeroradioOptions == true ? currentOption : null,
-              onChanged: (value) {
-                setState(() {
-                  currentOption = value.toString();
-                  isZeroradioOptions = true;
-                  isOneradioOptions = false;
-                });
-              }),
+                  //!  selected UploadPic
 
-          //!  AddIdentityPic
+                  RadioListTile(
+                      title: Text(MStrings.pic),
+                      value: radioOptions[0],
+                      groupValue:
+                          isZeroradioOptions == true ? currentOption : null,
+                      onChanged: (value) {
+                        setState(() {
+                          currentOption = value.toString();
+                          isZeroradioOptions = true;
+                          isOneradioOptions = false;
+                          // BlocProvider.of<WorkPersonalDetailsCubit>(context)
+                          //     .getImageIdentity();
+                        });
+                      }),
 
-          isZeroradioOptions == true ? const AddIdentityPic() : Container(),
-          SizedBox(
-            height: 10.h,
-          ),
+                  //!  AddIdentityPic
 
-          //!  selected customerServicesCall
+                  isZeroradioOptions == true
+                      ? const AddIdentityPic()
+                      : Container(),
 
-          RadioListTile(
-              title: Text(MStrings.customerServicesCall),
-              value: radioOptions[1],
-              groupValue: currentOption == radioOptions[1]
-                  ? currentOption
-                  : currentSelected,
-              onChanged: (value) {
-                setState(() {
-                  currentOption = value.toString();
-                  isZeroradioOptions = false;
-                  isOneradioOptions = true;
-                });
-              }),
+                  RadioListTile(
+                      title: Text(MStrings.customerServicesCall),
+                      value: radioOptions[1],
+                      groupValue: currentOption == radioOptions[1]
+                          ? currentOption
+                          : currentSelected,
+                      onChanged: (value) {
+                        setState(() {
+                          currentOption = value.toString();
+                          isZeroradioOptions = false;
+                          isOneradioOptions = true;
+                        });
+                      }),
 
-          SizedBox(
-            height: 10.h,
-          ),
-          isOneradioOptions == true ? const UserPhontToGetCall() : Container(),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  isOneradioOptions == true
+                      ? const UserPhontToGetCall()
+                      : Container(),
 
-          SizedBox(
-            height: 10.h,
-          ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
 
-          //! button to navigator to home screen
+                  //! button to navigator to home screen
 
-          Expanded(
-              child: Container(
-            alignment: Alignment.bottomCenter,
-            child: BottonClick(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width,
-                onTap: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    ConstantsRouteString.homeScreen,
-                    (route) => false,
-                  );
-                },
-                text: MStrings.submit),
-          )),
-          SizedBox(
-            height: 20.h,
-          ),
-        ]),
-      )),
+                  Expanded(
+                      child: Container(
+                    alignment: Alignment.bottomCenter,
+                    child: BottonClick(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width,
+                        onTap: () {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            ConstantsRouteString.homeScreen,
+                            (route) => false,
+                          );
+                        },
+                        text: MStrings.submit),
+                  )),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                ])),
+      ),
     );
   }
 }

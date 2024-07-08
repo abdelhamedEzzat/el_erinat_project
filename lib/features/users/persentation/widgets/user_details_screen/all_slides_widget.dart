@@ -3,13 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AllSlidesWidget extends StatelessWidget {
-  const AllSlidesWidget({
-    super.key,
-    required this.colors1,
-    required this.colors2,
-  });
+  const AllSlidesWidget(
+      {super.key,
+      required this.colors1,
+      required this.colors2,
+      required this.colors3});
   final Color colors1;
   final Color colors2;
+  final Color colors3;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,12 @@ class AllSlidesWidget extends StatelessWidget {
         ),
         SlideWidget(
           color: colors2,
+        ),
+        SizedBox(
+          width: 15.w,
+        ),
+        SlideWidget(
+          color: colors3,
         ),
       ],
     );

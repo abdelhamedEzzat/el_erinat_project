@@ -1,3 +1,4 @@
+import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -17,10 +18,8 @@ class NewsDetailsSubTitleWidget extends StatelessWidget {
         maxLines: 60,
         overflow: TextOverflow.ellipsis,
         " تم اضافه كتاب الي المكتبه يمكنكم الاستمتاع بالقراءه وتصفح المزيد من الكتب الموجوده ",
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(color: Colors.white, fontSize: 12.h),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: ColorManger.subScreenscontainerColor, fontSize: 12.h),
       ),
     );
   }

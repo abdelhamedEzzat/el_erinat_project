@@ -1,8 +1,6 @@
-import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/back_ground_and_app_bar_and_dynamic_body.dart';
-import 'package:el_erinat/features/users/persentation/widgets/home_widget/analitics_screen_widget/job_analitics_body.dart';
-import 'package:el_erinat/features/users/persentation/widgets/home_widget/analitics_screen_widget/people_analitics_body.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/analitics_screen_widget/analitics_elerinat_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,7 +39,7 @@ class _AnaliticsOfElerinatScreenState extends State<AnaliticsOfElerinatScreen>
       appBarbottom: TabBar(
         indicatorColor: Colors.white,
         unselectedLabelColor: Colors.white,
-        labelColor: ColorManger.logoColor,
+        labelColor: Colors.white,
         controller: _tabController,
         tabs: <Widget>[
           Tab(
@@ -54,25 +52,6 @@ class _AnaliticsOfElerinatScreenState extends State<AnaliticsOfElerinatScreen>
           ),
         ],
       ),
-    );
-  }
-}
-
-class AnaliticsOfElerinatBody extends StatelessWidget {
-  const AnaliticsOfElerinatBody({super.key, required this.tabController});
-  final TabController tabController;
-  @override
-  Widget build(BuildContext context) {
-    return TabBarView(
-      controller: tabController,
-      children: const <Widget>[
-        Stack(children: [
-          PeopleAnaliticsBody(),
-        ]),
-        Stack(children: [
-          JobAnaliticsBody(),
-        ])
-      ],
     );
   }
 }
