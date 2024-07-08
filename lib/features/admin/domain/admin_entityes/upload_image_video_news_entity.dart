@@ -1,22 +1,23 @@
 class UploadImageAndVideoEntity {
   int? id;
-  String? uID;
-  String? url;
+  String ?uID;
+  String ?url;
   String? type;
   String? path;
-  String? newsTitle;
-  String? newsSubTitle;
+  String ?newsTitle;
+  String ?newsSubTitle;
   String? createdAt;
 
   UploadImageAndVideoEntity(
-      {this.id,
-      this.uID,
-      this.url,
-      this.type,
-      this.path,
-      this.newsTitle,
-      this.newsSubTitle,
-      this.createdAt});
+      {required this.id,
+      required this.uID,
+      required this.url,
+      required this.type,
+      required this.path,
+      required this.newsTitle,
+      required this.newsSubTitle,
+       this.createdAt , 
+    });
 
   factory UploadImageAndVideoEntity.fromMap(Map<String, dynamic> map) {
     return UploadImageAndVideoEntity(
@@ -26,7 +27,8 @@ class UploadImageAndVideoEntity {
       type: map['type'],
       path: map['path'],
       newsTitle: map['newsTitle'],
-      newsSubTitle: map['newsSubTitle'],
+      newsSubTitle: map['newsSubTitle'], 
+      createdAt: map['createdAt'],
     );
   }
 
@@ -39,6 +41,7 @@ class UploadImageAndVideoEntity {
       'path': path,
       'newsTitle': newsTitle,
       'newsSubTitle': newsSubTitle,
+      'createdAt': createdAt,
     };
   }
 

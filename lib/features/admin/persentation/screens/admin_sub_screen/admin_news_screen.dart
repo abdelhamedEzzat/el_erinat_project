@@ -1,34 +1,77 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
-import 'package:el_erinat/core/route/route_strings.dart';
-import 'package:el_erinat/features/admin/data/model/upload_image_video_model.dart';
 import 'package:el_erinat/features/admin/persentation/cubit/video_cubit/news_cubit.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_widget/news_date.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_widget/news_sub_title.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_widget/news_title.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_widget/video_player.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
+import 'package:el_erinat/features/admin/data/model/upload_image_video_model.dart';
 
-class AdminNewsScreen extends StatelessWidget {
-  const AdminNewsScreen({
-    super.key,
-  });
+import '../../../../../core/route/route_strings.dart';
 
+class AdminNewsScreen extends StatefulWidget {
+  const AdminNewsScreen({super.key});
+
+  @override
+  State<AdminNewsScreen> createState() => _AdminNewsScreenState();
+}
+
+class _AdminNewsScreenState extends State<AdminNewsScreen> {
+ final progress = 0;
+ 
+ late StreamSubscription newsSubscription;
+  //  final StreamSubscription newsSubscription;
+ @override
+  // void initState() {
+  //   super.initState();
+  //   print("initState called");
+
+  //   // Listen to task status changes here
+  // BlocProvider.of<NewsCubit>(context).stream.listen((state)async {
+  //     if (state is UploadNewsLoading) {
+  //       // Show loading indicator
+  //       print("Upload in progress...");
+  //     } else if (state is UploadNewsSuccess) {
+  //   await BlocProvider.of<NewsCubit>(context).fetchNewsData();
+  //       print("Upload successful: ${state.news.createdAt}");
+  //     } else if (state is UploadNewsError) {
+  //       // Handle error
+  //       print("Upload failed: ${state.failure}");
+  //     }else{
+  //       print("else");
+  //     }
+  //   });
+  // }
+
+  //  @override
+  // void dispose() {
+  //   // Cancel the subscription when the widget is disposed
+  //   newsSubscription.cancel();
+  //   super.dispose();
+  // }
+
+
+
+  
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.of(context)
-                .pushNamed(ConstantsRouteString.adminUploadNews);
-          },
+          onTap: () async {
+            final result =
+             await Navigator.of(context).pushNamed(ConstantsRouteString.adminUploadNews);
+            if (result == true) {
+              
+              BlocProvider.of<NewsCubit>(context).fetchNewsData();
+            }
+            },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 19.h, vertical: 20.h),
             padding: EdgeInsets.symmetric(horizontal: 19.h, vertical: 20.h),
@@ -54,8 +97,26 @@ class AdminNewsScreen extends StatelessWidget {
             ),
           ),
         ),
+  
 
-        BlocBuilder<NewsCubit, NewsState>(
+
+
+
+        BlocConsumer<NewsCubit, NewsState>(
+
+  listener: (context, state) async{
+        if (state is UploadNewsLoading) {
+          // Show loading indicator
+          print("Upload in progress...");
+        } else if (state is UploadNewsSuccess) {
+           BlocProvider.of<NewsCubit>(context).addNewsItem(state.news);
+          // Handle success
+          print("Upload successful: ${state.news.createdAt}");
+        } else if (state is UploadNewsError) {
+          // Handle error
+          print("Upload failed: ${state.failure}");
+        }
+      },
           builder: (context, state) {
             if (state is GetNewsLoading) {
               return const Center(
@@ -76,8 +137,7 @@ class AdminNewsScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
-                            height:
-                                250.h, // Adjust height as needed for the image
+                            height: 250.h, // Adjust height as needed for the image
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               border: Border.all(color: ColorManger.logoColor),
@@ -113,70 +173,27 @@ class AdminNewsScreen extends StatelessWidget {
             return const Center(child: Text("Something went wrong"));
           },
         ),
-
-        // FutureBuilder<List<UploadImageAndVideoModel>>(
-        //   future: adminRepoImplementation.getAllnews(),
-        //   builder: (BuildContext context,
-        //       AsyncSnapshot<List<UploadImageAndVideoModel>> snapshot) {
-        //     if (snapshot.hasError) {
-        //       print(snapshot.error.toString());
-        //       return Center(child: Text(snapshot.error.toString()));
-        //     } else if (snapshot.connectionState ==
-        //         ConnectionState.waiting) {
-        //       return const Center(child: CircularProgressIndicator());
-        //     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        //       return const Center(child: Text("No data"));
-        //     } else {
-        //       return Container(
-        //         padding: const EdgeInsets.only(),
-        // //         width: MediaQuery.of(context).size.width,
-        //         child: ListView.builder(
-        //           padding: EdgeInsets.zero,
-        //           physics: const NeverScrollableScrollPhysics(),
-        //           shrinkWrap: true,
-        //           itemCount: snapshot.data!.length,
-        //           itemBuilder: (BuildContext context, int index) {
-        //             final book = snapshot.data![index];
-        //             return GestureDetector(
-        //               onTap: () {},
-        //               child: Container(
-        //                 height: 190.h,
-        //                 width: MediaQuery.of(context).size.width,
-        //                 decoration: BoxDecoration(
-        //                   border: Border.all(color: ColorManger.logoColor),
-        //                 ),
-        //                 child: _buildImageWidget(book),
-        //               ),
-        //             );
-        //           },
-        //         ),
-        //       );
-        //     }
-        //   },
-        // );
-        //       },
-        // ),
-
-        //     // const U serNews(),
       ],
     );
   }
 
   Widget _buildImageWidget(UploadImageAndVideoModel book) {
-    if (book.path != null) {
-      if (book.type == 'IMAGE') {
-        return Image.file(
-          File(book.path!),
-          fit: BoxFit.cover,
-        );
-      } else if (book.type == 'VIDEO') {
+    if (book.path != null && book.type == 'IMAGE') {
+      return Image.file(
+        File(book.path!),
+        fit: BoxFit.cover,
+      );
+     
+    } else if ( book.type == 'VIDEO') {
         return BuildNetworkVideoPlayer(
-          videoUrl: book.path!,
-          isLocal: true,
+          videoUrl: book.url!,
+          isLocal: false,
           isLooping: true,
         );
-      }
-    } else if (book.url != null) {
+    }
+
+    
+     else if (book.url != null) {
       if (book.type == 'IMAGE') {
         return _buildNetworkImageWithLoader(book.url!);
       } else if (book.type == 'VIDEO') {
@@ -195,7 +212,6 @@ class AdminNewsScreen extends StatelessWidget {
         child: Text("No Image or Video Available"),
       );
     }
-    return const Text('no data');
   }
 
   Widget _buildNetworkImageWithLoader(String imageUrl) {
@@ -227,3 +243,6 @@ class AdminNewsScreen extends StatelessWidget {
     );
   }
 }
+
+
+

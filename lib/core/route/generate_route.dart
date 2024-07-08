@@ -1,6 +1,7 @@
 import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_sub_screen/admin_donations_and_charity_screen.dart';
+import 'package:el_erinat/features/admin/persentation/screens/admin_sub_screen/admin_news_screen.dart';
 import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/admin_upload_book_widget.dart';
 import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/book_details_screen.dart';
 import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/upload_book_screen.dart';
@@ -27,6 +28,7 @@ import 'package:el_erinat/features/users/persentation/screens/user_details_scree
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_details/news_details.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/suggetions_screen/suggetion_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/vote_screen/vote_screen.dart';
+import 'package:el_erinat/home_page.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -93,6 +95,17 @@ class RouteGenerator {
           const UploadTreeScreen(),
       ConstantsRouteString.detailsOfFamilyAuditor: (context) =>
           const DetailsOfFamilyAuditor(),
+
+           ConstantsRouteString.adminNewsScreen: (context) =>
+          const AdminNewsScreen(),
+
+          // ConstantsRouteString.uploadScreen  : (context) =>
+          // UploadScreen  (),
     };
+
+
+
+
+    
   }
 }

@@ -31,18 +31,19 @@ class UplaodBookModel extends UploadBookEntity {
         pdfName: json['pdfName']);
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'uID': uID,
-      'localImagePath': localImagePath,
-      'localPdFPath': localPdFPath,
-      'remoteImageUrl': remoteImageUrl,
-      'remotepdfUrl': remotepdfUrl,
-      'bookTitle': bookTitle,
-      'bookdescription': bookdescription,
-      'createdAt': createdAt,
-      'pdfName': pdfName
+      'id': id ?? 1 ,
+      'uID': uID ?? "",
+      'localImagePath': localImagePath ?? "",
+      'localPdFPath': localPdFPath ?? "",
+      'remoteImageUrl': remoteImageUrl ?? "",
+      'remotepdfUrl': remotepdfUrl ?? "",
+      'bookTitle': bookTitle ?? "",
+      'bookdescription': bookdescription ?? "",
+      'createdAt': createdAt ?? "",
+      'pdfName': pdfName ?? ""
     };
   }
 

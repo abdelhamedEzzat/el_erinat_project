@@ -1,18 +1,41 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:el_erinat/core/local_%20notification/notification.dart';
 import 'package:el_erinat/features/admin/data/model/upload_book_model.dart';
 import 'package:el_erinat/features/admin/data/model/upload_image_video_model.dart';
 import 'package:el_erinat/features/admin/data/model/upload_tree_model.dart';
+import 'package:el_erinat/features/admin/data/repo_admin/admin_isolates.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart';
+import 'package:video_compress/video_compress.dart';
 
 class AdminRemoteDataBaseHelper {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
   final String refName = 'BookLibrary';
   final String treeName = 'FamilyTree';
+//  final StreamController<List<UploadImageAndVideoModel>> _newsController = StreamController<List<UploadImageAndVideoModel>>.broadcast();
+//   Stream<List<UploadImageAndVideoModel>> get newsStream => _newsController.stream;
+
+  //  AdminRemoteDataBaseHelper() {
+  //   _initializeNewsStream();
+  // }
+
+  // Future<void> _initializeNewsStream() async {
+  //   final initialNews = await getNews();
+  //   _newsController.add(initialNews);
+  //   firestore.collection('NewsFromAdmin').snapshots().listen((querySnapshot) async {
+  //     final updatedNews = await getNews();
+  //     _newsController.add(updatedNews);
+  //   });
+  // }
 
   Future<void> uploadFilesToStorage({
     required String imagePath,
@@ -68,25 +91,153 @@ class AdminRemoteDataBaseHelper {
     }).toList();
   }
 
-  Future<void> uploadNewsVedioAndImage({
-    required String newsPath,
+  // Future<void> uploadNewsVedioAndImage({
+  //   required String newsPath,
+  //   required UploadImageAndVideoModel uploadImageAndVideoModel,
+  // }) async {
+  //   final imageFile = File(newsPath);
+  //   final newsName = imageFile.uri.pathSegments.last;
+
+  //   final imageStorageRef =
+  //       storage.ref(refName).child('ElErinatNews/$newsName');
+  //   final imageUploadTask = await imageStorageRef.putFile(imageFile);
+  //   final imageUrl = await imageUploadTask.ref.getDownloadURL();
+
+  //   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+  //   final String formattedDate = formatter.format(DateTime.now());
+
+  //   final newsData = UploadImageAndVideoModel(
+  //     id: uploadImageAndVideoModel.id,
+  //     uID: FirebaseAuth.instance.currentUser!.uid,
+  //     url: imageUrl,
+  //     type: uploadImageAndVideoModel.type,
+  //     path: uploadImageAndVideoModel.path,
+  //     newsTitle: uploadImageAndVideoModel.newsTitle,
+  //     newsSubTitle: uploadImageAndVideoModel.newsSubTitle,
+  //     createdAt: formattedDate,
+  //   ).toMap();
+
+  //   final docRef = firestore.collection('NewsFromAdmin').doc();
+
+  //   await docRef.set(newsData);
+  // }
+ 
+
+Future<String> uploadNewsVedioAndImageToStorage({
+  required String newsPath,
+  required UploadImageAndVideoModel uploadImageAndVideoModel,
+}) async {
+  try {
+    String fileName = basename(newsPath);
+    File file = File(newsPath);
+   String  downloadUrl;
+
+    // Show initial notification
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'upload_channel',
+      'Upload Progress',
+      channelDescription: 'Shows the progress of file uploads',
+      importance: Importance.high,
+      priority: Priority.high,
+      showProgress: true,
+      maxProgress: 100,
+    );
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails ,);
+    await LocalNotification.flutterLocalNotificationsPlugin.show(
+      0,
+      'News Notification',
+      'Uploading...',
+      notificationDetails,
+    );
+
+    // Check if it's a video file
+    if (newsPath.endsWith('.mp4') || newsPath.endsWith('.mov') || newsPath.endsWith('.avi')) {
+      final MediaInfo? compressedVideo = await VideoCompress.compressVideo(
+        newsPath,
+        quality: VideoQuality.LowQuality,
+        deleteOrigin: false,
+      );
+
+      if (compressedVideo == null || compressedVideo.file == null) {
+        throw Exception('Failed to compress video');
+      }
+
+      file = compressedVideo.file!;
+      fileName = file.uri.pathSegments.last;
+    } else {
+      // Otherwise, it's an image file
+      final List<int>? compressedImage = await FlutterImageCompress.compressWithFile(
+        newsPath,
+        quality: 85,
+      );
+
+      if (compressedImage == null) {
+        throw Exception('Failed to compress image');
+      }
+
+      file = File('${file.parent.path}/compressed_$fileName')
+        ..writeAsBytesSync(compressedImage);
+    }
+
+    final Reference storageRef = FirebaseStorage.instance.ref().child('ElErinatNews/$fileName');
+    UploadTask uploadTask = storageRef.putFile(file);
+
+ uploadTask.snapshotEvents.listen((TaskSnapshot snapshot) async {
+      final double progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      final AndroidNotificationDetails updatedAndroidNotificationDetails =
+          AndroidNotificationDetails(
+        'upload_channel',
+        'Upload Progress',
+        channelDescription: 'Shows the progress of file uploads',
+        importance: Importance.high,
+        priority: Priority.high,
+        showProgress: true,
+        maxProgress: 100,
+        progress: progress.toInt(),
+      );
+      final NotificationDetails updatedNotificationDetails =
+          NotificationDetails(android: updatedAndroidNotificationDetails);
+      await LocalNotification.flutterLocalNotificationsPlugin.show(
+        0,
+        'News Notification',
+        'Uploading... ${(progress).toStringAsFixed(0)}%',
+        updatedNotificationDetails,
+      );
+    });
+
+    await uploadTask;
+     downloadUrl = await storageRef.getDownloadURL();
+print (downloadUrl);
+   uploadImageAndVideoModel.url = downloadUrl;
+
+   print ("1111111111111111111${uploadImageAndVideoModel.url}");
+
+    // Show completion notification
+    await LocalNotification.flutterLocalNotificationsPlugin.show(
+      0,
+      'News Notification',
+      'Upload complete!',
+      notificationDetails,
+    );
+
+    return downloadUrl;
+  } catch (e) {
+    throw Exception('Failed to upload news file: $e');
+  }
+}
+
+  Future<void> uploadNewsVedioAndImagetofirestore({
     required UploadImageAndVideoModel uploadImageAndVideoModel,
   }) async {
-    final imageFile = File(newsPath);
-    final newsName = imageFile.uri.pathSegments.last;
-
-    final imageStorageRef =
-        storage.ref(refName).child('ElErinatNews/$newsName');
-    final imageUploadTask = await imageStorageRef.putFile(imageFile);
-    final imageUrl = await imageUploadTask.ref.getDownloadURL();
-
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
     final String formattedDate = formatter.format(DateTime.now());
 
     final newsData = UploadImageAndVideoModel(
       id: uploadImageAndVideoModel.id,
       uID: FirebaseAuth.instance.currentUser!.uid,
-      url: imageUrl,
+      url: uploadImageAndVideoModel.url,
       type: uploadImageAndVideoModel.type,
       path: uploadImageAndVideoModel.path,
       newsTitle: uploadImageAndVideoModel.newsTitle,
@@ -94,17 +245,26 @@ class AdminRemoteDataBaseHelper {
       createdAt: formattedDate,
     ).toMap();
 
-    final docRef = firestore.collection('NewsFromAdmin').doc();
-
+    final DocumentReference docRef = FirebaseFirestore.instance.collection('NewsFromAdmin').doc();
     await docRef.set(newsData);
+    // final updatedNews = await getNews();
+    // _newsController.add(updatedNews);
   }
 
+
   Future<List<UploadImageAndVideoModel>> getNews() async {
-    final querySnapshot = await firestore.collection('NewsFromAdmin').get();
+    final querySnapshot = await FirebaseFirestore.instance.collection('NewsFromAdmin').get();
     return querySnapshot.docs.map((doc) {
       return UploadImageAndVideoModel.fromMap(doc.data());
     }).toList();
   }
+
+  // Call this method when initializing the AdminLocalDatabaseHelper
+  
+
+  // void dispose() {
+  //   _newsController.close();
+  // }
 
   Future<void> uploadFamilyTreePdftOnStorage({
     required String pdfPath,

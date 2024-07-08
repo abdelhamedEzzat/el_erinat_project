@@ -35,4 +35,7 @@ class ConstantsRouteString {
   static const String bookDetailsScreen = "/bookDetailsScreen";
 
   static const String detailsOfFamilyAuditor = "/DetailsOfFamilyAuditor";
+
+   static const String adminNewsScreen = "/AdminNewsScreen";
+   static const String uploadScreen  = "/UploadScreen ";
 }

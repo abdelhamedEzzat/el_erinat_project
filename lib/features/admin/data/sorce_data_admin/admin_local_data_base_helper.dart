@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:el_erinat/features/admin/data/model/upload_book_model.dart';
 import 'package:el_erinat/features/admin/data/model/upload_image_video_model.dart';
 import 'package:el_erinat/features/admin/data/model/upload_tree_model.dart';
@@ -12,8 +14,20 @@ class AdminLocalDatabaseHelper {
 
   factory AdminLocalDatabaseHelper() => adminLocalDatabaseHelper;
   static Database? _database;
+// final StreamController<List<UploadImageAndVideoModel>> _newsController = StreamController<List<UploadImageAndVideoModel>>.broadcast();
 
-  AdminLocalDatabaseHelper._internal();
+// Stream<List<UploadImageAndVideoModel>> get newsStream => _newsController.stream;
+
+
+
+   AdminLocalDatabaseHelper._internal() {
+    //_initializeStream();
+  }
+
+  // Future<void> _initializeStream() async {
+  //   final List<UploadImageAndVideoModel> initialNewsUploads = await getAllNewsUploads();
+  //   _newsController.add(initialNewsUploads);
+  // }
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -102,33 +116,35 @@ class AdminLocalDatabaseHelper {
     return maps.map((map) => UplaodBookModel.fromLocalJson(map)).toList();
   }
 
-  Future<UploadImageAndVideoModel> insertNewsUpload(
-      UploadImageAndVideoModel uploadMap) async {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
-    uploadMap.createdAt = formatter.format(DateTime.now());
+ 
+  Future<UploadImageAndVideoModel> insertNewsUpload(UploadImageAndVideoModel uploadMap) async {
+  final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+  uploadMap.createdAt = formatter.format(DateTime.now());
 
-    Database db = await database;
-    int id = await db.insert(
-      'news',
-      uploadMap.toLocalMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    uploadMap.id = id;
-    return uploadMap;
-  }
+  Database db = await database;
+  int id = await db.insert(
+    'news',
+    uploadMap.toLocalMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+  uploadMap.id = id;
 
-  Future<List<UploadImageAndVideoModel>> getAllNewsUploads(String uID) async {
-    Database db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(
-      'news',
-      where: 'uID = ?',
-      whereArgs: [uID],
-    );
+  // Update the stream with the new list of news uploads
+  // _newsController.add(await getAllNewsUploads());
 
-    return maps
-        .map((map) => UploadImageAndVideoModel.fromLocalMap(map))
-        .toList();
-  }
+  return uploadMap;
+}
+
+ Future<List<UploadImageAndVideoModel>> getAllNewsUploads() async {
+  Database db = await database;
+  final List<Map<String, dynamic>> maps = await db.query('news');
+
+  List<UploadImageAndVideoModel> newsUploads = maps
+      .map((map) => UploadImageAndVideoModel.fromLocalMap(map))
+      .toList();
+
+  return newsUploads;
+}
 
   Future<UploadTreeModel> insertFamilyTrees(UploadTreeModel uploadMap) async {
     Database db = await database;
@@ -205,4 +221,8 @@ class AdminLocalDatabaseHelper {
       whereArgs: [oneDayAgo],
     );
   }
+
+//   void dispose() {
+//   _newsController.close();
+// }
 }

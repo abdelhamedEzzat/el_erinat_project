@@ -27,7 +27,9 @@ class NewsItemsWidget extends StatelessWidget {
         height: 300.h,
         width: MediaQuery.of(context).size.width,
         child: const Column(
-          children: [PicOfNewsItem(), NewsTitle(), NewsSubTitle(), NewsDate()],
+          children: [PicOfNewsItem(), NewsTitle(), NewsSubTitle(),
+           NewsDate()
+           ],
         ),
       ),
     );

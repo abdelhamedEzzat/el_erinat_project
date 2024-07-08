@@ -66,7 +66,7 @@ class _UploadBookScreenState extends State<UploadBookScreen> {
                             SizedBox(height: 30.h),
                             GestureDetector(
                               onTap: () async {
-                                final pickedFile = await pickImageFile();
+                                final pickedFile = await pickImageFile(context);
                                 if (pickedFile != null) {
                                   setState(() {
                                     localImage = pickedFile.path;
@@ -93,7 +93,7 @@ class _UploadBookScreenState extends State<UploadBookScreen> {
                             SizedBox(height: 20.h),
                             GestureDetector(
                               onTap: () async {
-                                final pickedFile = await pickPdfFile();
+                                final pickedFile = await pickPdfFile(context);
                                 if (pickedFile != null) {
                                   setState(() {
                                     localPDF = pickedFile.path;

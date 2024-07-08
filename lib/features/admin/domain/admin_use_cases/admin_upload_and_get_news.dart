@@ -23,7 +23,7 @@ class GetNewsLibrary {
 
   GetNewsLibrary({required this.adminRepo});
 
-  Future<List<UploadImageAndVideoModel>> call(String id) async {
+  Future<List<UploadImageAndVideoModel>> call() async {
     return await adminRepo.getAllnews();
   }
 }

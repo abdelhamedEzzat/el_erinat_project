@@ -70,7 +70,7 @@ class _DetailsOfFamilyAuditorState extends State<DetailsOfFamilyAuditor> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            final pickedFile = await pickPdfFile();
+                            final pickedFile = await pickPdfFile(context);
                             if (pickedFile != null) {
                               setState(() {
                                 localPDF = pickedFile.path;

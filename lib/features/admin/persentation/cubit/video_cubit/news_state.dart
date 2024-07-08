@@ -11,6 +11,8 @@ final class NewsInitial extends NewsState {}
 
 final class UploadNewsLoading extends NewsState {}
 
+final class UploadNewsInProgress extends NewsState {}
+
 final class UploadNewsError extends NewsState {
   final String failure;
 
@@ -35,4 +37,13 @@ final class GetNewsSuccess extends NewsState {
   final List<UploadImageAndVideoModel> news;
 
   const GetNewsSuccess({required this.news});
+}
+
+class UploadNewsProgress extends NewsState {
+  final double progress;
+
+  const UploadNewsProgress({required this.progress});
+
+  @override
+  List<Object> get props => [progress];
 }
