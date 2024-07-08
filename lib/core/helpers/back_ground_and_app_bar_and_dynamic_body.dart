@@ -10,11 +10,13 @@ class BackGroundAndAppBarAndDaynamicBody extends StatelessWidget {
     required this.titleName,
     required this.yourBodyOfScreen,
     this.drawer,
+    this.appBarbottom,
   });
   final AlignmentGeometry alignmentTitle;
   final String titleName;
   final Widget yourBodyOfScreen;
   final Widget? drawer;
+  final PreferredSizeWidget? appBarbottom;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,13 +24,14 @@ class BackGroundAndAppBarAndDaynamicBody extends StatelessWidget {
         extendBodyBehindAppBar: true,
         drawer: drawer,
         appBar: CustomAppBar(
+          bottom: appBarbottom,
           alignmentTitle: alignmentTitle,
           title: Text(titleName,
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
                   .copyWith(color: Colors.white)
-                  .copyWith(fontSize: 15.h)),
+                  .copyWith(fontSize: 14.h, fontWeight: FontWeight.bold)),
         ),
         body: Stack(
           children: [

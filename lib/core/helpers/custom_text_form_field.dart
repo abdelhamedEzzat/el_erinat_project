@@ -2,7 +2,6 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -27,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
     this.keyboardType,
     this.inputFormatters,
     this.width,
+    this.initialValue,
   });
 
   final String? hintText;
@@ -48,6 +48,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final String? initialValue;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,7 +56,8 @@ class CustomTextFormField extends StatelessWidget {
       width: width,
       padding: padding,
       child: TextFormField(
-        autovalidateMode: AutovalidateMode.always,
+        initialValue: initialValue,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         inputFormatters: inputFormatters,
         keyboardType: keyboardType,
         validator: validator,
@@ -65,6 +67,9 @@ class CustomTextFormField extends StatelessWidget {
         maxLines: maxLines,
         textAlign: TextAlign.right,
         decoration: InputDecoration(
+          errorStyle: TextStyle(
+            fontSize: 10.0.w,
+          ),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: ColorManger.logoColor)),
           enabled: enabled ?? true,
@@ -72,7 +77,7 @@ class CustomTextFormField extends StatelessWidget {
 
           label: labelText,
           labelStyle: TextStyle(
-              color: Colors.grey, fontSize: 12.w, fontWeight: FontWeight.bold),
+              color: Colors.grey, fontSize: 10.w, fontWeight: FontWeight.bold),
           prefixIcon: prefixIcon,
           enabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(7.0)),

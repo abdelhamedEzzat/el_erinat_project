@@ -11,4 +11,9 @@ class ImagesStrings {
   static const String googleLogo = 'assets/photo/google-logo-9825.png';
 
   static const String appleLogo = 'assets/photo/mac-cosmetic-png-logo-6112.png';
+
+  static const String facebook = 'assets/photo/facebook-logo-2019-thumb.png';
+  static const String instgram =
+      'assets/photo/instagram-logo-png-transparent-background.png';
+  static const String twitter = 'assets/photo/1691832460x-twitter-logo-png.png';
 }
