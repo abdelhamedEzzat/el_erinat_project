@@ -11,7 +11,6 @@ import 'package:el_erinat/features/admin/data/sorce_data_admin/remote_data_base_
 import 'package:el_erinat/features/admin/persentation/cubit/book_cubit/upload_book_cubit.dart';
 import 'package:el_erinat/features/admin/persentation/cubit/tree_elerinat/tree_elerinat_cubit.dart';
 import 'package:el_erinat/features/admin/persentation/cubit/video_cubit/news_cubit.dart';
-import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
 import 'package:el_erinat/features/users/data/repo/user_repo_impelmentation.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
@@ -22,7 +21,6 @@ import 'package:el_erinat/features/users/persentation/user_cubit/phone_auth_cubi
 import 'package:el_erinat/features/users/persentation/user_cubit/personal_details_cubit/personal_details_cubit.dart';
 import 'package:el_erinat/features/users/persentation/user_cubit/work_personal_details_cubit/work_personal_details_cubit.dart';
 import 'package:el_erinat/firebase_options.dart';
-import 'package:el_erinat/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -31,63 +29,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:workmanager/workmanager.dart';
 
-
-
-
-void callbackDispatcher() {
-  Workmanager().executeTask((task, inputData) async {
-    switch (task) {
-
-         //! this is for admin upload news 
-
-      case "uploadTask":
-        bool success = await callbackForUploadNews(inputData);
-        if (success) {
-         
-          print("Task completed successfully");
-          return Future.value(true);
-        } else {
-         
-          print("Task not completed");
-          return Future.value(false);
-        }
-
-        //! this is for admin get news 
-
-        case  "fetchNewsTask":
-      bool getNews =    await callbackGetNews();
-         if (getNews) {
-         
-          print("Task get successfully");
-          return Future.value(true);
-        } else {
-         
-          print("Task not get  completed");
-          return Future.value(false);
-        }
-      default:
-        print("Unknown task: $task");
-        return Future.value(false);
-    }
-  });
-}
-
-
-
- // case "fetchNewsTask":
-      //  await callbackGetNews();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );  
+  );
   await LocalNotification.init();
- await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+  await Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
 
-   Workmanager().registerOneOffTask("fetchNewsTask", "fetchNewsTask");
-
-
+  Workmanager().registerOneOffTask("fetchNewsTask", "fetchNewsTask");
   //Workmanager().initialize(callbackDispatcher);
   //Workmanager().initialize(deleteCacheFromLocalDataBase, isInDebugMode: true);
   // Workmanager().registerPeriodicTask(
@@ -96,8 +47,6 @@ void main() async {
   //   frequency: const Duration(hours: 24),
   // );
 
-
-    
   Bloc.observer = MyBlocObserver();
   runApp(
     DevicePreview(
@@ -149,8 +98,7 @@ class MyApp extends StatelessWidget {
                     adminRepo: AdminRepoImplementation(
                         adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
                         adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
-               ..fetchNewsData()
-                  ),
+                  ..fetchNewsData()),
             BlocProvider(
                 create: (context) => TreeElerinatCubit(
                     adminRepo: AdminRepoImplementation(
@@ -164,8 +112,6 @@ class MyApp extends StatelessWidget {
                         adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
                         adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper()))
                   ..fetchAllElerinatFamilyTree()),
-
-                
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -181,7 +127,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child:  const RegisterScreen(),
+      child: const RegisterScreen(),
       // AdminHomeScreen(),
     );
   }

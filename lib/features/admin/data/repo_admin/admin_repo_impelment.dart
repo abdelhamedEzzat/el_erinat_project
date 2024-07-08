@@ -14,7 +14,6 @@ import 'package:el_erinat/features/admin/domain/repo/admin_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:workmanager/workmanager.dart';
 
 class AdminRepoImplementation extends AdminRepo {
   AdminLocalDatabaseHelper adminLocalDatabaseHelper;
@@ -23,32 +22,7 @@ class AdminRepoImplementation extends AdminRepo {
   AdminRepoImplementation({
     required this.adminLocalDatabaseHelper,
     required this.adminRemoteDataBaseHelper,
-  }){
-    // _initStream();
-  }
-
-  //   final StreamController<List<UploadImageAndVideoModel>> _newsStreamController = StreamController<List<UploadImageAndVideoModel>>.broadcast();
-
-  // Stream<List<UploadImageAndVideoModel>> get newsStream => _newsStreamController.stream;
-
-
-
-//   Future<void> _initStream() async {
-//   // Listen to combined local and remote data stream
-//   getAllnews().listen((newsData) {
-//     // Print statements to log data source
-//     if (newsData.isEmpty) {
-//       print('No news data available');
-//     } else if (newsData.first.path != null && newsData.isNotEmpty) {
-//       print('Data received from local database');
-//     } else {
-//       print('Data received from global (remote)');
-//     }
-    
-//     // Add data to stream controller
-//     _newsStreamController.add(newsData);
-//   });
-// }
+  });
 
   @override
   Future<Either<Failure, UploadBookEntity>> uploadAndSaveBook({
@@ -123,21 +97,20 @@ class AdminRepoImplementation extends AdminRepo {
   Future<Either<Failure, UploadImageAndVideoEntity>> uploadAndSavenews(
       {required UploadImageAndVideoModel uploadImageAndVideoModel}) async {
     try {
-      
- await adminRemoteDataBaseHelper.uploadNewsVedioAndImageToStorage(
-          newsPath:  uploadImageAndVideoModel.path.toString(),
-          uploadImageAndVideoModel: uploadImageAndVideoModel, 
-          );
+      await adminRemoteDataBaseHelper.uploadNewsVedioAndImageToStorage(
+        newsPath: uploadImageAndVideoModel.path.toString(),
+        uploadImageAndVideoModel: uploadImageAndVideoModel,
+      );
 
       final uid = FirebaseAuth.instance.currentUser!.uid;
       uploadImageAndVideoModel.uID = uid;
 
-      final localWork =
-          await adminLocalDatabaseHelper.insertNewsUpload(uploadImageAndVideoModel);
+      final localWork = await adminLocalDatabaseHelper
+          .insertNewsUpload(uploadImageAndVideoModel);
       uploadImageAndVideoModel.id = localWork.id;
 
-      await adminRemoteDataBaseHelper.uploadNewsVedioAndImagetofirestore(uploadImageAndVideoModel: uploadImageAndVideoModel);
-    
+      await adminRemoteDataBaseHelper.uploadNewsVedioAndImagetofirestore(
+          uploadImageAndVideoModel: uploadImageAndVideoModel);
 
       return Right(uploadImageAndVideoModel);
     } catch (e) {
@@ -145,106 +118,49 @@ class AdminRepoImplementation extends AdminRepo {
     }
   }
 
-
-  // Workmanager().registerOneOffTask(
-      //   "1",
-      //   "uploadTask",
-      //   inputData: <String, dynamic>{
-      //     'filePath': uploadImageAndVideoModel.path,
-      //     'fileType': uploadImageAndVideoModel.type,
-      //     'title': uploadImageAndVideoModel.newsTitle,
-      //     'subTitle': uploadImageAndVideoModel.newsSubTitle,
-      //   },
-      //   initialDelay: Duration(seconds: 5)
-      // );
-
-      
-//   Future<List<UploadImageAndVideoModel>> getAllnews() async {
-  
-//   Workmanager().registerOneOffTask("fetchNewsTask", "fetchNewsTask");
-
-//   return [];
-// }
   @override
-Future<List<UploadImageAndVideoModel>> getAllnews() async {
-  // // Yield local database stream first
-   
+  Future<List<UploadImageAndVideoModel>> getAllnews() async {
+    // // Yield local database stream first
+
     final localBooks = await adminLocalDatabaseHelper.getAllNewsUploads();
-  if (localBooks.isNotEmpty) {
-    print('Books found in local database ');
-    return localBooks;
-  }
+    if (localBooks.isNotEmpty) {
+      print('Books found in local database ');
+      return localBooks;
+    }
 
-  // If not available locally, get it from the remote data source
-  print(
-      'Books not found in local database and, fetching from remote source');
-  final remoteBooks = await adminRemoteDataBaseHelper.getNews();
+    // If not available locally, get it from the remote data source
+    print('Books not found in local database and, fetching from remote source');
+    final remoteBooks = await adminRemoteDataBaseHelper.getNews();
 
-  // Batch size for processing
-  const batchSize = 5; // Adjust batch size as per your requirements
+    // Batch size for processing
+    const batchSize = 5; // Adjust batch size as per your requirements
 
-  // Process in batches
-  for (int i = 0; i < remoteBooks.length; i += batchSize) {
-    final batch = remoteBooks.sublist(
-        i,
-        i + batchSize < remoteBooks.length
-            ? i + batchSize
-            : remoteBooks.length);
-    await Future.wait(batch.map((book) async {
-      try {
-        if (book.url != null) {
-          if (book.type == 'IMAGE') {
-            book.path = await downloadFile(book.url!, 'image_${book.id}.png');
+    // Process in batches
+    for (int i = 0; i < remoteBooks.length; i += batchSize) {
+      final batch = remoteBooks.sublist(
+          i,
+          i + batchSize < remoteBooks.length
+              ? i + batchSize
+              : remoteBooks.length);
+      await Future.wait(batch.map((book) async {
+        try {
+          if (book.url != null) {
+            if (book.type == 'IMAGE') {
+              book.path = await downloadFile(book.url!, 'image_${book.id}.png');
 
-            // Save the updated book model to the local database
-            await adminLocalDatabaseHelper.insertNewsUpload(book);
+              // Save the updated book model to the local database
+              await adminLocalDatabaseHelper.insertNewsUpload(book);
+            }
           }
+        } catch (e) {
+          print('Failed to download or save file: $e');
         }
-      } catch (e) {
-        print('Failed to download or save file: $e');
-      }
-    }));
+      }));
+    }
+
+    print('Fetched books from remote source and saved to local database ');
+    return remoteBooks;
   }
-
-  print(
-      'Fetched books from remote source and saved to local database ');
-  return remoteBooks;
-}
-
-  // final localNews = await adminLocalDatabaseHelper.getAllNewsUploads();
-
-  // if (localNews.isNotEmpty) {
-  //   print('Data received from local database');
-  //   yield localNews;
-  // } else {
-  //   print('No news data available locally. Fetching from remote...');
-  //   try {
-  //     final remoteNews = await adminRemoteDataBaseHelper.getNews();
-
-  //     for (final news in remoteNews) {
-  //       if (news.url != null && news.type == 'IMAGE') {
-  //         try {
-  //           news.path = await downloadFile(news.url!, 'image_${news.id}.png');
-  //           await adminLocalDatabaseHelper.insertNewsUpload(news);
-  //           print('Data fetched from global (remote) and saved locally');
-  //         } catch (e) {
-  //           print('Failed to download or save file: $e');
-  //         }
-  //       }
-  //     }
-
-  //     // Fetch updated local data after saving remote data
-  //     await adminLocalDatabaseHelper.getAllNewsUploads();
-  //     yield remoteNews;
-  //   } catch (e) {
-  //     print('Failed to fetch remote news: $e');
-  //   }
-  
-
-// void dispose() {
-//   _newsStreamController.close();
-// }
- 
 
   @override
   Future<Either<Failure, UploadTreeEntity>> uploadAndSavetree(
@@ -348,22 +264,23 @@ Future<List<UploadImageAndVideoModel>> getAllnews() async {
     }
   }
 }
- Future<String> downloadFile(String url, String fileName) async {
-    try {
-      final Directory appDocDir = await getApplicationDocumentsDirectory();
-      final String filePath = '${appDocDir.path}/$fileName';
 
-      // Download the file
-      final response = await http.get(Uri.parse(url));
-      final bytes = response.bodyBytes;
+Future<String> downloadFile(String url, String fileName) async {
+  try {
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
+    final String filePath = '${appDocDir.path}/$fileName';
 
-      // Save the file locally
-      final File file = File(filePath);
-      await file.writeAsBytes(bytes);
+    // Download the file
+    final response = await http.get(Uri.parse(url));
+    final bytes = response.bodyBytes;
 
-      return filePath;
-    } catch (e) {
-      print('Error downloading file: $e');
-      throw e;
-    }
+    // Save the file locally
+    final File file = File(filePath);
+    await file.writeAsBytes(bytes);
+
+    return filePath;
+  } catch (e) {
+    print('Error downloading file: $e');
+    throw e;
   }
+}

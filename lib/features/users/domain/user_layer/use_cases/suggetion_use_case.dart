@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:el_erinat/core/helpers/failure.dart';
 import 'package:el_erinat/features/users/data/model/suggetion_model.dart';
-import 'package:el_erinat/features/users/data/model/user_model.dart';
 import 'package:el_erinat/features/users/domain/user_layer/entityes/suggetion_entity.dart';
 import 'package:el_erinat/features/users/domain/user_layer/repo/user_repo.Dart';
 

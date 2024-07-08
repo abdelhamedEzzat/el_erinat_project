@@ -28,7 +28,6 @@ import 'package:el_erinat/features/users/persentation/screens/user_details_scree
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_details/news_details.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/suggetions_screen/suggetion_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/vote_screen/vote_screen.dart';
-import 'package:el_erinat/home_page.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -96,16 +95,11 @@ class RouteGenerator {
       ConstantsRouteString.detailsOfFamilyAuditor: (context) =>
           const DetailsOfFamilyAuditor(),
 
-           ConstantsRouteString.adminNewsScreen: (context) =>
+      ConstantsRouteString.adminNewsScreen: (context) =>
           const AdminNewsScreen(),
 
-          // ConstantsRouteString.uploadScreen  : (context) =>
-          // UploadScreen  (),
+      // ConstantsRouteString.uploadScreen  : (context) =>
+      // UploadScreen  (),
     };
-
-
-
-
-    
   }
 }

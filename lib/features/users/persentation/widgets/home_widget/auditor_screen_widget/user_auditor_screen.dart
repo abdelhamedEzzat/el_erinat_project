@@ -5,7 +5,6 @@ import 'package:el_erinat/features/users/data/repo/user_repo_impelmentation.dart
 import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/admin_auditor_text_widget.dart';
-import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/problem_nasted_tabbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,9 +16,9 @@ import 'package:el_erinat/core/helpers/custom_text_form_field.dart';
 
 class UserAuditorScreen extends StatelessWidget {
   const UserAuditorScreen({
-    Key? key,
+    super.key,
     required this.tabController,
-  }) : super(key: key);
+  });
   final TabController tabController;
 
   @override

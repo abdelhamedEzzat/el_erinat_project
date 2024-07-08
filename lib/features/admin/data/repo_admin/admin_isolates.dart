@@ -1,53 +1,82 @@
-
-
 import 'package:el_erinat/features/admin/data/model/upload_image_video_model.dart';
 import 'package:el_erinat/features/admin/data/repo_admin/admin_repo_impelment.dart';
 import 'package:el_erinat/features/admin/data/sorce_data_admin/admin_local_data_base_helper.dart';
 import 'package:el_erinat/features/admin/data/sorce_data_admin/remote_data_base_helper.dart';
 import 'package:el_erinat/features/admin/persentation/cubit/video_cubit/news_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
+import 'package:workmanager/workmanager.dart';
 
-AdminRemoteDataBaseHelper adminRemoteDataBaseHelper = AdminRemoteDataBaseHelper();
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    switch (task) {
+      //! this is for admin upload news
 
-  AdminLocalDatabaseHelper adminLocalDatabaseHelper = AdminLocalDatabaseHelper();
-  AdminRepoImplementation adminRepoImplementation = AdminRepoImplementation(
-    adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
-    adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper(),
-  );   
-Future<bool> callbackForUploadNews(Map<String, dynamic>? inputData , ) async {
+      case "uploadTask":
+        bool success = await callbackForUploadNews(inputData);
+        if (success) {
+          print("Task completed successfully");
+          return Future.value(true);
+        } else {
+          print("Task not completed");
+          return Future.value(false);
+        }
 
-  
+      //! this is for admin get news
+
+      case "fetchNewsTask":
+        bool getNews = await callbackGetNews();
+        if (getNews) {
+          print("Task get successfully");
+          return Future.value(true);
+        } else {
+          print("Task not get  completed");
+          return Future.value(false);
+        }
+      default:
+        print("Unknown task: $task");
+        return Future.value(false);
+    }
+  });
+}
+
+AdminRemoteDataBaseHelper adminRemoteDataBaseHelper =
+    AdminRemoteDataBaseHelper();
+
+AdminLocalDatabaseHelper adminLocalDatabaseHelper = AdminLocalDatabaseHelper();
+AdminRepoImplementation adminRepoImplementation = AdminRepoImplementation(
+  adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
+  adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper(),
+);
+Future<bool> callbackForUploadNews(
+  Map<String, dynamic>? inputData,
+) async {
   try {
     await Firebase.initializeApp();
     String filePath = inputData!['filePath'];
     String fileType = inputData['fileType'];
     String title = inputData['title'];
     String subTitle = inputData['subTitle'];
-    
-    UploadImageAndVideoModel uploadImageAndVideoModel = UploadImageAndVideoModel(
+
+    UploadImageAndVideoModel uploadImageAndVideoModel =
+        UploadImageAndVideoModel(
       path: filePath,
       type: fileType,
       newsTitle: title,
       newsSubTitle: subTitle,
     );
- await  NewsCubit(adminRepo: adminRepoImplementation).uploadNewsDataForAdmin(uploadImageAndVideoModel);
-   
-  return true;
+    await NewsCubit(adminRepo: adminRepoImplementation)
+        .uploadNewsDataForAdmin(uploadImageAndVideoModel);
+
+    return true;
   } catch (e) {
     print("Error in background task: $e");
     return false;
   }
 }
 
-
-
 Future<bool> callbackGetNews() async {
-  
-
-  try {    await Firebase.initializeApp();
+  try {
+    await Firebase.initializeApp();
 
     // Fetch data from the remote source
     final localBooks = await adminLocalDatabaseHelper.getAllNewsUploads();
@@ -90,32 +119,3 @@ Future<bool> callbackGetNews() async {
     return false; // Return false for failure
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- //BlocProvider.of<NewsCubit>(context as BuildContext).
-
-  //   final String downloadUrl = await adminRemoteDataBaseHelper.uploadNewsVedioAndImageToStorage(
-  //     newsPath: uploadImageAndVideoModel.path!,
-  //     uploadImageAndVideoModel: uploadImageAndVideoModel,
-  //   );
-
-  //   await adminLocalDatabaseHelper.insertNewsUpload(uploadImageAndVideoModel);
-  //   await adminRemoteDataBaseHelper.uploadNewsVedioAndImagetofirestore(uploadImageAndVideoModel: uploadImageAndVideoModel);
-
-  //   print("Upload completed: $downloadUrl");

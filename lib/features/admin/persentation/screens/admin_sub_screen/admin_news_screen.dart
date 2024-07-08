@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:io';
-
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/features/admin/persentation/cubit/video_cubit/news_cubit.dart';
@@ -23,55 +21,20 @@ class AdminNewsScreen extends StatefulWidget {
 }
 
 class _AdminNewsScreenState extends State<AdminNewsScreen> {
- final progress = 0;
- 
- late StreamSubscription newsSubscription;
-  //  final StreamSubscription newsSubscription;
- @override
-  // void initState() {
-  //   super.initState();
-  //   print("initState called");
+  final progress = 0;
 
-  //   // Listen to task status changes here
-  // BlocProvider.of<NewsCubit>(context).stream.listen((state)async {
-  //     if (state is UploadNewsLoading) {
-  //       // Show loading indicator
-  //       print("Upload in progress...");
-  //     } else if (state is UploadNewsSuccess) {
-  //   await BlocProvider.of<NewsCubit>(context).fetchNewsData();
-  //       print("Upload successful: ${state.news.createdAt}");
-  //     } else if (state is UploadNewsError) {
-  //       // Handle error
-  //       print("Upload failed: ${state.failure}");
-  //     }else{
-  //       print("else");
-  //     }
-  //   });
-  // }
-
-  //  @override
-  // void dispose() {
-  //   // Cancel the subscription when the widget is disposed
-  //   newsSubscription.cancel();
-  //   super.dispose();
-  // }
-
-
-
-  
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
           onTap: () async {
-            final result =
-             await Navigator.of(context).pushNamed(ConstantsRouteString.adminUploadNews);
+            final result = await Navigator.of(context)
+                .pushNamed(ConstantsRouteString.adminUploadNews);
             if (result == true) {
-              
               BlocProvider.of<NewsCubit>(context).fetchNewsData();
             }
-            },
+          },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 19.h, vertical: 20.h),
             padding: EdgeInsets.symmetric(horizontal: 19.h, vertical: 20.h),
@@ -97,26 +60,20 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
             ),
           ),
         ),
-  
-
-
-
-
         BlocConsumer<NewsCubit, NewsState>(
-
-  listener: (context, state) async{
-        if (state is UploadNewsLoading) {
-          // Show loading indicator
-          print("Upload in progress...");
-        } else if (state is UploadNewsSuccess) {
-           BlocProvider.of<NewsCubit>(context).addNewsItem(state.news);
-          // Handle success
-          print("Upload successful: ${state.news.createdAt}");
-        } else if (state is UploadNewsError) {
-          // Handle error
-          print("Upload failed: ${state.failure}");
-        }
-      },
+          listener: (context, state) async {
+            if (state is UploadNewsLoading) {
+              // Show loading indicator
+              print("Upload in progress...");
+            } else if (state is UploadNewsSuccess) {
+              BlocProvider.of<NewsCubit>(context).addNewsItem(state.news);
+              // Handle success
+              print("Upload successful: ${state.news.createdAt}");
+            } else if (state is UploadNewsError) {
+              // Handle error
+              print("Upload failed: ${state.failure}");
+            }
+          },
           builder: (context, state) {
             if (state is GetNewsLoading) {
               return const Center(
@@ -137,7 +94,8 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
                       child: Column(
                         children: [
                           Container(
-                            height: 250.h, // Adjust height as needed for the image
+                            height:
+                                250.h, // Adjust height as needed for the image
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               border: Border.all(color: ColorManger.logoColor),
@@ -183,17 +141,13 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
         File(book.path!),
         fit: BoxFit.cover,
       );
-     
-    } else if ( book.type == 'VIDEO') {
-        return BuildNetworkVideoPlayer(
-          videoUrl: book.url!,
-          isLocal: false,
-          isLooping: true,
-        );
-    }
-
-    
-     else if (book.url != null) {
+    } else if (book.type == 'VIDEO') {
+      return BuildNetworkVideoPlayer(
+        videoUrl: book.url!,
+        isLocal: false,
+        isLooping: true,
+      );
+    } else if (book.url != null) {
       if (book.type == 'IMAGE') {
         return _buildNetworkImageWithLoader(book.url!);
       } else if (book.type == 'VIDEO') {
@@ -243,6 +197,3 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
     );
   }
 }
-
-
-

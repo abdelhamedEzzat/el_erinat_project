@@ -1,15 +1,12 @@
-import 'package:el_erinat/features/admin/data/model/upload_image_video_model.dart';
+// import 'package:el_erinat/features/admin/data/model/upload_image_video_model.dart';
 import 'package:el_erinat/features/admin/data/repo_admin/admin_repo_impelment.dart';
 import 'package:el_erinat/features/admin/data/sorce_data_admin/admin_local_data_base_helper.dart';
 import 'package:el_erinat/features/admin/data/sorce_data_admin/remote_data_base_helper.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-
-AdminRepoImplementation adminRepoImplementation = AdminRepoImplementation( 
+AdminRepoImplementation adminRepoImplementation = AdminRepoImplementation(
   adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
   adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper(),
-   
-
 );
 // class UploadScreen extends StatelessWidget {
 //   @override
