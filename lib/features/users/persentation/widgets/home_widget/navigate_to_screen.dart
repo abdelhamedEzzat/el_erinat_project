@@ -1,8 +1,10 @@
 import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:flutter/material.dart';
 
-void navigateToScreen(BuildContext context, int index) {
+navigateToScreen(
+    BuildContext context, int index, bool isAdmin, bool isAuditor) {
   String routeName;
+
   switch (index) {
     case 0:
       routeName = ConstantsRouteString.bookOfElerinatScreen;
@@ -25,5 +27,11 @@ void navigateToScreen(BuildContext context, int index) {
     default:
       return; // Return if index is out of bounds
   }
-  Navigator.of(context).pushNamed(routeName);
+  Navigator.of(context).pushNamed(
+    routeName,
+    arguments: {
+      'isAdmin': isAdmin,
+      'isAuditor': isAuditor,
+    },
+  );
 }

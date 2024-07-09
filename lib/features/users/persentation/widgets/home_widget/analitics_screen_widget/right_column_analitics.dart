@@ -22,7 +22,7 @@ class RightColumnAnalitics extends StatelessWidget {
             textAlign: TextAlign.center,
             rightNumber,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: ColorManger.logoColor,
+                color: ColorManger.subScreenscontainerColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 18.h),
           ),
@@ -37,7 +37,7 @@ class RightColumnAnalitics extends StatelessWidget {
           child: Text(
             rightText,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Colors.white,
+                color: ColorManger.subScreenscontainerColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 12.w),
           ),

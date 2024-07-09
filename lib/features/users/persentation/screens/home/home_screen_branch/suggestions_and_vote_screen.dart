@@ -10,6 +10,10 @@ class SuggestionsandVoteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    bool isAdmin = arguments['isAdmin'];
+    bool isAuditor = arguments['isAuditor'];
     return BackGroundAndAppBarAndDaynamicBody(
         alignmentTitle: Alignment.center,
         titleName: MStrings.suggestions,
@@ -27,8 +31,12 @@ class SuggestionsandVoteScreen extends StatelessWidget {
                   ),
                   BottonSuggetionText(
                     onTap: () {
-                      Navigator.of(context)
-                          .pushNamed(ConstantsRouteString.suggetionScreen);
+                      Navigator.of(context).pushNamed(
+                          ConstantsRouteString.suggetionScreen,
+                          arguments: {
+                            'isAdmin': isAdmin,
+                            'isAuditor': isAuditor,
+                          });
                     },
                     chooseText: MStrings.suggestionChoise,
                   ),

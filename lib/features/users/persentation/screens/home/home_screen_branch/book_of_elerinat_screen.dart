@@ -4,13 +4,22 @@ import 'package:el_erinat/features/users/persentation/widgets/home_widget/book_e
 import 'package:flutter/material.dart';
 
 class BookOfElerinatScreen extends StatelessWidget {
-  const BookOfElerinatScreen({super.key});
+  const BookOfElerinatScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    bool isAdmin = arguments['isAdmin'];
+    bool isAuditor = arguments['isAuditor'];
     return BackGroundAndAppBarAndDaynamicBody(
         alignmentTitle: Alignment.center,
         titleName: MStrings.bookOfElerinat,
-        yourBodyOfScreen: const BookElerinatBody());
+        yourBodyOfScreen: BookElerinatBody(
+          isAdmin: isAdmin,
+          isAuditor: isAuditor,
+        ));
   }
 }

@@ -22,7 +22,7 @@ class LeftColumnAnalitics extends StatelessWidget {
             textAlign: TextAlign.center,
             leftNumber,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: ColorManger.logoColor,
+                color: ColorManger.subScreenscontainerColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 18.h),
           ),
@@ -37,7 +37,7 @@ class LeftColumnAnalitics extends StatelessWidget {
           child: Text(
             leftText,
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Colors.white,
+                color: ColorManger.subScreenscontainerColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 12.w),
           ),

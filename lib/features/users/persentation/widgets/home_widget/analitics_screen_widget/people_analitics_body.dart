@@ -36,15 +36,15 @@ class PeopleAnaliticsBody extends StatelessWidget {
               SizedBox(
                 height: 35.h,
               ),
-              AnaliticsItemsRow(
-                leftNumber: "50",
-                leftText: MStrings.departedMales,
-                rightNumber: "60",
-                rightText: MStrings.departedFemales,
-              ),
-              SizedBox(
-                height: 35.h,
-              ),
+              // AnaliticsItemsRow(
+              //   leftNumber: "50",
+              //   leftText: MStrings.departedMales,
+              //   rightNumber: "60",
+              //   rightText: MStrings.departedFemales,
+              // ),
+              // SizedBox(
+              //   height: 35.h,
+              // ),
               AnaliticsItemsRow(
                 leftNumber: "70",
                 leftText: MStrings.totalNeighborhoods,
