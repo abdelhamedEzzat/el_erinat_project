@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dartz/dartz.dart';
@@ -9,6 +10,7 @@ import 'package:el_erinat/features/users/data/model/work_user_model.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
 import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
 import 'package:el_erinat/features/users/domain/user_layer/entityes/add_details_user_entityes.dart';
+import 'package:el_erinat/features/users/domain/user_layer/entityes/analitics.dart';
 import 'package:el_erinat/features/users/domain/user_layer/entityes/suggetion_entity.dart';
 import 'package:el_erinat/features/users/domain/user_layer/entityes/upload_identaty_image.dart';
 import 'package:el_erinat/features/users/domain/user_layer/entityes/work_details_user_entityes.dart';
@@ -30,11 +32,13 @@ class UserRepoImplementation implements UserRepo {
 
   @override
   Future<Either<Failure, AddPersonalDetailsUser>> addPersonalDetailsUser(
-      UserModel user) async {
+      UserModel user, String role, String status) async {
     try {
       final uid = FirebaseAuth.instance.currentUser!.uid;
 
       user.uID = uid;
+      user.role = role;
+      user.statusOfUser = status;
       // Save to local database
       final localDetailsUser = await localDatabaseHelper.insertUser(user);
 
@@ -49,14 +53,49 @@ class UserRepoImplementation implements UserRepo {
   }
 
   @override
+  Future<void> updateUserRole(String newRole, UserModel user) async {
+    try {
+      // Update role in SQLite
+      await localDatabaseHelper.updateUserRoleInSQLite(newRole, user);
+
+      // Update role in Firebase Firestore
+      await userRemoteDataSource.updateUserRoleInPersonalDetails(newRole, user);
+
+      // Log success message
+      print('Successfully updated role in both SQLite and Firebase.');
+    } catch (e) {
+      // Handle any errors
+      print('Failed to update role: $e');
+    }
+  }
+
+  @override
+  Future<void> deleteUserWhenUnAccepted(String uID, UserModel user) async {
+    try {
+      uID = user.uID.toString();
+      // Update role in SQLite
+      await localDatabaseHelper.deleteUserFromSqFlite(uID, user);
+
+      // Update role in Firebase Firestore
+      await userRemoteDataSource.deleteUserDataFormFireStore(uID, user);
+
+      // Log success message
+      print('Successfully updated role in both SQLite and Firebase.');
+    } catch (e) {
+      // Handle any errors
+      print('Failed to update role: $e');
+    }
+  }
+
+  @override
   Future<List<UserModel>> getPersonalUsers() async {
-    final localUsers = await localDatabaseHelper.getAllUsers();
+    final localUsers = await localDatabaseHelper.getUsersbyid();
     if (localUsers.isNotEmpty) {
       print("get from local database");
       return localUsers;
     } else {
       // Fetch users from the remote data source
-      final data = await userRemoteDataSource.getUserData();
+      final data = await userRemoteDataSource.getUserDataByIdFromFirestore();
       final personalDetails = data['personalDetails'] as Map<String, dynamic>;
 
       print("Get from remote database");
@@ -67,7 +106,155 @@ class UserRepoImplementation implements UserRepo {
     }
   }
 
+  @override
+  Future<List<UserModel>> getPersonalUsersDataByUidToAuditor(String uid) async {
+    final localUsers =
+        await localDatabaseHelper.getUsersbyidForAuditorInSqFlite(uid);
+    if (localUsers.isNotEmpty) {
+      print("get from local database");
+      return localUsers;
+    } else {
+      // Fetch users from the remote data source
+      final data = await userRemoteDataSource
+          .getUserDataForAuditorByIdFromFirestore(uid);
+      final personalDetails = data['personalDetails'] as Map<String, dynamic>;
+
+      print("Get from remote database");
+
+      final user = UserModel.fromJson(personalDetails);
+      await localDatabaseHelper.insertUser(user);
+      return [user];
+    }
+  }
+
+  @override
+  Future<Either<Failure, AddPersonalDetailsUser>> updatePersonalDetailsUser(
+      UserModel user) async {
+    try {
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+
+      user.uID = uid;
+      // Save to local database
+      await localDatabaseHelper.updateUser(user);
+
+      // Save to remote database
+      await userRemoteDataSource.addUserData(user);
+
+      return Right(user);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> saveStatistics(Statistics statistics) async {
+    statistics.uID = FirebaseAuth.instance.currentUser!.uid;
+
+    await localDatabaseHelper.insertStatistics(statistics);
+    await userRemoteDataSource.saveStatisticsToFirebase(statistics);
+  }
+
+  @override
+  Future<Statistics> getStatistics() async {
+    final localStats = await localDatabaseHelper.getStatistics();
+    if (localStats != null) {
+      return localStats;
+    } else {
+      final firebaseStats =
+          await userRemoteDataSource.fetchStatisticsFromFirebase();
+      return firebaseStats;
+    }
+  }
+
+  @override
+  Future<void> saveJobAnalitics(JobAnalitics jobStatistics) async {
+    // jobStatistics.uID = FirebaseAuth.instance.currentUser!.uid;
+
+    await localDatabaseHelper.insertJobStatistics(jobStatistics);
+    await userRemoteDataSource.saveJopStatisticsToFirebase(jobStatistics);
+  }
+
+  @override
+  Future<JobAnalitics> getJobAnalitics() async {
+    final localStats = await localDatabaseHelper.getJopStatistics();
+    if (localStats != null) {
+      return localStats;
+    } else {
+      final firebaseStats =
+          await userRemoteDataSource.fetchJobStatisticsFromFirebase();
+      return firebaseStats;
+    }
+  }
+
+  @override
+  Future<List<UserModel>> getWattingUsers() async {
+    final localProblems = await localDatabaseHelper.getWattingUsersSqlite();
+    if (localProblems.isNotEmpty) {
+      print('Problem found in local database for all problems');
+      print('Local Problems: ${localProblems.map((e) => e.toJson())}');
+      return localProblems;
+    }
+
+    // If not available locally, get it from the remote data source
+    print(
+        'Problem not found in local database for for all problems, fetching from remote source');
+    final remoteUsersData =
+        await userRemoteDataSource.getWattingUsersFireStore();
+    print('Remote Problems: ${remoteUsersData.map((e) => e.toJson())}');
+
+    // Save the problems locally for future use
+    for (var users in remoteUsersData) {
+      await localDatabaseHelper.insertUser(users);
+    }
+    print(
+        'Fetched problems from remote source and saved to local database for for all problems');
+    return remoteUsersData;
+  }
+
+  @override
+  Future<List<UserModel>> getAcceptedUsers() async {
+    final localProblems = await localDatabaseHelper.getAllAcceptedUsers();
+    if (localProblems.isNotEmpty) {
+      print('problem found in local database for Allproblem');
+      print('Local problem: ${localProblems.map((e) => e.toJson())}');
+      return localProblems;
+    }
+
+    // If not available locally, get it from the remote data source
+    print(
+        'Problem not found in local database for  Allproblem, fetching from remote source');
+    final remoteproblem = await userRemoteDataSource.getFinishedAcceptedUsers();
+    print('Remote Problems: ${remoteproblem.map((e) => e.toJson())}');
+
+    // Save the problems locally for future use
+    for (var users in remoteproblem) {
+      await localDatabaseHelper.insertUser(users);
+    }
+    print(
+        'Fetched problems from remote source and saved to local database  for Allproblem');
+    return remoteproblem;
+  }
+
+  @override
+  Future<void> updateStutsOfUser(int id, String newStatus) async {
+    try {
+      // String docId = suggetionModel.id
+      //     .toString(); // Assuming the Firestore document ID is the same as the SQLite ID
+
+      // Update status in SQLite
+      await localDatabaseHelper.updateUsersStatusInSQLite(id, newStatus);
+      print('update in local data base ---------------');
+
+      // // Update status in Firestore
+      await userRemoteDataSource.updateUsersStatusInFirestore(id, newStatus);
+
+      print('update in globel data base ---------------');
+    } catch (e) {
+      e.toString();
+    }
+  }
 //
+
 //! this is for addWorkPersonalDetails upload and get data
 
   @override
@@ -100,7 +287,28 @@ class UserRepoImplementation implements UserRepo {
       return localUsers;
     } else {
       // Fetch users from the remote data source
-      final data = await userRemoteDataSource.getUserData();
+      final data = await userRemoteDataSource.getUserDataByIdFromFirestore();
+      final personalDetails = data['workDetails'] as Map<String, dynamic>;
+
+      print("Get from remote database");
+
+      final user = WorkModel.fromJson(personalDetails);
+      await localDatabaseHelper.addworkPersonalDetailsUser(user);
+      return [user];
+    }
+  }
+
+  @override
+  Future<List<WorkModel>> fetchWorkUsersinfoByID(String uid) async {
+    final localUsers =
+        await localDatabaseHelper.getWorkUsersInfoByIDInSQflite(uid);
+    if (localUsers.isNotEmpty) {
+      print("get from local database");
+      return localUsers;
+    } else {
+      // Fetch users from the remote data source
+      final data =
+          await userRemoteDataSource.getUserWorkInfoByIdFromFirestore(uid);
       final personalDetails = data['workDetails'] as Map<String, dynamic>;
 
       print("Get from remote database");
@@ -116,32 +324,73 @@ class UserRepoImplementation implements UserRepo {
 
   @override
   Future<Either<Failure, UploadImageEntityes>> uploadAndSaveIdentatyImage(
-      UploadImage uploadImage, image) async {
+    UploadImage uploadImage,
+    String imageFile,
+  ) async {
     try {
       final uid = FirebaseAuth.instance.currentUser!.uid;
-
       uploadImage.uID = uid;
-      uploadImage.bytes = image as Uint8List?; // Ensure bytes is set
 
-      // Save to localDatabase database
+      // Read file contents as bytes (Uint8List)
+      Uint8List imageBytes = await File(imageFile).readAsBytes();
+
+      // Save to local database
       final localWork = await localDatabaseHelper
           .uploadIdentityImageToLocalDatabase(uploadImage);
       uploadImage.id = localWork.id;
-      print(uploadImage.id);
+
+      print(
+          "---------------------Uploaded image to Local Database-------------------");
+
+      // Upload to Firebase Storage and get imagePath
+      String imagePath =
+          await userRemoteDataSource.saveIdentityImageDataToFirebase(
+        image: imageBytes,
+        id: uploadImage.id!,
+      );
+
+      // Update uploadImage with imagePath
+      uploadImage.imagePath = imagePath;
+
+      print(
+          "---------------------Uploaded image to Firebase Database-------------------");
+
+      return Right(uploadImage);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetCallFromAuditorEntityes>> uploadAndSaveGetCall(
+      GetCallModel getCallModelForUser, String callMassage) async {
+    try {
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+
+      getCallModelForUser.uID = uid;
+      getCallModelForUser.getCall = callMassage;
+
+      // uploadImage.bytes = image as Uint8List?; // Ensure bytes is set
+
+      // Save to localDatabase database
+      final localWork = await localDatabaseHelper.uploadGetCallToLocalDatabase(
+          getCallModelForUser, callMassage);
+      getCallModelForUser.id = localWork.id;
+      print(getCallModelForUser.id);
       print(localWork.id);
 
       print(
           "---------------------Uploaded image to Local Database-------------------");
 
-      await userRemoteDataSource.saveIdentityImageDataTOfirebase(
-          image: image as Uint8List, id: uploadImage.id);
+      await userRemoteDataSource.saveCallUserDataTOfirebase(
+          getCall: getCallModelForUser, getCallMassage: callMassage);
 
       print(
           "---------------------Uploaded image to Firebase Database-------------------");
 
       // Save to remote database
 
-      return Right(uploadImage);
+      return Right(getCallModelForUser);
     } catch (e) {
       return Left(Failure(message: e.toString()));
     }
@@ -163,6 +412,54 @@ class UserRepoImplementation implements UserRepo {
     final remoteImage = await userRemoteDataSource.getImageFromStorage(uID);
     // Save the image locally for future use
     await localDatabaseHelper.uploadIdentityImageToLocalDatabase(remoteImage);
+    print(
+        'Fetched image from remote source and saved to local database for uID: $uID');
+    return remoteImage;
+  }
+
+  @override
+  Future<UploadImage?> getIdentityImagesForAuditor(String uID) async {
+    //UploadImage Image = UploadImage();
+    // Try to get the image from the local data source
+    final localImage = await localDatabaseHelper.getImagefromLocalDatabase(uID);
+    if (localImage != null) {
+      print('Image found in local database for uID: $uID');
+      return localImage;
+    }
+
+    // If not available locally, get it from the remote data source
+    print(
+        'Image not found in local database for uID: $uID, fetching from remote source');
+    final remoteImage =
+        await userRemoteDataSource.getImageFromStorageForAuditor(uID);
+    // Save the image locally for future use
+    await localDatabaseHelper.uploadIdentityImageToLocalDatabase(remoteImage);
+    print(
+        'Fetched image from remote source and saved to local database for uID: $uID');
+    return remoteImage;
+  }
+
+  @override
+  Future<GetCallModel?> getCallFromAuditor(
+      String uID, GetCallModel getCallModelForUser) async {
+    //UploadImage Image = UploadImage();
+    // Try to get the image from the local data source
+
+    final localImage = await localDatabaseHelper.getCallfromLocalDatabase(
+        uID, getCallModelForUser);
+    if (localImage != null) {
+      print('Image found in local database for uID: $uID');
+      return localImage;
+    }
+
+    // If not available locally, get it from the remote data source
+    print(
+        'Image not found in local database for uID: $uID, fetching from remote source');
+    final remoteImage = await userRemoteDataSource.getCallForUserFromFireStore(
+        uID, getCallModelForUser);
+    // Save the image locally for future use
+    await localDatabaseHelper.uploadGetCallToLocalDatabase(
+        remoteImage, getCallModelForUser.getCall.toString());
     print(
         'Fetched image from remote source and saved to local database for uID: $uID');
     return remoteImage;
@@ -201,6 +498,10 @@ class UserRepoImplementation implements UserRepo {
 
   @override
   Future<List<UserProblemsModel>> getProblemsOfUser(String uID) async {
+    UserProblemsModel userProblemsModel = UserProblemsModel();
+    uID = FirebaseAuth.instance.currentUser!.uid;
+
+    userProblemsModel.uID = uID;
     final localProblems = await localDatabaseHelper.getAllProblems(uID);
     if (localProblems.isNotEmpty) {
       print('Problem found in local database for uID: $uID');
@@ -224,8 +525,9 @@ class UserRepoImplementation implements UserRepo {
   }
 
   @override
-  Future<List<UserProblemsModel>> getProblemsForAuditor() async {
-    final localProblems = await localDatabaseHelper.getAllProblemsForAuditor();
+  Future<List<UserProblemsModel>> getWattingProblemsForAuditor() async {
+    final localProblems =
+        await localDatabaseHelper.getWattingProblemsForAuditor();
     if (localProblems.isNotEmpty) {
       print('Problem found in local database for all problems');
       print('Local Problems: ${localProblems.map((e) => e.toJson())}');
@@ -235,7 +537,8 @@ class UserRepoImplementation implements UserRepo {
     // If not available locally, get it from the remote data source
     print(
         'Problem not found in local database for for all problems, fetching from remote source');
-    final remoteProblems = await userRemoteDataSource.getProblemsAuditor();
+    final remoteProblems =
+        await userRemoteDataSource.getWattingProblemsAuditor();
     print('Remote Problems: ${remoteProblems.map((e) => e.toJson())}');
 
     // Save the problems locally for future use
@@ -247,27 +550,45 @@ class UserRepoImplementation implements UserRepo {
     return remoteProblems;
   }
 
+  @override
+  Future<List<UserProblemsModel>> getFinishedProblemsForAuditor() async {
+    final localProblems = await localDatabaseHelper.getAllFinishedproblems();
+    if (localProblems.isNotEmpty) {
+      print('problem found in local database for Allproblem');
+      print('Local problem: ${localProblems.map((e) => e.toJson())}');
+      return localProblems;
+    }
+
+    // If not available locally, get it from the remote data source
+    print(
+        'Problem not found in local database for  Allproblem, fetching from remote source');
+    final remoteproblem =
+        await userRemoteDataSource.getFinishedproblemsAuditor();
+    print('Remote Problems: ${remoteproblem.map((e) => e.toJson())}');
+
+    // Save the problems locally for future use
+    for (var problem in remoteproblem) {
+      await localDatabaseHelper.insertProblemsUser(problem);
+    }
+    print(
+        'Fetched problems from remote source and saved to local database  for Allproblem');
+    return remoteproblem;
+  }
+
 //
 //! this is for uploadSuggetionsOfUser upload and get data
 
   @override
   Future<Either<Failure, SuggetionEntity>> uploadSuggetionsOfUser(
-      {required SuggetionModel suggetionModel}) async {
+      {required SuggetionModel suggetionModel, required String role}) async {
     try {
       final uid = FirebaseAuth.instance.currentUser!.uid;
       suggetionModel.uID = uid;
+      suggetionModel.role = role;
 
       final localWork =
           await localDatabaseHelper.insertUserSuggetion(suggetionModel);
       suggetionModel.id = localWork.id;
-
-      print(localWork.id);
-      print(localWork.firstChoise);
-      print(localWork.createdAt);
-      print(localWork.suggetionTitle);
-      print(localWork.suggetionDescription);
-      print(localWork.secoundChoise);
-      //  print(localWork.createdAt);
 
       await userRemoteDataSource.uploadSuggetionFromUser(
           suggetionModel: suggetionModel);
@@ -296,7 +617,7 @@ class UserRepoImplementation implements UserRepo {
 
     // Save the problems locally for future use
     for (var suggetion in remoteSuggetions) {
-      await localDatabaseHelper.insertUserSuggetion(suggetion);
+      //  await localDatabaseHelper.insertUserSuggetion(suggetion);
     }
     print(
         'Fetched Suggetions from remote source and saved to local database for uID: $uID');
@@ -321,7 +642,9 @@ class UserRepoImplementation implements UserRepo {
 
     // Save the problems locally for future use
     for (var suggetion in remoteSuggetions) {
-      await localDatabaseHelper.insertUserSuggetion(suggetion);
+      await localDatabaseHelper.insertUserSuggetion(
+        suggetion,
+      );
     }
     print(
         'Fetched Suggetions from remote source and saved to local database  for AllSuggetions');
@@ -364,10 +687,30 @@ class UserRepoImplementation implements UserRepo {
       await localDatabaseHelper.updateStatusInSQLite(id, newStatus);
       print('update in local data base ---------------');
 
-      // Update status in Firestore
+      // // Update status in Firestore
       await userRemoteDataSource.updateStatusInFirestore(id, newStatus);
 
       print('update in globel data base ---------------');
+    } catch (e) {
+      e.toString();
+    }
+  }
+
+  @override
+  Future<void> updateFinishedProblemsToAuditor(int id, String newStatus) async {
+    try {
+      // String docId = suggetionModel.id
+      //     .toString();
+      //// Assuming the Firestore document ID is the same as the SQLite ID
+
+      // Update status in SQLite
+      await localDatabaseHelper.updateProblemsStatusInSQLite(id, newStatus);
+      print('update in local data base ---------------');
+
+      // Update status in Firestore
+      await userRemoteDataSource.updateProblemStatusInFirestore(id, newStatus);
+
+      // print('update in globel data base ---------------');
     } catch (e) {
       e.toString();
     }
@@ -390,7 +733,7 @@ class UserRepoImplementation implements UserRepo {
 
     // Save the problems locally for future use
     for (var suggetion in remoteSuggetions) {
-      await localDatabaseHelper.insertUserSuggetion(suggetion);
+      // await localDatabaseHelper.insertUserSuggetion(suggetion);
     }
     print(
         'Fetched problems from remote source and saved to local database  for AllSuggetions');
@@ -400,87 +743,57 @@ class UserRepoImplementation implements UserRepo {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-    // Optional: Show a message or refresh UI
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Optional: Show a message or refresh UI
 
 // final userId = FirebaseAuth.instance.currentUser!.uid;
 
-  // // First, try to get data from the local database
-  // final localData =
-  //     await localDatabaseHelper.getIdentetyImagesfromLocalDatabase(
-  //   userId,
-  // );
+// // First, try to get data from the local database
+// final localData =
+//     await localDatabaseHelper.getIdentetyImagesfromLocalDatabase(
+//   userId,
+// );
 
-  // // If local data is not empty, return it
-  // if (localData != null && localData.isNotEmpty) {
-  //   return localData;
-  // }
+// // If local data is not empty, return it
+// if (localData != null && localData.isNotEmpty) {
+//   return localData;
+// }
 
-  // // Otherwise, get data from Firebase Firestore
-  // final userData = await userRemoteDataSource.getUserData();
-  // final identityImagesJson = userData['identityImages'];
+// // Otherwise, get data from Firebase Firestore
+// final userData = await userRemoteDataSource.getUserData();
+// final identityImagesJson = userData['identityImages'];
 
-  // // Convert the JSON data to a list of UploadImage
-  // final identityImages =
-  //     identityImagesJson.map((json) => UploadImage.fromJson(json)).toList();
+// // Convert the JSON data to a list of UploadImage
+// final identityImages =
+//     identityImagesJson.map((json) => UploadImage.fromJson(json)).toList();
 
-  // // Save the data to the local database
-  // await localDatabaseHelper.getIdentetyImagesfromLocalDatabase(
-  //   userId,
-  // );
+// // Save the data to the local database
+// await localDatabaseHelper.getIdentetyImagesfromLocalDatabase(
+//   userId,
+// );
 
-  // return identityImages;
+// return identityImages;
 
-  // Future<dynamic> getIdentityImages() async {
-  //   try {
-  //     final localUsers =
-  //         await localDatabaseHelper.getIdentetyImagesfromLocalDatabase(
-  //             FirebaseAuth.instance.currentUser!.uid);
-  //     if (localUsers != null && localUsers.isNotEmpty) {
-  //       print("---------------get from local database--------------------");
-  //       return localUsers;
-  //     } else {
-  //       final data = await userRemoteDataSource.getUserData();
-  //       final personalDetails =
-  //           data['ideintetyImageDetails'] as Map<String, dynamic>;
+// Future<dynamic> getIdentityImages() async {
+//   try {
+//     final localUsers =
+//         await localDatabaseHelper.getIdentetyImagesfromLocalDatabase(
+//             FirebaseAuth.instance.currentUser!.uid);
+//     if (localUsers != null && localUsers.isNotEmpty) {
+//       print("---------------get from local database--------------------");
+//       return localUsers;
+//     } else {
+//       final data = await userRemoteDataSource.getUserData();
+//       final personalDetails =
+//           data['ideintetyImageDetails'] as Map<String, dynamic>;
 
-  //       print("---------------Get from remote database----------------");
+//       print("---------------Get from remote database----------------");
 
-  //       final user = UploadImage.fromJson(personalDetails);
-  //       await localDatabaseHelper.uploadIdentityImageToLocalDatabase(user);
-  //       return [user]; // Always return a list
-  //     }
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return Future.error(e.toString());
-  //   }
-  // }
+//       final user = UploadImage.fromJson(personalDetails);
+//       await localDatabaseHelper.uploadIdentityImageToLocalDatabase(user);
+//       return [user]; // Always return a list
+//     }
+//   } catch (e) {
+//     print(e.toString());
+//     return Future.error(e.toString());
+//   }
+// }

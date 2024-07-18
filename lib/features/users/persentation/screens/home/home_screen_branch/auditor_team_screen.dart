@@ -29,7 +29,7 @@ class _AuditorTeamScreenState extends State<AuditorTeamScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    _auditortabController = TabController(length: 4, vsync: this);
+    _auditortabController = TabController(length: 3, vsync: this);
     _usertabController = TabController(length: 2, vsync: this);
   }
 
@@ -79,10 +79,6 @@ class _AuditorTeamScreenState extends State<AuditorTeamScreen>
         ),
         Tab(
           child: Text(MStrings.auditorSuggetions,
-              style: TextStyle(fontSize: 10.h, fontWeight: FontWeight.bold)),
-        ),
-        Tab(
-          child: Text(MStrings.auditorUsers,
               style: TextStyle(fontSize: 10.h, fontWeight: FontWeight.bold)),
         ),
         Tab(

@@ -72,6 +72,7 @@ class _AdminUploadNewsState extends State<AdminUploadNews> {
     super.dispose();
   }
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -92,131 +93,167 @@ class _AdminUploadNewsState extends State<AdminUploadNews> {
                     left: 20.w,
                     right: 20.w,
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 25.h,
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          await pickNewsFile();
-                          if (selectedFile != null) {
-                            uploadImageAndVideoModel.path = selectedFile!.path;
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 25.h,
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            await pickNewsFile();
+                            if (selectedFile != null) {
+                              uploadImageAndVideoModel.path =
+                                  selectedFile!.path;
 
-                            uploadImageAndVideoModel.type = fileType;
-                          }
-                        },
-                        child: selectedFile == null
-                            ? Container(
-                                padding: EdgeInsets.all(25.w),
-                                height: 200.h,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  color: ColorManger.white.withOpacity(0.9),
-                                  border: Border(
-                                    bottom: BorderSide(
-                                      width: 5.w,
-                                      color: ColorManger.logoColor,
+                              uploadImageAndVideoModel.type = fileType;
+                            }
+                          },
+                          child: selectedFile == null
+                              ? Container(
+                                  padding: EdgeInsets.all(25.w),
+                                  height: 200.h,
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                    color: ColorManger.white.withOpacity(0.9),
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        width: 5.w,
+                                        color: ColorManger.logoColor,
+                                      ),
+                                      right: BorderSide(
+                                        width: 5.w,
+                                        color: ColorManger.logoColor,
+                                      ),
+                                      left: BorderSide(
+                                        width: 5.w,
+                                        color: ColorManger.logoColor,
+                                      ),
+                                      top: BorderSide(
+                                        width: 5.w,
+                                        color: ColorManger.logoColor,
+                                      ),
                                     ),
-                                    right: BorderSide(
-                                      width: 5.w,
-                                      color: ColorManger.logoColor,
-                                    ),
-                                    left: BorderSide(
-                                      width: 5.w,
-                                      color: ColorManger.logoColor,
-                                    ),
-                                    top: BorderSide(
-                                      width: 5.w,
-                                      color: ColorManger.logoColor,
-                                    ),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(7.w)),
                                   ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(7.w)),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.upload,
-                                      size: 25.h,
-                                      color: ColorManger.logoColor,
-                                    ),
-                                    SizedBox(
-                                      width: 15.w,
-                                    ),
-                                    Text(
-                                      MStrings.uploadPic,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
-                                              color: ColorManger.logoColor),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : fileType == 'IMAGE'
-                                ? Image.file(
-                                    selectedFile!,
-                                    fit: BoxFit.fill,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 200.h,
-                                  )
-                                : fileType == 'VIDEO' &&
-                                        _videoController != null &&
-                                        _videoController!.value.isInitialized
-                                    ? AspectRatio(
-                                        aspectRatio:
-                                            _videoController!.value.aspectRatio,
-                                        child: VideoPlayer(_videoController!),
-                                      )
-                                    : const Center(
-                                        child: CircularProgressIndicator()),
-                      ),
-                      SizedBox(
-                        height: 25.h,
-                      ),
-                      CustomTextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            uploadImageAndVideoModel.newsTitle = value;
-                          });
-                        },
-                        hintColor: ColorManger.logoColor,
-                        hintText: MStrings.newsAddress,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      SizedBox(
-                        height: 25.h,
-                      ),
-                      CustomTextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            uploadImageAndVideoModel.newsSubTitle = value;
-                          });
-                        },
-                        hintColor: ColorManger.logoColor,
-                        maxLines: 5,
-                        hintText: MStrings.detailsNews,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      SizedBox(
-                        height: 25.h,
-                      ),
-                      BottonClick(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        onTap: () async {
-                          BlocProvider.of<NewsCubit>(context)
-                              .uploadNewsDataForAdmin(uploadImageAndVideoModel);
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.upload,
+                                        size: 25.h,
+                                        color: ColorManger.logoColor,
+                                      ),
+                                      SizedBox(
+                                        width: 15.w,
+                                      ),
+                                      Text(
+                                        MStrings.uploadPic,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                                color: ColorManger.logoColor),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : fileType == 'IMAGE'
+                                  ? Image.file(
+                                      selectedFile!,
+                                      fit: BoxFit.fill,
+                                      width: MediaQuery.of(context).size.width,
+                                      height: 200.h,
+                                    )
+                                  : fileType == 'VIDEO' &&
+                                          _videoController != null &&
+                                          _videoController!.value.isInitialized
+                                      ? AspectRatio(
+                                          aspectRatio: _videoController!
+                                              .value.aspectRatio,
+                                          child: VideoPlayer(_videoController!),
+                                        )
+                                      : const Center(
+                                          child: CircularProgressIndicator()),
+                        ),
+                        SizedBox(
+                          height: 25.h,
+                        ),
+                        CustomTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "حقل مطلوب *";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              uploadImageAndVideoModel.newsTitle = value;
+                            });
+                          },
+                          hintColor: ColorManger.logoColor,
+                          hintText: MStrings.newsAddress,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        SizedBox(
+                          height: 25.h,
+                        ),
+                        CustomTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "حقل مطلوب *";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              uploadImageAndVideoModel.newsSubTitle = value;
+                            });
+                          },
+                          hintColor: ColorManger.logoColor,
+                          maxLines: 5,
+                          hintText: MStrings.detailsNews,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        SizedBox(
+                          height: 25.h,
+                        ),
+                        BottonClick(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          onTap: () async {
+                            if (formKey.currentState!.validate() &&
+                                selectedFile != null) {
+                              formKey.currentState!.save();
+                              BlocProvider.of<NewsCubit>(context)
+                                  .uploadNewsDataForAdmin(
+                                      uploadImageAndVideoModel);
 
-                          Navigator.of(context).pop(true);
-                        },
-                        text: MStrings.submit,
-                      ),
-                      SizedBox(height: 20.h),
-                    ],
+                              Navigator.of(context).pop(true);
+                            } else if (selectedFile == null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Text(
+                                    'يرجي عدم ترك حقل الملف فارغا ',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(
+                                            fontSize: 14.w,
+                                            color: Colors.white),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          text: MStrings.submit,
+                        ),
+                        SizedBox(height: 20.h),
+                      ],
+                    ),
                   ),
                 ),
                 // ),

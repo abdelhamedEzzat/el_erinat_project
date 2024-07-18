@@ -3,7 +3,14 @@ import 'package:el_erinat/features/users/persentation/widgets/home_widget/analit
 import 'package:flutter/material.dart';
 
 class AnaliticsOfElerinatBody extends StatelessWidget {
-  const AnaliticsOfElerinatBody({super.key, required this.tabController});
+  const AnaliticsOfElerinatBody({
+    super.key,
+    required this.tabController,
+    required this.isAdmin,
+    required this.isAuditor,
+  });
+  final bool isAdmin;
+  final bool isAuditor;
   final TabController tabController;
   @override
   Widget build(BuildContext context) {

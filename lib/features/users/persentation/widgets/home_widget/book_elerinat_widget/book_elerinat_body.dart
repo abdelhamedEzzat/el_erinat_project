@@ -25,8 +25,12 @@ class BookElerinatBody extends StatelessWidget {
                   // bookImage: bookImage,
                   )
               : isAuditor == true
-                  ? UserBookLibarary(bookImage: bookImage)
-                  : UserBookLibarary(bookImage: bookImage),
+                  ? UserBookLibarary(
+                      //  bookImage: bookImage
+                      )
+                  : UserBookLibarary(
+                      // bookImage: bookImage
+                      ),
         ),
       ),
     );

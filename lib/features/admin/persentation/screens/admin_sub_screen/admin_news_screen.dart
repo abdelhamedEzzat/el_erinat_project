@@ -21,8 +21,6 @@ class AdminNewsScreen extends StatefulWidget {
 }
 
 class _AdminNewsScreenState extends State<AdminNewsScreen> {
-  final progress = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -100,7 +98,7 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
                             decoration: BoxDecoration(
                               border: Border.all(color: ColorManger.logoColor),
                             ),
-                            child: _buildImageWidget(news),
+                            child: buildImageAndVideoWidget(news),
                           ),
                           Container(
                             color: ColorManger.logoColor,
@@ -134,66 +132,66 @@ class _AdminNewsScreenState extends State<AdminNewsScreen> {
       ],
     );
   }
+}
 
-  Widget _buildImageWidget(UploadImageAndVideoModel book) {
-    if (book.path != null && book.type == 'IMAGE') {
-      return Image.file(
-        File(book.path!),
-        fit: BoxFit.cover,
-      );
+Widget buildImageAndVideoWidget(UploadImageAndVideoModel book) {
+  if (book.path != null && book.type == 'IMAGE') {
+    return Image.file(
+      File(book.path!),
+      fit: BoxFit.cover,
+    );
+  } else if (book.type == 'VIDEO') {
+    return BuildNetworkVideoPlayer(
+      videoUrl: book.url!,
+      isLocal: false,
+      isLooping: true,
+    );
+  } else if (book.url != null) {
+    if (book.type == 'IMAGE') {
+      return _buildNetworkImageWithLoader(book.url!);
     } else if (book.type == 'VIDEO') {
       return BuildNetworkVideoPlayer(
         videoUrl: book.url!,
         isLocal: false,
         isLooping: true,
       );
-    } else if (book.url != null) {
-      if (book.type == 'IMAGE') {
-        return _buildNetworkImageWithLoader(book.url!);
-      } else if (book.type == 'VIDEO') {
-        return BuildNetworkVideoPlayer(
-          videoUrl: book.url!,
-          isLocal: false,
-          isLooping: true,
-        );
-      } else {
-        return const Center(
-          child: Text("Unknown Media Type"),
-        );
-      }
     } else {
       return const Center(
-        child: Text("No Image or Video Available"),
+        child: Text("Unknown Media Type"),
       );
     }
-  }
-
-  Widget _buildNetworkImageWithLoader(String imageUrl) {
-    return Image.network(
-      imageUrl,
-      fit: BoxFit.cover,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        } else {
-          return Center(
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!
-                  : null,
-            ),
-          );
-        }
-      },
-      errorBuilder: (context, error, stackTrace) {
-        return const Center(
-          child: Text(
-            'Image not found',
-            style: TextStyle(color: Colors.red),
-          ),
-        );
-      },
+  } else {
+    return const Center(
+      child: Text("No Image or Video Available"),
     );
   }
+}
+
+Widget _buildNetworkImageWithLoader(String imageUrl) {
+  return Image.network(
+    imageUrl,
+    fit: BoxFit.cover,
+    loadingBuilder: (context, child, loadingProgress) {
+      if (loadingProgress == null) {
+        return child;
+      } else {
+        return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded /
+                    loadingProgress.expectedTotalBytes!
+                : null,
+          ),
+        );
+      }
+    },
+    errorBuilder: (context, error, stackTrace) {
+      return const Center(
+        child: Text(
+          'Image not found',
+          style: TextStyle(color: Colors.red),
+        ),
+      );
+    },
+  );
 }

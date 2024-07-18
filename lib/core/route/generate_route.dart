@@ -1,6 +1,5 @@
 import 'package:el_erinat/core/route/route_strings.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_home_screen.dart';
-import 'package:el_erinat/features/admin/persentation/screens/admin_sub_screen/admin_donations_and_charity_screen.dart';
 import 'package:el_erinat/features/admin/persentation/screens/admin_sub_screen/admin_news_screen.dart';
 import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/admin_upload_book_widget.dart';
 import 'package:el_erinat/features/admin/persentation/widget/admin_book_screen/book_details_screen.dart';
@@ -16,6 +15,7 @@ import 'package:el_erinat/features/users/persentation/screens/home/home_screen_b
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/news_of_elerinat_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/suggestions_and_vote_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/home/home_screen_branch/tree_of_elerinat_screen.dart';
+import 'package:el_erinat/features/users/persentation/screens/home/main_home_screen.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/first_intro_screens.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/secound_intro_screens.dart';
 import 'package:el_erinat/features/users/persentation/screens/intro_screens/third_intro_screens.dart';
@@ -25,6 +25,7 @@ import 'package:el_erinat/features/users/persentation/screens/splash_screen/spla
 import 'package:el_erinat/features/users/persentation/screens/user_details_screen/work_user_detatils.dart';
 import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_identaty.dart';
 import 'package:el_erinat/features/users/persentation/screens/user_details_screen/user_details_screen.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/user_info_in_auditor_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/news_elerinat/news_details/news_details.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/suggetions_screen/suggetion_screen.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/suggestions_and_vote/vote_screen/vote_screen.dart';
@@ -78,8 +79,8 @@ class RouteGenerator {
       ConstantsRouteString.adminAddSuggetions: (context) =>
           const AdminAddSuggetionsScreen(),
 
-      ConstantsRouteString.adminDonationsAndCharityScreen: (context) =>
-          const AdminDonationsAndCharityScreen(),
+      // ConstantsRouteString.adminDonationsAndCharityScreen: (context) =>
+      //     const AdminDonationsAndCharityScreen(),
 
       ConstantsRouteString.userDitailsScreen: (context) =>
           const UserDitailsScreen(),
@@ -97,6 +98,12 @@ class RouteGenerator {
 
       ConstantsRouteString.adminNewsScreen: (context) =>
           const AdminNewsScreen(),
+      ConstantsRouteString.mainHomeScreens: (context) =>
+          const MainHomeScreens(),
+      ConstantsRouteString.userInformationforUser: (context) =>
+          const UserInformationforUser(),
+      ConstantsRouteString.userInformationInAuditorScreen: (context) =>
+          const UserInformationInAuditorScreen(),
 
       // ConstantsRouteString.uploadScreen  : (context) =>
       // UploadScreen  (),

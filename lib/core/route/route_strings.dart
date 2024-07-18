@@ -24,8 +24,8 @@ class ConstantsRouteString {
   static const String adminUploadNews = "/AdminUploadNews";
   static const String adminAddSuggetions = "/AdminAddSuggetions";
 
-  static const String adminDonationsAndCharityScreen =
-      "/AdminDonationsAndCharityScreen";
+  // static const String adminDonationsAndCharityScreen =
+  //     "/AdminDonationsAndCharityScreen";
 
   static const String userDitailsScreen = "/UserDitailsScreen";
   static const String uploadBookScreen = "/UploadBookScreen";
@@ -36,6 +36,10 @@ class ConstantsRouteString {
 
   static const String detailsOfFamilyAuditor = "/DetailsOfFamilyAuditor";
 
-   static const String adminNewsScreen = "/AdminNewsScreen";
-   static const String uploadScreen  = "/UploadScreen ";
+  static const String adminNewsScreen = "/AdminNewsScreen";
+  static const String uploadScreen = "/UploadScreen ";
+  static const String mainHomeScreens = "/MainHomeScreens ";
+  static const String userInformationforUser = "/UserInformationforUser ";
+  static const String userInformationInAuditorScreen =
+      "/UserInformationInAuditorScreen ";
 }

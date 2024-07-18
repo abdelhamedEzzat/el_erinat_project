@@ -45,7 +45,10 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(
                   height: 15.h,
                 ),
-                const SignInWithGoogleAndAppleAccount()
+                const SignInWithGoogleAndAppleAccount(),
+                SizedBox(
+                  height: 5.h,
+                ),
               ],
             ),
           ),

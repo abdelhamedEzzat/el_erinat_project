@@ -9,6 +9,7 @@ class VoteNumberAndDate extends StatelessWidget {
     required this.date,
     required this.voteNumber,
   });
+
   final String date;
   final int voteNumber;
 
@@ -27,9 +28,13 @@ class VoteNumberAndDate extends StatelessWidget {
           SizedBox(
             width: 10.w,
           ),
-          VoteNumber(
-            voreNumber: voteNumber,
-          )
+          Column(
+            children: [
+              VoteNumber(
+                voreNumber: voteNumber,
+              ),
+            ],
+          ),
         ],
       ),
     );

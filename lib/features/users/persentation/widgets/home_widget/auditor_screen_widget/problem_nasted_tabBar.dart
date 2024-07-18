@@ -1,6 +1,7 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
-import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/user_problems_widget.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/auditor_user_finished_problem.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/auditor_user_problems_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -56,8 +57,8 @@ class _ProblemNastedTabBarState extends State<ProblemNastedTabBar>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: <Widget>[
-              const SafeArea(
+            children: const <Widget>[
+              SafeArea(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -66,7 +67,7 @@ class _ProblemNastedTabBarState extends State<ProblemNastedTabBar>
                   ),
                 ),
               ),
-              Container(),
+              UserFinishedProblemsWidget(),
             ],
           ),
         ),

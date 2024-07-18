@@ -1,4 +1,5 @@
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
+import 'package:el_erinat/features/auditor_team/persentation/widgets/auditor_accepted_or_rejected_users_nasted_tabbar.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/auditor_user_nasted_tab_bar.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/problem_nasted_tabbar.dart';
 import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/suggetion_nasted_tabBar.dart';
@@ -35,15 +36,15 @@ class AuditorTabBarView extends StatelessWidget {
         ),
 
         SafeArea(
-          child: AuditorUsersNastedTabBar(
+          child: AuditorAcceptedOrRejectedUsersNastedTabBar(
             MStrings.auditorUsers,
           ),
         ),
-        SafeArea(
-          child: AuditorUsersNastedTabBar(
-            MStrings.auditorUsers,
-          ),
-        ),
+        // SafeArea(
+        //   child: AuditorUsersNastedTabBar(
+        //     MStrings.auditorUsers,
+        //   ),
+        // ),
       ],
     );
   }

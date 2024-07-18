@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dartz/dartz.dart';
@@ -12,7 +13,7 @@ class UploadIdentatyImageUser {
   UploadIdentatyImageUser({required this.userRepo});
 
   Future<Either<Failure, UploadImageEntityes>> call(
-      UploadImage path, Uint8List image) {
+      UploadImage path, String image) {
     return userRepo.uploadAndSaveIdentatyImage(path, image);
   }
 }
@@ -24,5 +25,26 @@ class GetIdentityImagesUser {
 
   Future<UploadImage?> call(String uID) {
     return userRepo.getIdentityImages(uID);
+  }
+}
+
+class SaveCallDataFromAuditor {
+  final UserRepo userRepo;
+
+  SaveCallDataFromAuditor({required this.userRepo});
+
+  Future<Either<Failure, GetCallFromAuditorEntityes>> call(
+      GetCallModel getCallModel, String getCall) {
+    return userRepo.uploadAndSaveGetCall(getCallModel, getCall);
+  }
+}
+
+class GetICallFromAuditor {
+  final UserRepo userRepo;
+
+  GetICallFromAuditor({required this.userRepo});
+
+  Future<GetCallModel?> call(String uID, GetCallModel getCallModelForUser) {
+    return userRepo.getCallFromAuditor(uID, getCallModelForUser);
   }
 }

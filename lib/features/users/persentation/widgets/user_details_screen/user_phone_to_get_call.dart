@@ -22,7 +22,7 @@ class UserPhontToGetCall extends StatelessWidget {
         children: [
           FutureBuilder(
             future:
-                BlocProvider.of<PersonalDetailsCubit>(context).fetchAllUsers(),
+                BlocProvider.of<PersonalDetailsCubit>(context).fetchUsersbYId(),
             builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
               final cubitState = context.watch<PersonalDetailsCubit>().state;
 

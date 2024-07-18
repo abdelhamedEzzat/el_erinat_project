@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:el_erinat/core/helpers/image_picker.dart';
@@ -11,15 +12,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddIdentityPic extends StatefulWidget {
-  const AddIdentityPic({super.key});
+  const AddIdentityPic({super.key, required this.uploadImage});
+  final UploadImage uploadImage;
 
   @override
   State<AddIdentityPic> createState() => _AddIdentityPicState();
 }
 
 class _AddIdentityPicState extends State<AddIdentityPic> {
-  final UploadImage uploadImage = UploadImage();
-
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,7 @@ class _AddIdentityPicState extends State<AddIdentityPic> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context
           .read<WorkPersonalDetailsCubit>()
-          .fetchImage(FirebaseAuth.instance.currentUser!.uid);
+          .fetchImage(widget.uploadImage.uID.toString());
     });
   }
 
@@ -45,11 +45,11 @@ class _AddIdentityPicState extends State<AddIdentityPic> {
               Column(
                 children: [
                   //Text(state.failure),
-                  UplaodIdentatuPic(uploadImage: uploadImage),
+                  UplaodIdentatuPic(uploadImage: widget.uploadImage),
                 ],
               )
             else
-              UplaodIdentatuPic(uploadImage: uploadImage),
+              UplaodIdentatuPic(uploadImage: widget.uploadImage),
           ],
         );
       },
@@ -57,20 +57,22 @@ class _AddIdentityPicState extends State<AddIdentityPic> {
   }
 
   Widget _buildImage(UploadImage? image) {
-    if (image?.bytes != null) {
-      return Image.memory(
-        image!.bytes!,
+    if (image?.imagePath != null) {
+      return Image.file(
+        File(
+          image!.imagePath!,
+        ),
         height: 200,
         width: MediaQuery.of(context).size.width,
         fit: BoxFit.fitWidth,
       );
-    } else if (image?.uploadedIdentityImage != null) {
+    } else if (image?.imagePath != null) {
       return Image.network(
-        image!.uploadedIdentityImage!,
-        height: 100,
+        image!.imagePath!,
+        height: 100.h,
       );
     } else {
-      return UplaodIdentatuPic(uploadImage: uploadImage);
+      return UplaodIdentatuPic(uploadImage: widget.uploadImage);
     }
   }
 }
@@ -89,38 +91,49 @@ class _UplaodIdentatuPicState extends State<UplaodIdentatuPic> {
     return Column(
       children: [
         GestureDetector(
-          onTap: () async {
-            await openCameraTotakeImage(widget.uploadImage).whenComplete(() {
-              print(
-                "--------------------${widget.uploadImage.uploadedIdentityImage}------------------------",
-              );
-              BlocProvider.of<WorkPersonalDetailsCubit>(context)
-                  .uploadImageDataForUser(
+            onTap: () async {
+              await openCamera(
                 widget.uploadImage,
-                base64Decode(widget.uploadImage.uploadedIdentityImage!),
-              );
-            });
-          },
-          child:
-              BlocBuilder<WorkPersonalDetailsCubit, WorkPersonalDetailsState>(
-            builder: (context, state) {
-              if (state is WorkPersonalDetailsLoading) {
-                return const CircularProgressIndicator();
-              } else if (state is WorkPersonalDetailsErrorImage) {
-                return Text(state.failure);
-              } else if (state is WorkPersonalDetailsSuccessFile) {
-                return Image.memory(
-                  widget.uploadImage.bytes!,
-                  height: 200.h,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
+              ).whenComplete(() {
+                print(
+                  "--------------------${widget.uploadImage.imagePath}------------------------",
                 );
-              } else {
-                return _buildPlaceholder(context);
-              }
+
+                if (widget.uploadImage.imagePath != null) {
+                  setState(() {});
+
+                  print("-------------------uploaded--------------");
+                } else {
+                  // Handle the case where uploadedIdentityImage is null
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('No Image to upload')),
+                  );
+                }
+              });
             },
-          ),
-        ),
+            child:
+                //   BlocBuilder<WorkPersonalDetailsCubit, WorkPersonalDetailsState>(
+                // builder: (context, state) {
+                //   if (state is WorkPersonalDetailsLoading) {
+                //     return const CircularProgressIndicator();
+                //   } else if (state is WorkPersonalDetailsErrorImage) {
+                //     return Text(state.failure);
+                //   } else if (state is WorkPersonalDetailsSuccessFile) {
+                //     return
+                widget.uploadImage.imagePath != null
+                    ? Image.file(
+                        File(widget.uploadImage.imagePath!),
+                        height: 200.h,
+                        width: MediaQuery.of(context).size.width,
+                        fit: BoxFit.cover,
+                      )
+                    : _buildPlaceholder(context)
+            // } else {
+            //   return _buildPlaceholder(context);
+            // }
+            //     },
+            //   ),
+            ),
       ],
     );
   }

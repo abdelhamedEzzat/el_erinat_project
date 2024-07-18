@@ -16,9 +16,8 @@ class GetLoginWithGoogle extends StatelessWidget {
       listener: (context, state) {
         if (state is GoogleAuthSuccess) {
           Navigator.of(context)
-              .pushReplacementNamed(ConstantsRouteString.adminHomeScreen);
-        }
-        else if (state is GoogleAuthfaild) {
+              .pushReplacementNamed(ConstantsRouteString.userDitailsScreen);
+        } else if (state is GoogleAuthfaild) {
           print(state.errMassge);
         }
       },

@@ -9,8 +9,12 @@ class InsertSuggetionUser {
 
   InsertSuggetionUser({required this.userRepo});
 
-  Future<Either<Failure, SuggetionEntity>> call(SuggetionModel user) {
-    return userRepo.uploadSuggetionsOfUser(suggetionModel: user);
+  Future<Either<Failure, SuggetionEntity>> call(
+      SuggetionModel user, String role) {
+    return userRepo.uploadSuggetionsOfUser(
+      role: role,
+      suggetionModel: user,
+    );
   }
 }
 

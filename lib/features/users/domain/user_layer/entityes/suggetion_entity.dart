@@ -1,4 +1,3 @@
-
 class SuggetionEntity {
   int? id;
   String? uID;
@@ -12,21 +11,22 @@ class SuggetionEntity {
   int? vote1;
   int? vote2;
   int? vote3;
+  String? role;
 
-  SuggetionEntity({
-    this.id,
-    this.uID,
-    this.suggetionTitle,
-    this.suggetionDescription,
-    this.firstChoise,
-    this.secoundChoise,
-    this.thirdChoise,
-    this.createdAt,
-    this.statusOfProblem,
-    this.vote1,
-    this.vote2,
-    this.vote3,
-  });
+  SuggetionEntity(
+      {this.id,
+      this.uID,
+      this.suggetionTitle,
+      this.suggetionDescription,
+      this.firstChoise,
+      this.secoundChoise,
+      this.thirdChoise,
+      this.createdAt,
+      this.statusOfProblem,
+      this.vote1,
+      this.vote2,
+      this.vote3,
+      this.role});
 
   Map<String, dynamic> toJson() {
     return {

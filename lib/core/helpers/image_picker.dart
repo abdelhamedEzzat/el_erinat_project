@@ -1,31 +1,39 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
+import 'dart:io';
 import 'package:el_erinat/features/users/data/model/upload_image.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-Future<Uint8List?> pickImage(ImageSource imageSource) async {
-  final ImagePicker picker = ImagePicker();
-  final XFile? file = await picker.pickImage(source: imageSource);
+Future<void> openCamera(UploadImage uploadImage) async {
+  // Check camera permission status
+  var status = await Permission.camera.status;
 
-  if (file != null) {
-    return await file.readAsBytes();
+  if (status.isDenied) {
+    // Request camera permission
+    if (await Permission.camera.request().isGranted) {
+      // Permission granted, open camera
+      await _captureImageAndSave(uploadImage);
+    } else {
+      // Permission denied, handle accordingly
+      print('Camera permission denied');
+    }
+  } else if (status.isPermanentlyDenied) {
+    // Permission permanently denied, navigate to app settings
+    openAppSettings();
+  } else {
+    // Permission already granted, open camera
+    await _captureImageAndSave(uploadImage);
   }
-  print("No Image Selected");
-  return null;
 }
 
-Future openCameraTotakeImage(UploadImage uploadImage) async {
-  Uint8List? img = await pickImage(ImageSource.camera);
+Future<void> _captureImageAndSave(UploadImage uploadImage) async {
+  final ImagePicker _picker = ImagePicker();
+  final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
-  try {
-    if (img != null) {
-      String imgString = base64Encode(img);
-      uploadImage.uploadedIdentityImage = imgString;
-    } else {
-      return;
-    }
-  } catch (e) {
-    e.toString();
+  if (image != null) {
+    File imageFile = File(image.path);
+    uploadImage.imagePath = imageFile.path;
+  } else {
+    // User canceled the camera
+    print('No image selected');
   }
 }

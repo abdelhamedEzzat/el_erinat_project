@@ -66,7 +66,7 @@ class AdminUploadAndBookLibrary extends StatelessWidget {
                           decoration: BoxDecoration(
                             border: Border.all(color: ColorManger.logoColor),
                           ),
-                          child: _buildImageWidget(book),
+                          child: buildImageWidget(book),
                         ),
                       );
                     },
@@ -84,52 +84,52 @@ class AdminUploadAndBookLibrary extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildImageWidget(UplaodBookModel book) {
-    if (book.localImagePath != null) {
-      return Image.file(
-        File(book.localImagePath!),
-        fit: BoxFit.cover,
-        width: 100.w,
-        height: 200.h,
-      );
-    } else if (book.remoteImageUrl != null) {
-      return _buildNetworkImageWithLoader(book.remoteImageUrl!);
-    } else {
-      return const Center(
-        child: Text("No Image Available"),
-      );
-    }
-  }
-
-  Widget _buildNetworkImageWithLoader(String imageUrl) {
-    return Image.network(
-      imageUrl,
+Widget buildImageWidget(UplaodBookModel book) {
+  if (book.localImagePath != null) {
+    return Image.file(
+      File(book.localImagePath!),
       fit: BoxFit.cover,
       width: 100.w,
       height: 200.h,
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) {
-          return child;
-        } else {
-          return Center(
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!
-                  : null,
-            ),
-          );
-        }
-      },
-      errorBuilder: (context, error, stackTrace) {
-        return const Center(
-          child: Text(
-            'Image not found',
-            style: TextStyle(color: Colors.red),
-          ),
-        );
-      },
+    );
+  } else if (book.remoteImageUrl != null) {
+    return _buildNetworkImageWithLoader(book.remoteImageUrl!);
+  } else {
+    return const Center(
+      child: Text("No Image Available"),
     );
   }
+}
+
+Widget _buildNetworkImageWithLoader(String imageUrl) {
+  return Image.network(
+    imageUrl,
+    fit: BoxFit.cover,
+    width: 100.w,
+    height: 200.h,
+    loadingBuilder: (context, child, loadingProgress) {
+      if (loadingProgress == null) {
+        return child;
+      } else {
+        return Center(
+          child: CircularProgressIndicator(
+            value: loadingProgress.expectedTotalBytes != null
+                ? loadingProgress.cumulativeBytesLoaded /
+                    loadingProgress.expectedTotalBytes!
+                : null,
+          ),
+        );
+      }
+    },
+    errorBuilder: (context, error, stackTrace) {
+      return const Center(
+        child: Text(
+          'Image not found',
+          style: TextStyle(color: Colors.red),
+        ),
+      );
+    },
+  );
 }

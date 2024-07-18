@@ -15,7 +15,9 @@ class UserModel extends AddPersonalDetailsUser {
       super.familyName,
       super.phoneNumber,
       super.countryName,
-      super.gender});
+      super.gender,
+      super.role,
+      super.statusOfUser});
 
   factory UserModel.fromJson(Map<String, dynamic> fireStore) {
     return UserModel(
@@ -33,6 +35,8 @@ class UserModel extends AddPersonalDetailsUser {
       phoneNumber: fireStore['phoneNumber'],
       countryName: fireStore['countryName'],
       gender: fireStore['gender'],
+      role: fireStore['role'],
+      statusOfUser: fireStore['statusOfUser'],
     );
   }
 
@@ -53,6 +57,32 @@ class UserModel extends AddPersonalDetailsUser {
       'phoneNumber': phoneNumber,
       'countryName': countryName,
       'gender': gender,
+      'role': role,
+      'statusOfUser': statusOfUser
     };
+  }
+
+  UserModel copyWith({
+    int? id,
+    String? firstname,
+    String? fatherName,
+    String? grandfatherName,
+    String? greatGrandfatherName,
+    String? age,
+    String? countryName,
+    String? phoneNumber,
+    String? role,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      firstname: firstname ?? this.firstname,
+      fatherName: fatherName ?? this.fatherName,
+      grandfatherName: grandfatherName ?? this.grandfatherName,
+      greatGrandfatherName: greatGrandfatherName ?? this.greatGrandfatherName,
+      age: age ?? this.age,
+      countryName: countryName ?? this.countryName,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      role: role ?? this.role,
+    );
   }
 }

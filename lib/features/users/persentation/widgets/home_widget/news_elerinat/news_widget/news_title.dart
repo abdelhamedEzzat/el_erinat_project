@@ -19,7 +19,7 @@ class NewsTitle extends StatelessWidget {
           textAlign: TextAlign.end,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          title!,
+          title.toString(),
           style: Theme.of(context)
               .textTheme
               .titleLarge!

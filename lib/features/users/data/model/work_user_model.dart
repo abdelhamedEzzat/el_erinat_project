@@ -1,19 +1,19 @@
 import 'package:el_erinat/features/users/domain/user_layer/entityes/work_details_user_entityes.dart';
 
 class WorkModel extends WorkDetailsUserEntityes {
-  WorkModel({
-    super.id,
-    super.uID,
-    super.city,
-    super.dateOfBirthday,
-    super.dateOfCertificate,
-    super.employer,
-    super.generalSpecialization,
-    super.specialization,
-    super.status,
-    super.title,
-    super.university,
-  });
+  WorkModel(
+      {super.id,
+      super.uID,
+      super.city,
+      super.dateOfBirthday,
+      super.dateOfCertificate,
+      super.employer,
+      super.generalSpecialization,
+      super.specialization,
+      super.status,
+      super.title,
+      super.university,
+      super.jobSelected});
 
   factory WorkModel.fromJson(Map<String, dynamic> json) {
     return WorkModel(
@@ -28,6 +28,7 @@ class WorkModel extends WorkDetailsUserEntityes {
       city: json['city'],
       status: json['status'],
       title: json['title'],
+      jobSelected: json['jobSelected'],
     );
   }
 
@@ -45,6 +46,7 @@ class WorkModel extends WorkDetailsUserEntityes {
       'city': city,
       'status': status,
       'title': title,
+      'jobSelected': jobSelected
     };
   }
 }

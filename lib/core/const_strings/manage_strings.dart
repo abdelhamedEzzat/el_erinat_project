@@ -74,12 +74,16 @@ class MStrings {
   static String analiticsPeople = "احصائيات القبيلة";
   static String analiticsJob = "احصائيات الوظائف";
 
-  static String numberOfTripPeople = "افراد القبيلة ";
-  static String numberOfFamilies = " أسر القبيلة ";
+  static String numberOfTripPeople = "عدد افراد القبيلة ";
+  static String numberOfFamilies = " عدد أسر القبيلة ";
   static String familyMembers = " افراد الأسر";
+
+  static String totalMales = "اجمالي الذكور";
+  static String totalFemales = "اجمالي الاناث";
   static String theRemainingMales = "الذكور الباقون";
-  static String departedMales = "الذكور الراحلون";
-  static String departedFemales = "الإناث الراحلات";
+  static String theRemainingFemales = "الاناث الباقيات";
+  // static String departedMales = "الذكور الراحلون";
+  // static String departedFemales = "الإناث الراحلات";
   static String totalNeighborhoods = "إجمالي الأحياء";
   static String totalDead = "إجمالي الأموات";
   static String maleNames = "اجمالي الذكور";
@@ -115,7 +119,7 @@ class MStrings {
 
   static String actionNeeded = "الاجراء المطلوب";
 
-  static String generalSpecialization = "التخصص العام ";
+  static String jobSpecialization = "ماهو مجال عملك الحالي";
   static String specialization = "التخصص الدقيق ";
   static String theuniversity = " الجامعه";
   static String dateofobtainingthecertificate = "تاريخ الحصول علي الشهاده ";
@@ -201,4 +205,10 @@ class MStrings {
 
   static String detailsOfFamilyAuditor = " تقاصيل الاسره";
   static String updateTree = "تحديث الشجره";
+
+  static String finishedProblems = "تم الانتهاء من الشكوي";
+  static String workPlace = "مكان العمل";
+  static String factor = "عامل";
+
+  static String student = "طالب";
 }

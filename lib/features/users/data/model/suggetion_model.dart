@@ -1,20 +1,20 @@
 import 'package:el_erinat/features/users/domain/user_layer/entityes/suggetion_entity.dart';
 
 class SuggetionModel extends SuggetionEntity {
-  SuggetionModel({
-    super.id,
-    super.uID,
-    super.suggetionTitle,
-    super.suggetionDescription,
-    super.firstChoise,
-    super.secoundChoise,
-    super.thirdChoise,
-    super.createdAt,
-    super.statusOfProblem,
-    super.vote1,
-    super.vote2,
-    super.vote3,
-  });
+  SuggetionModel(
+      {super.id,
+      super.uID,
+      super.suggetionTitle,
+      super.suggetionDescription,
+      super.firstChoise,
+      super.secoundChoise,
+      super.thirdChoise,
+      super.createdAt,
+      super.statusOfProblem,
+      super.vote1,
+      super.vote2,
+      super.vote3,
+      super.role});
 
   @override
   Map<String, dynamic> toJson() {
@@ -28,9 +28,10 @@ class SuggetionModel extends SuggetionEntity {
       'thirdChoise': thirdChoise,
       'createdAt': createdAt,
       'statusOfProblem': statusOfProblem,
-      'vote1': vote1,
-      'vote2': vote2,
-      'vote3': vote3
+      'vote1': vote1 ?? 0,
+      'vote2': vote2 ?? 0,
+      'vote3': vote3 ?? 0,
+      'role': role
     };
   }
 
@@ -44,8 +45,9 @@ class SuggetionModel extends SuggetionEntity {
     thirdChoise = json['thirdChoise'];
     createdAt = json['createdAt'];
     statusOfProblem = json['statusOfProblem'];
-    vote1 = json['vote1'];
-    vote2 = json['vote2'];
-    vote3 = json['vote3'];
+    vote1 = json['vote1'] ?? 0;
+    vote2 = json['vote2'] ?? 0;
+    vote3 = json['vote3'] ?? 0;
+    role = json['role'];
   }
 }

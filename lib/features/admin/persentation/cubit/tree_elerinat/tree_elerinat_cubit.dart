@@ -86,4 +86,13 @@ class TreeElerinatCubit extends Cubit<TreeElerinatState> {
     treeDataList.add(tree);
     emit(GetAuditorTreeSuccess(tree: treeDataList, id: id));
   }
+
+  void addFamilyItem(
+    UploadTreeModel tree,
+  ) {
+    treeDataList.add(tree);
+    emit(GetAuditorFamilyTreeSuccess(
+      tree: treeDataList,
+    ));
+  }
 }

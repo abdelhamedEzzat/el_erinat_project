@@ -63,3 +63,11 @@ final class GetAllTreeSuccess extends TreeElerinatState {
 
   const GetAllTreeSuccess({required this.tree});
 }
+
+final class GetAuditorFamilyTreeSuccess extends TreeElerinatState {
+  final List<UploadTreeModel> tree;
+
+  const GetAuditorFamilyTreeSuccess({
+    required this.tree,
+  });
+}

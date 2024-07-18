@@ -36,12 +36,12 @@ class AdminHomeScreenBody extends StatelessWidget {
                 },
               ),
             ),
-            GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                      ConstantsRouteString.adminDonationsAndCharityScreen);
-                },
-                child: const DonationsAndCharityWidget()),
+            // GestureDetector(
+            //     onTap: () {
+            //       Navigator.of(context).pushNamed(
+            //           ConstantsRouteString.adminDonationsAndCharityScreen);
+            //     },
+            //     child: const DonationsAndCharityWidget()),
             SizedBox(
               height: 15.h,
             ),

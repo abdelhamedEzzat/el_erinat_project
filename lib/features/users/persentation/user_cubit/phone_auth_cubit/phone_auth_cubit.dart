@@ -9,12 +9,18 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
 
   late String verificationId;
 
-  late String phone;
+  String? phone;
   int? _resendToken;
   FirebaseAuth auth = FirebaseAuth.instance;
 
   //! verificationPhoneNumber main function
-  Future verificationPhoneNumber(String phoneNumber) async {
+  Future<void> verificationPhoneNumber(String phoneNumber) async {
+    if (phoneNumber.isEmpty) {
+      emit(PhoneAuthFailed(errorMsg: 'رقم الهاتف مطلوب'));
+      return;
+    }
+
+    phone = phoneNumber;
     emit(PhoneAuthLoading());
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phoneNumber,
@@ -27,20 +33,17 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
     );
   }
 
-//! verificationCompleted
-
-  verificationCompleted(PhoneAuthCredential credential) async {
+  //! verificationCompleted
+  Future<void> verificationCompleted(PhoneAuthCredential credential) async {
     await signIn(credential);
   }
 
-//! phoneVerificationFailed
-
+  //! phoneVerificationFailed
   void phoneVerificationFailed(FirebaseAuthException error) {
     emit(PhoneAuthFailed(errorMsg: error.message.toString()));
   }
 
-//! signIn
-
+  //! signIn
   Future<void> signIn(PhoneAuthCredential credential) async {
     try {
       emit(PhoneAuthLoading());
@@ -64,19 +67,14 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
     }
   }
 
-//! codeSend
-
-  Future<void> codeSend(
-    String verificationId,
-    int? forceResendingToken,
-  ) async {
+  //! codeSend
+  Future<void> codeSend(String verificationId, int? forceResendingToken) async {
     this.verificationId = verificationId;
     _resendToken = forceResendingToken;
     emit(PhoneCodeSentState());
   }
 
-//! submitOTP
-
+  //! submitOTP
   Future<void> verifyOTP(String otpCode) async {
     try {
       emit(PhoneAuthLoading());
@@ -90,14 +88,12 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
     }
   }
 
-//! logOut
-
+  //! logOut
   Future<void> logOut() async {
     await FirebaseAuth.instance.signOut();
   }
 
-//! codeAutoRetrievalTimeout
-
+  //! codeAutoRetrievalTimeout
   void codeAutoRetrievalTimeout(String verificationId) {
     // ignore: avoid_print
     print(codeAutoRetrievalTimeout);

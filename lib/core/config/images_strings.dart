@@ -16,4 +16,6 @@ class ImagesStrings {
   static const String instgram =
       'assets/photo/instagram-logo-png-transparent-background.png';
   static const String twitter = 'assets/photo/1691832460x-twitter-logo-png.png';
+  static const String tiktok =
+      "assets/photo/vecteezy_tiktok-png-icon_16716485.png";
 }

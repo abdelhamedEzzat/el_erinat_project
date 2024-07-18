@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class UploadTreeScreen extends StatefulWidget {
   const UploadTreeScreen({super.key});
@@ -37,6 +38,7 @@ class _UploadTreeScreenState extends State<UploadTreeScreen> {
     adminLocalDatabaseHelper: AdminLocalDatabaseHelper(),
     adminRemoteDataBaseHelper: AdminRemoteDataBaseHelper(),
   );
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,146 +52,181 @@ class _UploadTreeScreenState extends State<UploadTreeScreen> {
                 color: ColorManger.white),
           ),
         ),
-        body:
-            // ModalProgressHUD(
-            //   inAsyncCall: isLoading,
-            // child:
-            Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          final pickedFile = await pickPdfFile(context);
-                          if (pickedFile != null) {
-                            setState(() {
-                              localPDF = pickedFile.path;
-                              pdfFileName = pickedFile.path.split('/').last;
-                              uploadTreeModel.pdfPath = pickedFile.path;
-                            });
-                          }
-                        },
-                        child: localPDF != null
-                            ? Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: ColorManger.logoColor),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.picture_as_pdf,
-                                      color: ColorManger.logoColor,
-                                      size: 40.h,
+        body: ModalProgressHUD(
+          inAsyncCall: isLoading,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              final pickedFile = await pickPdfFile(context);
+                              if (pickedFile != null) {
+                                setState(() {
+                                  localPDF = pickedFile.path;
+                                  pdfFileName = pickedFile.path.split('/').last;
+                                  uploadTreeModel.pdfPath = pickedFile.path;
+                                });
+                              }
+                            },
+                            child: localPDF != null
+                                ? Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: ColorManger.logoColor),
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    SizedBox(width: 10.w),
-                                    Expanded(
-                                      child: Text(
-                                        pdfFileName ?? '',
-                                        style: TextStyle(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.picture_as_pdf,
                                           color: ColorManger.logoColor,
-                                          fontSize: 16.sp,
+                                          size: 40.h,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
+                                        SizedBox(width: 10.w),
+                                        Expanded(
+                                          child: Text(
+                                            pdfFileName ?? '',
+                                            style: TextStyle(
+                                              color: ColorManger.logoColor,
+                                              fontSize: 16.sp,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              )
-                            : UploadContainer(
-                                containerColor: ColorManger.white,
-                                iconColor: ColorManger.logoColor,
-                                textColor: ColorManger.logoColor,
-                                icon: Icons.picture_as_pdf,
-                                titleText: MStrings.uploadFamilyPdf,
-                              ),
+                                  )
+                                : UploadContainer(
+                                    containerColor: ColorManger.white,
+                                    iconColor: ColorManger.logoColor,
+                                    textColor: ColorManger.logoColor,
+                                    icon: Icons.picture_as_pdf,
+                                    titleText: MStrings.uploadFamilyPdf,
+                                  ),
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          CustomTextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "حقل مطلوب *";
+                              }
+                              return null;
+                            },
+                            minLines: 1,
+                            maxLines: 7,
+                            labelText: Text(
+                              MStrings.uploadFamilyName,
+                              textAlign: TextAlign.right,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                      color: ColorManger.logoColor,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold),
+                            ),
+                            onChanged: (p0) {
+                              setState(() {});
+                              uploadTreeModel.familyName = p0;
+                            },
+                          ),
+                          SizedBox(
+                            height: 20.h,
+                          ),
+                          CustomTextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "حقل مطلوب *";
+                              }
+                              return null;
+                            },
+                            minLines: 1,
+                            maxLines: 15,
+                            labelText: Text(
+                              MStrings.uploadFamilyLineage,
+                              textAlign: TextAlign.right,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                      color: ColorManger.logoColor,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold),
+                            ),
+                            onChanged: (p0) {
+                              setState(() {});
+                              uploadTreeModel.familyLineage = p0;
+                            },
+                          ),
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                          BottonClick(
+                            alignment: Alignment.center,
+                            width: MediaQuery.of(context).size.width,
+                            onTap: () async {
+                              if (!formKey.currentState!.validate() &&
+                                  localPDF != null) {
+                                formKey.currentState!.save();
+                                uploadTreeModel.pdfName = pdfFileName;
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                BlocProvider.of<TreeElerinatCubit>(context)
+                                    .uploadElerinatFamilyForAdmin(
+                                        uploadTreeModel)
+                                    .whenComplete(() {
+                                  setState(() {
+                                    isLoading = false;
+                                    Navigator.of(context)
+                                        .pop("Success upload tree");
+                                  });
+                                });
+                              } else if (localPDF == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: Colors.red,
+                                    content: Text(
+                                      'يرجي رفع ملف للأسره ولا تترك الحقل فارغ',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelMedium!
+                                          .copyWith(
+                                              fontSize: 14.w,
+                                              color: Colors.white),
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+                            },
+                            text: MStrings.uploadBook,
+                          ),
+                          SizedBox(
+                            height: 30.h,
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      CustomTextFormField(
-                        minLines: 1,
-                        maxLines: 7,
-                        labelText: Text(
-                          MStrings.uploadFamilyName,
-                          textAlign: TextAlign.right,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                  color: ColorManger.logoColor,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                        onChanged: (p0) {
-                          setState(() {});
-                          uploadTreeModel.familyName = p0;
-                        },
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      CustomTextFormField(
-                        minLines: 1,
-                        maxLines: 15,
-                        labelText: Text(
-                          MStrings.uploadFamilyLineage,
-                          textAlign: TextAlign.right,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                  color: ColorManger.logoColor,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                        onChanged: (p0) {
-                          setState(() {});
-                          uploadTreeModel.familyLineage = p0;
-                        },
-                      ),
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                      BottonClick(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        onTap: () async {
-                          uploadTreeModel.pdfName = pdfFileName;
-                          // setState(() {
-                          //   isLoading = true;
-                          // });
-                          BlocProvider.of<TreeElerinatCubit>(context)
-                              .uploadElerinatFamilyForAdmin(uploadTreeModel);
-                          //   .whenComplete(() {
-                          // setState(() {
-                          //   isLoading = false;
-                          // });
-                          Navigator.of(context).pop("Success upload tree");
-                          // });
-                        },
-                        text: MStrings.uploadBook,
-                      ),
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          // ),
         ));
   }
 }

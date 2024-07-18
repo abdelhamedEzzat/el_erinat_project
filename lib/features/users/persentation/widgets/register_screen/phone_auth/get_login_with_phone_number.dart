@@ -39,12 +39,29 @@ class GetLoginWithPhoneNumber extends StatelessWidget {
           );
         }
         return BottonClick(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width - 30.w,
-            onTap: () {
-              phoneAuthCubit.verificationPhoneNumber(phoneAuthCubit.phone);
-            },
-            text: MStrings.sendOtpCode);
+          alignment: Alignment.center,
+          width: MediaQuery.of(context).size.width - 30.w,
+          onTap: () {
+            final phone = BlocProvider.of<PhoneAuthCubit>(context).phone;
+            if (phone == null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'يرجى إدخال رقم الهاتف',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12.h),
+                  ),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            } else {
+              phoneAuthCubit.verificationPhoneNumber(phone);
+            }
+          },
+          text: MStrings.sendOtpCode,
+        );
       },
     );
   }

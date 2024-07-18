@@ -30,7 +30,22 @@ class _WorkUserDetailsState extends State<WorkUserDetails> {
   bool isHijridateForCertifcate = false;
 
   WorkModel workmodel = WorkModel();
-
+  final List<String> items = [
+    "التخصص العام",
+    'صيدلي',
+    'مهندس',
+    'حاصل علي الماجيستير',
+    'طبيب',
+    'قاضي',
+    'حاصل علي الدكتوراة',
+    'محاسب',
+    'المعلمون',
+    "طيار",
+    "طالب",
+    'عامل'
+  ];
+  String? selectedValue = "التخصص العام";
+  bool isJobSelected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,9 +101,63 @@ class _WorkUserDetailsState extends State<WorkUserDetails> {
                                 },
                               ),
                               SizedBox(height: 10.h),
+                              Container(
+                                padding: EdgeInsets.all(3.0.h),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: ColorManger.logoColor)),
+                                alignment: Alignment.centerRight,
+                                child: DropdownButton<String>(
+                                  isDense: true,
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0,
+                                      right: 10.0,
+                                      top: 10.0,
+                                      bottom: 8.0),
+                                  isExpanded: true,
+                                  value: selectedValue,
+                                  icon: const Icon(Icons.arrow_drop_down),
+                                  iconSize: 22.h,
+                                  elevation: 16,
+                                  style: TextStyle(
+                                    color: ColorManger.logoColor,
+                                  ),
+                                  underline: Container(
+                                    height: 1,
+                                    color:
+                                        ColorManger.logoColor.withOpacity(0.7),
+                                  ),
+                                  onChanged: (String? newValue) {
+                                    if (newValue != null) {
+                                      setState(() {
+                                        isJobSelected = true;
+                                        selectedValue = newValue;
+                                        workmodel.jobSelected = newValue;
+                                      });
+                                    }
+                                  },
+                                  items: items.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(
+                                            color: isJobSelected == false
+                                                ? Colors.black.withOpacity(0.3)
+                                                : Colors.black,
+                                            fontSize: 14.h,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                              SizedBox(height: 10.h),
                               TextFieldForUserDetatils(
                                 isTextField: true,
-                                text1: MStrings.generalSpecialization,
+                                text1: MStrings.jobSpecialization,
                                 text2: MStrings.specialization,
                                 onChangedText1: (generalSpecialization) {
                                   workmodel.generalSpecialization =
@@ -175,6 +244,9 @@ class _WorkUserDetailsState extends State<WorkUserDetails> {
           onTap: () async {
             await BlocProvider.of<WorkPersonalDetailsCubit>(context)
                 .saveDataForUser(workmodel)
+                .whenComplete(() => context
+                    .read<WorkPersonalDetailsCubit>()
+                    .updateJobAnalysis(workmodel))
                 .whenComplete(() => Navigator.of(context)
                     .pushNamed(ConstantsRouteString.userDetailsIdentaty));
           },

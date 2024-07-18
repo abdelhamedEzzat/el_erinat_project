@@ -1,6 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:el_erinat/core/helpers/open_pdf_method.dart';
+import 'package:el_erinat/features/admin/data/model/upload_tree_model.dart';
+import 'package:el_erinat/features/admin/persentation/cubit/tree_elerinat/tree_elerinat_cubit.dart';
+import 'package:el_erinat/features/admin/persentation/widget/tree_elerinat_widget/all_families.dart';
 import 'package:el_erinat/features/admin/persentation/widget/tree_elerinat_widget/auditor_tree_elerinat.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:el_erinat/core/config/color_manger.dart';
@@ -40,69 +46,73 @@ class TreesOfElerinatUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          // print('clicked');
+    return SafeArea(
+        child: SingleChildScrollView(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+      SizedBox(
+        height: 20.h,
+      ),
+      BlocConsumer<TreeElerinatCubit, TreeElerinatState>(
+        listener: (context, state) async {
+          if (state is UploadTreeSuccess) {
+            BlocProvider.of<TreeElerinatCubit>(context).addFamilyItem(
+              state.tree,
+            );
+          }
         },
-        child: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 30.h,
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 20.w, right: 20.w),
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.topCenter,
-                padding: EdgeInsets.all(16.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  boxShadow: [
-                    BoxShadow(
-                      color: ColorManger.logoColor.withOpacity(0.5),
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'أسر الحمادى',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .copyWith(
-                              fontSize: 14.w, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 5.h),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      color: ColorManger.logoColor,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              'من آل أبي ربّاع من بكر بن وائل من ربيعة بن نزار بن معدّ بن عدنان',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .copyWith(fontSize: 14.w),
-                            ),
-                          ),
-                        ],
+        builder: (context, state) {
+          if (state is GetAuditorTreeLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is GetAuditorTreeSuccess) {
+            return
+                //state.id == FirebaseAuth.instance.currentUser!.uid
+                //   ?
+                Column(children: [
+              Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      margin: EdgeInsets.only(right: 20.w),
+                      child: Text(
+                        "جميع الاسر",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(
+                                fontSize: 14.w, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ],
-                ),
-              )
-            ],
-            // ),
-          ),
-        ));
+                  ),
+                  Divider(thickness: 3, endIndent: 20.w, indent: 280.w),
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: state.tree.length,
+                    itemBuilder: (context, index) {
+                      UploadTreeModel uploadTreeModel = state.tree[index];
+                      return GestureDetector(
+                        onTap: () {
+                          openPDF(context, uploadTreeModel.pdfUrl!);
+                        },
+                        child: AllFamilies(
+                          familyName: uploadTreeModel.familyName.toString(),
+                          familyLineage:
+                              uploadTreeModel.familyLineage.toString(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ]);
+          } else if (state is GetAuditorTreeError) {
+            return Center(child: Text(state.failure.toString()));
+          }
+          return Container();
+        },
+      ),
+      SizedBox(height: 15.h),
+    ])));
   }
 }

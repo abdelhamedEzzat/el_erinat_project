@@ -145,10 +145,25 @@ class _UserDitailsScreenState extends State<UserDitailsScreen> {
 
                               if (formKey.currentState!.validate()) {
                                 formKey.currentState!.save();
-                                cubit.saveDataForUser(user).then((value) =>
-                                    Navigator.of(context).pushNamed(
-                                        ConstantsRouteString.workUserDetails,
-                                        arguments: user.age));
+                                // if (user.id == null) {
+                                cubit
+                                    .saveDataForUser(
+                                        user, "user", "قيد المراجعه")
+                                    .whenComplete(() {
+                                  cubit.updateStatistics(user);
+                                }).then((value) =>
+                                        Navigator.of(context).pushNamed(
+                                          ConstantsRouteString.workUserDetails,
+                                          // arguments: user.age
+                                        ));
+                                // } else {
+                                //   cubit.updateDataForUser(user).then((value) =>
+                                //       Navigator.of(context).pushNamed(
+                                //         ConstantsRouteString
+                                //             .analiticsOfElerinatScreen,
+                                //         // arguments: user.age
+                                //       ));
+                                // }
                               }
                             },
                             text: MStrings.next,

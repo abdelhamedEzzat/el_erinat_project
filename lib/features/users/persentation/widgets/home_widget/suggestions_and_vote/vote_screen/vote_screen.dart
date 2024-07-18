@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:el_erinat/core/config/color_manger.dart';
@@ -30,27 +31,54 @@ class _VoteScreenState extends State<VoteScreen> {
     return users.docs.length;
   }
 
-  Future<int> _getTotalVotes() async {
-    var votes = await FirebaseFirestore.instance.collection('votes').get();
+  Future<int> _getTotalVotes(String suggestionId) async {
+    var votes = await FirebaseFirestore.instance
+        .collection('votes')
+        .where('suggestionId', isEqualTo: suggestionId)
+        .get();
     return votes.docs.length;
   }
 
-  Future<bool> _hasUserVoted(String userId) async {
+  Future<bool> _hasUserVoted(String userId, String suggestionId) async {
     var votes = await FirebaseFirestore.instance
         .collection('votes')
-        .where('userId', isEqualTo: userId)
+        .where(
+          'userId',
+          isEqualTo: FirebaseAuth.instance.currentUser!.uid,
+        )
+        .where('suggestionId', isEqualTo: suggestionId)
         .get();
     return votes.docs.isNotEmpty;
   }
 
-  Future<void> _castVote(String userId, String voteOption) async {
+  Future<void> _castVote(
+      String userId, String suggestionId, String voteOption) async {
+    // Check if the user has already voted for this suggestion
+    bool hasVoted = await _hasUserVoted(userId, suggestionId);
+
+    if (hasVoted) {
+      // Show a message or handle the case when the user has already voted
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('لقد قمت بالتصويت لهذا الاقتراح مسبقًا'),
+        ),
+      );
+      return;
+    }
+
+    // Proceed to cast the vote
     await FirebaseFirestore.instance.collection('votes').add({
       'userId': userId,
+      'suggestionId': suggestionId,
       'voteOption': voteOption,
       'timestamp': FieldValue.serverTimestamp(),
     });
-    Database db = await LocalDatabaseHelper.instance.database;
+
+    // Optional: Update local UI state or perform any other necessary actions
+
     // Update vote counts locally
+
+    Database db = await LocalDatabaseHelper.instance.database;
     if (voteOption == 'choice1') {
       await db.rawUpdate(
           'UPDATE userSuggetion SET vote1 = vote1 + 1 WHERE uID = ?', [userId]);
@@ -70,10 +98,10 @@ class _VoteScreenState extends State<VoteScreen> {
         vote3Count++;
       });
     }
-
-    // Trigger UI update after casting vote
     setState(() {});
   }
+
+  // Trigger UI update after casting vote
 
   @override
   Widget build(BuildContext context) {
@@ -96,203 +124,204 @@ class _VoteScreenState extends State<VoteScreen> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                 } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      SuggetionModel suggetionModel = snapshot.data![index];
-                      vote1Count = suggetionModel.vote1 ?? 0;
-                      vote2Count = suggetionModel.vote2 ?? 0;
-                      vote3Count = suggetionModel.vote3 ?? 0;
-                      return FutureBuilder<int>(
-                        future: _getTotalUsers(),
-                        builder: (context, userSnapshot) {
-                          if (userSnapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (userSnapshot.hasError) {
-                            return Center(
-                                child: Text(userSnapshot.error.toString()));
-                          } else if (userSnapshot.hasData) {
-                            int totalUsers = userSnapshot.data!;
-                            return FutureBuilder<int>(
-                              future: _getTotalVotes(),
-                              builder: (context, votesSnapshot) {
-                                if (votesSnapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                } else if (votesSnapshot.hasError) {
-                                  return Center(
-                                      child:
-                                          Text(votesSnapshot.error.toString()));
-                                } else if (votesSnapshot.hasData) {
-                                  int totalVotes = votesSnapshot.data!;
-                                  double vote1Percentage = totalVotes > 0
-                                      ? (vote1Count / totalVotes) * 100
-                                      : 0;
-                                  double vote2Percentage = totalVotes > 0
-                                      ? (vote2Count / totalVotes) * 100
-                                      : 0;
-                                  double vote3Percentage = totalVotes > 0
-                                      ? (vote3Count / totalVotes) * 100
-                                      : 0;
+                  return SingleChildScrollView(
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        SuggetionModel suggetionModel = snapshot.data![index];
+                        vote1Count = suggetionModel.vote1 ?? 0;
+                        vote2Count = suggetionModel.vote2 ?? 0;
+                        vote3Count = suggetionModel.vote3 ?? 0;
+                        return FutureBuilder<int>(
+                          future: _getTotalUsers(),
+                          builder: (context, userSnapshot) {
+                            if (userSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            } else if (userSnapshot.hasError) {
+                              return Center(
+                                  child: Text(userSnapshot.error.toString()));
+                            } else if (userSnapshot.hasData) {
+                              int totalUsers = userSnapshot.data!;
+                              return FutureBuilder<int>(
+                                future: _getTotalVotes(
+                                    suggetionModel.id.toString()),
+                                builder: (context, votesSnapshot) {
+                                  if (votesSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (votesSnapshot.hasError) {
+                                    return Center(
+                                        child: Text(
+                                            votesSnapshot.error.toString()));
+                                  } else if (votesSnapshot.hasData) {
+                                    int totalVotes = votesSnapshot.data!;
+                                    double vote1Percentage = totalVotes > 0
+                                        ? (vote1Count / totalVotes) * 100
+                                        : 0;
+                                    double vote2Percentage = totalVotes > 0
+                                        ? (vote2Count / totalVotes) * 100
+                                        : 0;
+                                    double vote3Percentage = totalVotes > 0
+                                        ? (vote3Count / totalVotes) * 100
+                                        : 0;
 
-                                  bool canVote = totalVotes < totalUsers;
+                                    return FutureBuilder<bool>(
+                                      future: _hasUserVoted(
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          suggetionModel.id.toString()),
+                                      builder: (context, voteSnapshot) {
+                                        if (voteSnapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        } else if (voteSnapshot.hasError) {
+                                          return Center(
+                                              child: Text(voteSnapshot.error
+                                                  .toString()));
+                                        } else if (voteSnapshot.hasData) {
+                                          bool hasVoted = voteSnapshot.data!;
+                                          bool canVote = !hasVoted;
 
-                                  return FutureBuilder<bool>(
-                                    future: _hasUserVoted(
-                                        suggetionModel.uID.toString()),
-                                    builder: (context, voteSnapshot) {
-                                      if (voteSnapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                            child: CircularProgressIndicator());
-                                      } else if (voteSnapshot.hasError) {
-                                        return Center(
-                                            child: Text(
-                                                voteSnapshot.error.toString()));
-                                      } else if (voteSnapshot.hasData) {
-                                        bool hasVoted = voteSnapshot.data!;
-                                        return Container(
-                                          padding: EdgeInsets.all(20.w),
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                decoration: BoxDecoration(
-                                                  color: ColorManger.logoColor
-                                                      .withOpacity(0.8),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(8.h)),
-                                                ),
-                                                padding: EdgeInsets.all(25.h),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
-                                                  children: [
-                                                    VoteTitle(
-                                                      title: suggetionModel
-                                                          .suggetionTitle
-                                                          .toString(),
-                                                      subtitle: suggetionModel
-                                                          .suggetionDescription
-                                                          .toString(),
-                                                    ),
-                                                    SizedBox(height: 15.h),
-                                                    AnimatedVoteContainer(
-                                                      percentage:
-                                                          vote1Percentage,
-                                                      onTap: () async {
-                                                        if (canVote &&
-                                                            !hasVoted) {
-                                                          await _castVote(
-                                                              suggetionModel.uID
+                                          return Container(
+                                            padding: EdgeInsets.all(20.w),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  decoration: BoxDecoration(
+                                                    color: ColorManger.logoColor
+                                                        .withOpacity(0.8),
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                8.h)),
+                                                  ),
+                                                  padding: EdgeInsets.all(25.h),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      VoteTitle(
+                                                        title: suggetionModel
+                                                            .suggetionTitle
+                                                            .toString(),
+                                                        subtitle: suggetionModel
+                                                            .suggetionDescription
+                                                            .toString(),
+                                                      ),
+                                                      SizedBox(height: 15.h),
+                                                      AnimatedVoteContainer(
+                                                        percentage:
+                                                            vote1Percentage,
+                                                        onTap: () async {
+                                                          if (canVote) {
+                                                            await _castVote(
+                                                              FirebaseAuth
+                                                                  .instance
+                                                                  .currentUser!
+                                                                  .uid,
+                                                              suggetionModel.id
                                                                   .toString(),
-                                                              'choice1');
-                                                        }
-                                                      },
-                                                      textOfVote: suggetionModel
-                                                          .firstChoise,
-                                                      isEnabled:
-                                                          canVote && !hasVoted,
-                                                    ),
-                                                    SizedBox(height: 15.h),
-                                                    AnimatedVoteContainer(
-                                                      percentage:
-                                                          vote2Percentage,
-                                                      onTap: () async {
-                                                        if (canVote &&
-                                                            !hasVoted) {
-                                                          await _castVote(
-                                                              suggetionModel.uID
-                                                                  .toString(),
-                                                              'choice2');
-                                                        }
-                                                      },
-                                                      textOfVote: suggetionModel
-                                                          .secoundChoise,
-                                                      isEnabled:
-                                                          canVote && !hasVoted,
-                                                    ),
-                                                    SizedBox(height: 15.h),
-                                                    suggetionModel
-                                                                .thirdChoise !=
-                                                            null
-                                                        ? AnimatedVoteContainer(
-                                                            percentage:
-                                                                vote3Percentage,
-                                                            onTap: () async {
-                                                              if (canVote &&
-                                                                  !hasVoted) {
-                                                                await _castVote(
-                                                                    suggetionModel
-                                                                        .uID
-                                                                        .toString(),
-                                                                    'choice3');
-                                                              }
-                                                            },
-                                                            textOfVote:
+                                                              'choice1',
+                                                            );
+                                                          }
+                                                        },
+                                                        textOfVote:
+                                                            suggetionModel
+                                                                .firstChoise,
+                                                        isEnabled: canVote,
+                                                      ),
+                                                      SizedBox(height: 15.h),
+                                                      AnimatedVoteContainer(
+                                                        percentage:
+                                                            vote2Percentage,
+                                                        onTap: () async {
+                                                          if (canVote) {
+                                                            await _castVote(
+                                                                FirebaseAuth
+                                                                    .instance
+                                                                    .currentUser!
+                                                                    .uid,
                                                                 suggetionModel
-                                                                    .thirdChoise!,
-                                                            isEnabled:
-                                                                canVote &&
-                                                                    !hasVoted,
-                                                          )
-                                                        : Container(),
-                                                    VoteNumberAndDate(
-                                                      voteNumber: totalVotes,
-                                                      date: suggetionModel
-                                                          .createdAt
-                                                          .toString(),
-                                                    ),
-                                                  ],
+                                                                    .id
+                                                                    .toString(),
+                                                                'choice2');
+                                                          }
+                                                        },
+                                                        textOfVote:
+                                                            suggetionModel
+                                                                .secoundChoise,
+                                                        isEnabled: canVote,
+                                                      ),
+                                                      SizedBox(height: 15.h),
+                                                      suggetionModel
+                                                                  .thirdChoise !=
+                                                              null
+                                                          ? AnimatedVoteContainer(
+                                                              percentage:
+                                                                  vote3Percentage,
+                                                              onTap: () async {
+                                                                if (canVote) {
+                                                                  await _castVote(
+                                                                      FirebaseAuth
+                                                                          .instance
+                                                                          .currentUser!
+                                                                          .uid,
+                                                                      suggetionModel
+                                                                          .id
+                                                                          .toString(),
+                                                                      'choice3');
+                                                                }
+                                                              },
+                                                              textOfVote:
+                                                                  suggetionModel
+                                                                      .thirdChoise,
+                                                              isEnabled:
+                                                                  canVote,
+                                                            )
+                                                          : const SizedBox(),
+                                                      SizedBox(height: 15.h),
+                                                      VoteNumberAndDate(
+                                                        voteNumber: totalVotes,
+                                                        date: suggetionModel
+                                                            .createdAt
+                                                            .toString(),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      } else {
-                                        return Container(
-                                          alignment: Alignment.center,
-                                          height: MediaQuery.of(context)
-                                              .size
-                                              .height,
-                                          child: Text("No data available"),
-                                        );
-                                      }
-                                    },
-                                  );
-                                } else {
-                                  return Container(
-                                    alignment: Alignment.center,
-                                    height: MediaQuery.of(context).size.height,
-                                    child: Text("No data available"),
-                                  );
-                                }
-                              },
-                            );
-                          } else {
-                            return Container(
-                              alignment: Alignment.center,
-                              height: MediaQuery.of(context).size.height,
-                              child: Text("No data available"),
-                            );
-                          }
-                        },
-                      );
-                    },
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return const SizedBox();
+                                        }
+                                      },
+                                    );
+                                  } else {
+                                    return const SizedBox();
+                                  }
+                                },
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          },
+                        );
+                      },
+                    ),
                   );
                 } else {
-                  return Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height,
-                    child: Text("No data available"),
-                  );
+                  return const Center(child: Text('No data available.'));
                 }
               },
             ),

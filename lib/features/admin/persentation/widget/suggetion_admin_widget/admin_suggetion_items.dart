@@ -10,12 +10,13 @@ class AdminSuggetionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserRepoImplementation userRepoImplementation = UserRepoImplementation(
-        localDatabaseHelper: LocalDatabaseHelper(),
-        userRemoteDataSource: UserRemoteDataSource());
+    // UserRepoImplementation userRepoImplementation = UserRepoImplementation(
+    //     localDatabaseHelper: LocalDatabaseHelper(),
+    //     userRemoteDataSource: UserRemoteDataSource());
 
-    return GetWattingAndFinishedSuggetionsApp(
-        isWaiting: true,
-        future: userRepoImplementation.getWattingSuggetionsToAuditor());
+    return const GetWattingAndFinishedSuggetionsApp(
+      isWaiting: true,
+      // future: userRepoImplementation.getWattingSuggetionsToAuditor()
+    );
   }
 }

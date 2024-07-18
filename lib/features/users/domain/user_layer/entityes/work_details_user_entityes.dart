@@ -10,20 +10,21 @@ class WorkDetailsUserEntityes {
   String? city;
   String? status;
   String? title;
+  String? jobSelected;
 
-  WorkDetailsUserEntityes({
-    this.id,
-    this.uID,
-    this.dateOfBirthday,
-    this.specialization,
-    this.generalSpecialization,
-    this.university,
-    this.dateOfCertificate,
-    this.employer,
-    this.city,
-    this.status,
-    this.title,
-  });
+  WorkDetailsUserEntityes(
+      {this.id,
+      this.uID,
+      this.dateOfBirthday,
+      this.specialization,
+      this.generalSpecialization,
+      this.university,
+      this.dateOfCertificate,
+      this.employer,
+      this.city,
+      this.status,
+      this.title,
+      this.jobSelected});
 
   factory WorkDetailsUserEntityes.fromJson(Map<String, dynamic> json) {
     return WorkDetailsUserEntityes(
@@ -38,6 +39,7 @@ class WorkDetailsUserEntityes {
       city: json['city'] as String?,
       status: json['status'] as String?,
       title: json['title'] as String?,
+      jobSelected: json['jobSelected'] as String?,
     );
   }
 
@@ -54,6 +56,7 @@ class WorkDetailsUserEntityes {
       'city': city ?? '',
       'status': status ?? '',
       'title': title ?? '',
+      'jobSelected': jobSelected ?? '',
     };
   }
 }

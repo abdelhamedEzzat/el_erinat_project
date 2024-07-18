@@ -13,6 +13,8 @@ class AddPersonalDetailsUser {
   String? phoneNumber;
   String? countryName;
   String? gender;
+  String? role;
+  String? statusOfUser;
 
   AddPersonalDetailsUser(
       {this.id,
@@ -28,7 +30,9 @@ class AddPersonalDetailsUser {
       this.familyName,
       this.phoneNumber,
       this.countryName,
-      this.gender});
+      this.gender,
+      this.role,
+      this.statusOfUser});
 
   factory AddPersonalDetailsUser.fromJson(Map<String, dynamic> fireStore) {
     return AddPersonalDetailsUser(
@@ -46,6 +50,8 @@ class AddPersonalDetailsUser {
       phoneNumber: fireStore['phoneNumber'],
       countryName: fireStore['countryName'],
       gender: fireStore['gender'],
+      role: fireStore['role'],
+      statusOfUser: fireStore['statusOfUser'],
     );
   }
 
@@ -66,6 +72,8 @@ class AddPersonalDetailsUser {
       'phoneNumber': phoneNumber ?? '',
       'countryName': countryName ?? '',
       'gender': gender ?? '',
+      'role': role ?? '',
+      'statusOfUser': statusOfUser ?? '',
     };
   }
 }

@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AnaliticsOfElerinatScreen extends StatefulWidget {
-  const AnaliticsOfElerinatScreen({super.key});
+  const AnaliticsOfElerinatScreen({
+    super.key,
+  });
 
   @override
   State<AnaliticsOfElerinatScreen> createState() =>
@@ -30,28 +32,93 @@ class _AnaliticsOfElerinatScreenState extends State<AnaliticsOfElerinatScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BackGroundAndAppBarAndDaynamicBody(
-      alignmentTitle: Alignment.center,
-      titleName: MStrings.analiticsOfElerinat,
-      yourBodyOfScreen: AnaliticsOfElerinatBody(
-        tabController: _tabController,
-      ),
-      appBarbottom: TabBar(
-        indicatorColor: Colors.white,
-        unselectedLabelColor: Colors.white,
-        labelColor: Colors.white,
-        controller: _tabController,
-        tabs: <Widget>[
-          Tab(
-            child: Text(MStrings.analiticsPeople,
-                style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
-          ),
-          Tab(
-            child: Text(MStrings.analiticsJob,
-                style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
-          ),
-        ],
-      ),
-    );
+    Map<String, dynamic> arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    bool isAdmin = arguments['isAdmin'];
+    bool isAuditor = arguments['isAuditor'];
+
+    return isAdmin == true
+        ? BackGroundAndAppBarAndDaynamicBody(
+            alignmentTitle: Alignment.center,
+            titleName: MStrings.analiticsOfElerinat,
+            yourBodyOfScreen: AnaliticsOfElerinatBody(
+              isAdmin: isAdmin,
+              isAuditor: isAuditor,
+              tabController: _tabController,
+            ),
+            appBarbottom: TabBar(
+              indicatorColor: Colors.white,
+              unselectedLabelColor: Colors.white,
+              labelColor: Colors.white,
+              controller: _tabController,
+              tabs: <Widget>[
+                Tab(
+                  child: Text(MStrings.analiticsPeople,
+                      style: TextStyle(
+                          fontSize: 12.h, fontWeight: FontWeight.bold)),
+                ),
+                Tab(
+                  child: Text(MStrings.analiticsJob,
+                      style: TextStyle(
+                          fontSize: 12.h, fontWeight: FontWeight.bold)),
+                ),
+              ],
+            ),
+          )
+        : isAuditor == true
+            ? BackGroundAndAppBarAndDaynamicBody(
+                alignmentTitle: Alignment.center,
+                titleName: MStrings.analiticsOfElerinat,
+                yourBodyOfScreen: AnaliticsOfElerinatBody(
+                  isAdmin: isAdmin,
+                  isAuditor: isAuditor,
+                  tabController: _tabController,
+                ),
+                appBarbottom: TabBar(
+                  indicatorColor: Colors.white,
+                  unselectedLabelColor: Colors.white,
+                  labelColor: Colors.white,
+                  controller: _tabController,
+                  tabs: <Widget>[
+                    Tab(
+                      child: Text(MStrings.analiticsPeople,
+                          style: TextStyle(
+                              fontSize: 12.h, fontWeight: FontWeight.bold)),
+                    ),
+                    Tab(
+                      child: Text(MStrings.analiticsJob,
+                          style: TextStyle(
+                              fontSize: 12.h, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              )
+            : BackGroundAndAppBarAndDaynamicBody(
+                alignmentTitle: Alignment.center,
+                titleName: MStrings.analiticsOfElerinat,
+                yourBodyOfScreen: AnaliticsOfElerinatBody(
+                  isAdmin: isAdmin,
+                  isAuditor: isAuditor,
+                  tabController: _tabController,
+                ),
+                appBarbottom: TabBar(
+                  indicatorColor: Colors.white,
+                  unselectedLabelColor: Colors.white,
+                  labelColor: Colors.white,
+                  controller: _tabController,
+                  tabs: <Widget>[
+                    Tab(
+                      child: Text(MStrings.analiticsPeople,
+                          style: TextStyle(
+                              fontSize: 12.h, fontWeight: FontWeight.bold)),
+                    ),
+                    Tab(
+                      child: Text(MStrings.analiticsJob,
+                          style: TextStyle(
+                              fontSize: 12.h, fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              );
   }
 }

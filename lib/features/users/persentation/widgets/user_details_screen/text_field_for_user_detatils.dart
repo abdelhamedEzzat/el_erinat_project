@@ -20,6 +20,7 @@ class TextFieldForUserDetatils extends StatefulWidget {
   final Color? color;
   final bool isHijridate;
   final String? selectedDate;
+  final List<String>? items;
 
   const TextFieldForUserDetatils({
     super.key,
@@ -37,6 +38,7 @@ class TextFieldForUserDetatils extends StatefulWidget {
     this.isHijridate = false,
     this.selectedDate,
     this.onDateSelected,
+    this.items,
   });
 
   @override

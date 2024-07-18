@@ -1,6 +1,7 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpTextTitle extends StatelessWidget {
   const SignUpTextTitle({
@@ -16,7 +17,7 @@ class SignUpTextTitle extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .bodySmall!
-              .copyWith(color: ColorManger.logoColor),
+              .copyWith(color: ColorManger.logoColor, fontSize: 22.h),
         ));
   }
 }

@@ -1,14 +1,18 @@
 import 'package:el_erinat/core/config/color_manger.dart';
 import 'package:el_erinat/core/const_strings/manage_strings.dart';
+import 'package:el_erinat/features/users/data/repo/user_repo_impelmentation.dart';
+import 'package:el_erinat/features/users/data/sorce_data/user_local_data_source.dart';
+import 'package:el_erinat/features/users/data/sorce_data/user_remote_data_source.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/finished_user_widget.dart';
+import 'package:el_erinat/features/users/persentation/widgets/home_widget/auditor_screen_widget/watting_user_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuditorUsersNastedTabBar extends StatefulWidget {
-  const AuditorUsersNastedTabBar(
-    this.outerTab, {
-    super.key,
-  });
+  const AuditorUsersNastedTabBar(this.outerTab, {super.key});
+
   final String outerTab;
+
   @override
   State<AuditorUsersNastedTabBar> createState() =>
       _AuditorUsersNastedTabBarState();
@@ -23,6 +27,11 @@ class _AuditorUsersNastedTabBarState extends State<AuditorUsersNastedTabBar>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
+
+  UserRepoImplementation userRepoImplementation = UserRepoImplementation(
+    localDatabaseHelper: LocalDatabaseHelper(),
+    userRemoteDataSource: UserRemoteDataSource(),
+  );
 
   @override
   void dispose() {
@@ -43,31 +52,30 @@ class _AuditorUsersNastedTabBarState extends State<AuditorUsersNastedTabBar>
           controller: _tabController,
           tabs: <Widget>[
             Tab(
-              child: Text(MStrings.underReview,
-                  style:
-                      TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
+              child: Text(
+                MStrings.underReview,
+                style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold),
+              ),
             ),
             Tab(
-              child: Text(MStrings.usersInAPP,
-                  style:
-                      TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold)),
+              child: Text(
+                MStrings.usersInAPP,
+                style: TextStyle(fontSize: 12.h, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: <Widget>[
-              SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(),
-                    ],
-                  ),
-                ),
-              ),
-              Container(),
+            children: const <Widget>[
+              WattingUserWidget(),
+
+              //
+
+              //
+
+              FinishedUserWidget()
             ],
           ),
         ),
