@@ -10,9 +10,11 @@ class DateOfGettingCertificateCalender extends StatefulWidget {
     required this.textIftrue,
     required this.isHijridate,
     required this.onDateSelected,
+    this.isBirthday,
   });
   final String textIftrue;
   final bool isHijridate;
+  final bool? isBirthday;
   final Function(String, bool) onDateSelected;
 
   @override
@@ -41,13 +43,21 @@ class _DateOfGettingCertificateCalenderState
               },
             ),
           ],
-          title: Text(
-            MStrings.chooseYourBirthday,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: 12.h,
-                fontWeight: FontWeight.bold,
-                color: ColorManger.logoColor),
-          ),
+          title: widget.isBirthday == true
+              ? Text(
+                  MStrings.chooseYourBirthday,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 12.h,
+                      fontWeight: FontWeight.bold,
+                      color: ColorManger.logoColor),
+                )
+              : Text(
+                  " تاريخ الحصول علي الشهاده",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 12.h,
+                      fontWeight: FontWeight.bold,
+                      color: ColorManger.logoColor),
+                ),
           content: SizedBox(
             height: 350.h,
             width: 300.w,

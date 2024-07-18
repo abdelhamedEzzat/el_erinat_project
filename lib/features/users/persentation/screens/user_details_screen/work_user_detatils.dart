@@ -169,6 +169,7 @@ class _WorkUserDetailsState extends State<WorkUserDetails> {
                               ),
                               SizedBox(height: 15.h),
                               TextFieldForUserDetatils(
+                                isBirthDay: false,
                                 isCalenderField: true,
                                 isTextField: false,
                                 text1: MStrings.theuniversity,

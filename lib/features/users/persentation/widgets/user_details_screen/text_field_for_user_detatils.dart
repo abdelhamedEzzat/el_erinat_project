@@ -21,6 +21,7 @@ class TextFieldForUserDetatils extends StatefulWidget {
   final bool isHijridate;
   final String? selectedDate;
   final List<String>? items;
+  final bool? isBirthDay;
 
   const TextFieldForUserDetatils({
     super.key,
@@ -39,6 +40,7 @@ class TextFieldForUserDetatils extends StatefulWidget {
     this.selectedDate,
     this.onDateSelected,
     this.items,
+    this.isBirthDay,
   });
 
   @override
@@ -65,6 +67,7 @@ class _TextFieldForUserDetatilsState extends State<TextFieldForUserDetatils> {
             : widget.isCalenderField == true
                 ? Flexible(
                     child: DateOfGettingCertificateCalender(
+                      isBirthday: widget.isBirthDay,
                       textIftrue: "${widget.selectedDate}",
                       isHijridate: widget.isHijridate,
                       onDateSelected: widget.onDateSelected!,

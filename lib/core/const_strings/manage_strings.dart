@@ -45,7 +45,7 @@ class MStrings {
   static String grandfatherName = "اسم الجد";
 
   static String grandfathersName = "اسم الوالد للجد";
-  static String greatgrandfathersName = "اسم جد الجد (ان وجد)";
+  static String greatgrandfathersName = "اسم الوالد للجد";
   static String familyName = "اسم الاسرة";
   static String phoneNumber = "رقم الجوال";
   static String countryName = "اسم الدولة";

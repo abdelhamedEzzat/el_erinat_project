@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class InputCountryAndNumber extends StatelessWidget {
@@ -51,9 +52,53 @@ class InputCountryAndNumber extends StatelessWidget {
                   .copyWith(color: Colors.grey.shade700),
             ),
             initialCountryCode: 'SA',
+            countries: const [
+              Country(
+                  name: 'Saudi Arabia',
+                  flag: '🇸🇦',
+                  code: "SA",
+                  dialCode: '966',
+                  nameTranslations: {
+                    "en": "Saudi Arabia",
+                  },
+                  minLength: 9,
+                  maxLength: 9),
+              Country(
+                name: 'United Arab Emirates',
+                flag: '🇦🇪',
+                code: "AE",
+                dialCode: '971',
+                nameTranslations: {
+                  "en": "United Arab Emirates",
+                },
+                minLength: 9,
+                maxLength: 9,
+              ),
+              Country(
+                name: 'Kuwait',
+                flag: '🇰🇼',
+                code: "KW",
+                dialCode: '965',
+                nameTranslations: {
+                  "en": "Kuwait",
+                },
+                minLength: 8,
+                maxLength: 8,
+              ),
+              Country(
+                name: 'Iraq',
+                flag: '🇮🇶',
+                code: "IQ",
+                dialCode: '964',
+                nameTranslations: {
+                  "en": "Iraq",
+                },
+                minLength: 10,
+                maxLength: 10,
+              ),
+            ],
             onChanged: (phone) {
               phoneAuthCubit.phone = phone.completeNumber;
-
               print(phone.completeNumber);
             },
           );
