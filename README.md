@@ -17,8 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 UI Screens 
 
 
-
-https://github.com/user-attachments/assets/4d53b85f-e09a-4441-a149-50b433cc6c23
+https://github.com/user-attachments/assets/00a346b4-c02d-4950-ac61-e47b3643cff8
 
 
  
